@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ConfigExtractionSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log level="custom">
+        <property name="message" value="Start the process of extracting configuration"/>
+    </log>
+    <propertyGroup>
+        <property expression="json-eval($.config.request.URL)" name="url" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.method)" name="method" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.header.accept)" name="accept" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.header.contentType)" name="contentType" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.type)" name="authenType" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.basic.username)" name="username" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.basic.password)" name="password" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.oauth2.flows.client_credential.token_url)" name="tokenUrl" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.oauth2.flows.client_credential.client_id)" name="clientCredential" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.oauth2.flows.client_credential.client_secret)" name="clientPassword" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.authen.oauth2.type)" name="grantType" scope="default" type="STRING"/>
+        <property expression="json-eval($.config.request.body)" name="fullBodyPath" scope="default" type="STRING"/>
+        <property expression="json-eval({$ctx:fullBodyPath})" name="payload" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log level="custom">
+        <property name="message" value="End the process of extracting configuration"/>
+    </log>
+</sequence>
