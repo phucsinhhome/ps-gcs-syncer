@@ -1,5 +1,5 @@
 # wso2ei-references
-## Input model
+## Input json
 ```
 {
   "config": {
