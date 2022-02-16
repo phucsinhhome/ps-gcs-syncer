@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="SecuritySequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <switch source="$ctx:authenType">
+        <case regex="basic">
+            <propertyGroup>
+                <property expression="base64Encode(concat($ctx:username, ':', $ctx:password))" name="encodedCredential" scope="default" type="STRING"/>
+                <property expression="concat('Basic ',$ctx:encodedCredential)" name="authenValue" scope="default" type="STRING"/>
+            </propertyGroup>
+            <header expression="$ctx:authenValue" name="Authorization" scope="transport"/>
+        </case>
+        <case regex="oauth2">
+            <propertyGroup>
+                <property expression="base64Encode(concat($ctx:clientCredential, ':', $ctx:clientPassword))" name="encodedCredential" scope="default" type="STRING"/>
+                <property expression="concat('Basic ',$ctx:encodedCredential)" name="authenValue" scope="default" type="STRING"/>
+                <property name="grantType" scope="default" type="STRING" value="client_credentials"/>
+            </propertyGroup>
+            <header name="Content-Type" scope="transport" value="application/x-www-form-urlencoded"/>
+            <header expression="$ctx:authenValue" name="Authorization" scope="transport"/>
+            <header expression="$ctx:tokenUrl" name="To" scope="default"/>
+            <property name="HTTP_METHOD" scope="axis2" type="STRING" value="POST"/>
+            <payloadFactory media-type="xml">
+                <format>
+                    <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+                        <soapenv:Header/>
+                        <soapenv:Body>
+                            <root>
+                                <grant_type>$1</grant_type>
+                            </root>
+                        </soapenv:Body>
+                    </soapenv:Envelope>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:grantType"/>
+                </args>
+            </payloadFactory>
+            <property name="messageType" scope="axis2" type="STRING" value="application/x-www-form-urlencoded"/>
+            <call>
+                <endpoint key="DynamicEndpoint"/>
+            </call>
+            <property expression="json-eval($.access_token)" name="accessToken" scope="default" type="STRING"/>
+            <header expression="concat('Authorization: Bearer ', $ctx:accessToken)" name="Authorization" scope="transport"/>
+        </case>
+        <default>
+            <log category="WARN" level="custom">
+                <property name="#######log" value="Fail"/>
+            </log>
+        </default>
+    </switch>
+    <log level="custom">
+        <property name="message" value="Determine the type of security"/>
+        <property expression="$ctx:authenType" name="authen type"/>
+        <property expression="$ctx:accessToken" name="accessToken"/>
+    </log>
+</sequence>

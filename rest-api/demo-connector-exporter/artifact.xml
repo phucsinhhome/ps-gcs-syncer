@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="kafkaTransport-connector" groupId="vn.sps.lib" version="3.1.2" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>kafkaTransport-connector-3.1.2.zip</file>
+    </artifact>
+    <artifact name="amazons3-connector" groupId="vn.sps.lib" version="2.0.2" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>amazons3-connector-2.0.2.zip</file>
+    </artifact>
+    <artifact name="file-connector" groupId="vn.sps.lib" version="4.0.8" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>file-connector-4.0.8.zip</file>
+    </artifact>
+    <artifact name="minio-connector" groupId="vn.sps.lib" version="1.0.0" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>minio-connector-1.0.0.zip</file>
+    </artifact>
+</artifacts>
