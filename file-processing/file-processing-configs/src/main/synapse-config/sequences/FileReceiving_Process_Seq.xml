@@ -8,6 +8,7 @@
         <case regex="^(multipart\/form-data[; a-z=\-0-9]+)">
             <propertyGroup>
                 <property expression="$body/mediate/fileContent/@filename" name="fileName" scope="default" type="STRING"/>
+                <property expression="$body/mediate/writeToDir" name="writeToDir" scope="default" type="STRING"/>
             </propertyGroup>
             <payloadFactory media-type="xml">
                 <format>
@@ -22,6 +23,7 @@
             <propertyGroup>
                 <property expression="json-eval($.fileName)" name="fileName" scope="default" type="STRING"/>
                 <property expression="json-eval($.fileContent)" name="fileContent" scope="default" type="STRING"/>
+                <property expression="json-eval($.writeToDir)" name="writeToDir" scope="default" type="STRING"/>
             </propertyGroup>
             <!-- 2. Creating the Payload for a binary payload. -->
             <payloadFactory media-type="xml">
@@ -48,19 +50,38 @@
         <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
         <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
     </propertyGroup>
-    <call>
-        <endpoint>
-            <address uri="$FILE:fileProcessing_tempDir">
-                <suspendOnFailure>
-                    <initialDuration>-1</initialDuration>
-                    <progressionFactor>1</progressionFactor>
-                </suspendOnFailure>
-                <markForSuspension>
-                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
-                </markForSuspension>
-            </address>
-        </endpoint>
-    </call>
+    <switch source="$ctx:writeToDir">
+        <case regex="^(\/home\/wso2carbon\/wso2mi-4.0.0[\/a-z]+)">
+            <call description="This writes the file to directory within MI_HOME dir, used for deployment a CAR apps">
+                <endpoint>
+                    <address uri="$ctx:writeToDir">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </address>
+                </endpoint>
+            </call>
+        </case>
+        <default>
+            <call description="This writes the received file into a pre-configured directory">
+                <endpoint>
+                    <address uri="$FILE:fileProcessing_tempDir">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>1</progressionFactor>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </address>
+                </endpoint>
+            </call>
+        </default>
+    </switch>
     <!-- 7. We define a success message to be the respose of the REST API request. -->
     <payloadFactory media-type="json">
         <format>
