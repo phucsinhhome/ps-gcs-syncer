@@ -50,7 +50,7 @@
     </propertyGroup>
     <call>
         <endpoint>
-            <address uri="vfs:file:///home/wso2carbon/wso2mi-4.0.0/repository/data">
+            <address uri="$FILE:fileProcessing_tempDir">
                 <suspendOnFailure>
                     <initialDuration>-1</initialDuration>
                     <progressionFactor>1</progressionFactor>
