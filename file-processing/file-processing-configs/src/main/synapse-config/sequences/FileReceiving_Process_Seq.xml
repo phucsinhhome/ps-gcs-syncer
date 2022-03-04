@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="FileReceiving_Process_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <log>
-        <property expression="json-eval($.fileName)" name="Name"/>
+        <property expression="$trp:Content-Type" name="Content-Type"/>
     </log>
     <!-- 1. Reading the JSON attributes from the request payload; -->
-    <propertyGroup>
-        <property expression="json-eval($.fileName)" name="fileName" scope="default" type="STRING"/>
-        <property expression="json-eval($.fileContent)" name="fileContent" scope="default" type="STRING"/>
-    </propertyGroup>
-    <!-- 2. Creating the Payload for a binary payload. -->
-    <payloadFactory media-type="xml">
-        <format>
-            <ns:binary xmlns:ns="http://ws.apache.org/commons/ns/payload">$1</ns:binary>
-        </format>
-        <args>
-            <arg evaluator="xml" expression="$ctx:fileContent"/>
-        </args>
-    </payloadFactory>
+    <switch source="$trp:Content-Type">
+        <case regex="^(multipart\/form-data[; a-z=\-0-9]+)">
+            <propertyGroup>
+                <property expression="$body/mediate/fileContent/@filename" name="fileName" scope="default" type="STRING"/>
+            </propertyGroup>
+            <payloadFactory media-type="xml">
+                <format>
+                    <ns:binary xmlns:ns="http://ws.apache.org/commons/ns/payload">$1</ns:binary>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$body/mediate/fileContent"/>
+                </args>
+            </payloadFactory>
+        </case>
+        <default>
+            <propertyGroup>
+                <property expression="json-eval($.fileName)" name="fileName" scope="default" type="STRING"/>
+                <property expression="json-eval($.fileContent)" name="fileContent" scope="default" type="STRING"/>
+            </propertyGroup>
+            <!-- 2. Creating the Payload for a binary payload. -->
+            <payloadFactory media-type="xml">
+                <format>
+                    <ns:binary xmlns:ns="http://ws.apache.org/commons/ns/payload">$1</ns:binary>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:fileContent"/>
+                </args>
+            </payloadFactory>
+        </default>
+    </switch>
     <!-- 3. Even using a binary payload, the Axis2 frameworks keeps considering 
 		the payload as text. We use a script mediator to set the fist node as binary; -->
     <script language="js"><![CDATA[var binaryNode =       
