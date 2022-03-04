@@ -4,8 +4,10 @@
         <property expression="json-eval($.fileName)" name="Name"/>
     </log>
     <!-- 1. Reading the JSON attributes from the request payload; -->
-    <property expression="json-eval($.fileName)" name="fileName" scope="default" type="STRING"/>
-    <property expression="json-eval($.fileContent)" name="fileContent" scope="default" type="STRING"/>
+    <propertyGroup>
+        <property expression="json-eval($.fileName)" name="fileName" scope="default" type="STRING"/>
+        <property expression="json-eval($.fileContent)" name="fileContent" scope="default" type="STRING"/>
+    </propertyGroup>
     <!-- 2. Creating the Payload for a binary payload. -->
     <payloadFactory media-type="xml">
         <format>
@@ -23,19 +25,12 @@
     <log>
         <property expression="$ctx:fileName" name="fileName"/>
     </log>
-    <!-- 4. We set the name of the file that will be saved in the disk using 
-		a VFS parameter -->
-    <property expression="$ctx:fileName" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
-    <log>
-        <property expression="$ctx:fileName" name="fileName"/>
-    </log>
-    <!-- 5. We need to set the OUT_ONLY property and remove the REST_URL_POSTFIX 
-		to make the API to be able to save the file and set the expected file name. -->
-    <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
-    <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
-    <!-- 6. We use the call mediator in order to invoke a vfs endpoint with 
-		the target directory. -->
-    <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+    <propertyGroup>
+        <property expression="$ctx:fileName" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
+        <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+        <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+        <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+    </propertyGroup>
     <call>
         <endpoint>
             <address uri="vfs:file:///home/wso2carbon/wso2mi-4.0.0/repository/data">
