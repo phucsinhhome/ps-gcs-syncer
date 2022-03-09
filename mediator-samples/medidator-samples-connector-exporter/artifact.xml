@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="file-connector" groupId="vn.ifa.study.lib" version="4.0.8" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>file-connector-4.0.8.zip</file>
+    </artifact>
+</artifacts>

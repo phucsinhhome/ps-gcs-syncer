@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="REPOSITORY_DATA_FILE_CONNECTION" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <workingDir>./repository/data</workingDir>
+        <name>REPOSITORY_DATA_FILE_CONNECTION</name>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>LOCAL</connectionType>
+    </file.init>
+</localEntry>
