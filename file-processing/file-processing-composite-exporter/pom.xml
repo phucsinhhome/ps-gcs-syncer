@@ -14,6 +14,8 @@
   <name>file-processing-composite-exporter</name>
   <description>file-processing-composite-exporter</description>
   <properties>
+    <vn.ds.study.lib_._comprehend-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._comprehend-connector>
+    <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
     <vn.ds.study.api_._ImageReceivingAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._ImageReceivingAPI>
     <vn.ds.study.metadata_._ImageReceivingAPI_metadata>capp/EnterpriseServiceBus</vn.ds.study.metadata_._ImageReceivingAPI_metadata>
     <vn.ds.study.sequence_._FileReceiving_Process_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._FileReceiving_Process_Seq>
@@ -44,6 +46,18 @@
       <artifactId>ImageReceivingAPI</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.lib</groupId>
+      <artifactId>comprehend-connector</artifactId>
+      <version>1.0.0</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.lib</groupId>
+      <artifactId>file-connector</artifactId>
+      <version>4.0.8</version>
+      <type>zip</type>
     </dependency>
   </dependencies>
   <repositories>
