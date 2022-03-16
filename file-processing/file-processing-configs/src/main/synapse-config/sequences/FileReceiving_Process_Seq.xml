@@ -39,7 +39,7 @@
     <!-- 7. We define a success message to be the respose of the REST API request. -->
     <payloadFactory media-type="json">
         <format>{
-			"file": $1,
+			"file": "$1",
 			"statusMessage" : "Upload successfully"
 }
 		</format>
