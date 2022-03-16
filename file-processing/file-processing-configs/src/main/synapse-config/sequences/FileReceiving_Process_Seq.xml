@@ -15,10 +15,11 @@
       mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
    binaryNode.setBinary(true);]]></script>
     <log>
-        <property expression="$ctx:fileName" name="fileName"/>
+        <property expression="$ctx:filename" name="filename"/>
     </log>
     <propertyGroup>
         <property expression="$ctx:filename" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
+        <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
         <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
         <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
     </propertyGroup>
