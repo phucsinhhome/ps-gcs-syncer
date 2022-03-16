@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="WSO2SecureVaultSecretAPI" groupId="vn.ifa.study.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/WSO2SecureVaultSecretAPI.xml</file>
+    </artifact>
+    <artifact name="WSO2SecureVaultSecretAPI_swagger" groupId="vn.ifa.study.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/WSO2SecureVaultSecretAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="WSO2SecureVaultSecretAPI_metadata" groupId="vn.ifa.study.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/WSO2SecureVaultSecretAPI_metadata.yaml</file>
+    </artifact>
+</artifacts>
