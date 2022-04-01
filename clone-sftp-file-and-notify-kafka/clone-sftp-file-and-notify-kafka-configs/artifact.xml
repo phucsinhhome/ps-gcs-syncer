@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="CloneSFTPFileAPI" groupId="vn.ifa.study.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/CloneSFTPFileAPI.xml</file>
+    </artifact>
+    <artifact name="CloneSFTPFileAPI_swagger" groupId="vn.ifa.study.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CloneSFTPFileAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="CloneSFTPFileAPI_metadata" groupId="vn.ifa.study.metadata" version="1.0.0" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CloneSFTPFileAPI_metadata.yaml</file>
+    </artifact>
+    <artifact name="SFTP_CONNECTION_1" groupId="vn.ifa.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>\src\main\synapse-config\local-entries\SFTP_CONNECTION_1.xml</file>
+    </artifact>
+    <artifact name="KAFKA_CONNECTION_CDIPP" groupId="vn.ifa.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>\src\main\synapse-config\local-entries\KAFKA_CONNECTION_CDIPP.xml</file>
+    </artifact>
+</artifacts>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/files" name="CloneSFTPFileAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" url-mapping="/list">
+        <inSequence>
+            <propertyGroup>
+                <property expression="json-eval($.url)" name="url" scope="default" type="STRING"/>
+                <property expression="json-eval($.username)" name="username" scope="default" type="STRING"/>
+                <property expression="json-eval($.password)" name="password" scope="default" type="STRING"/>
+                <property expression="json-eval($.subPath)" name="subPath" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log>
+                <property name="message" value="List 1st level files"/>
+                <property expression="$ctx:url" name="url"/>
+            </log>
+            <file.listFiles configKey="SFTP_CONNECTION_1">
+                <directoryPath>/SPS_DOWNLOAD/CDIPP_FUTURE/QC_VM/DOWNLOADED</directoryPath>
+                <recursive>false</recursive>
+                <responseFormat>Flat</responseFormat>
+                <sortingAttribute>Name</sortingAttribute>
+                <sortingOrder>Ascending</sortingOrder>
+            </file.listFiles>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" url-mapping="/clone">
+        <inSequence>
+            <propertyGroup>
+                <property expression="json-eval($.filePath)" name="filePath" scope="default" type="STRING"/>
+                <property expression="json-eval($.topic)" name="topic" scope="default" type="STRING"/>
+                <property expression="json-eval($.copiedToDir)" name="copiedToDir" scope="default" type="STRING"/>
+            </propertyGroup>
+            <script description="extract file name" language="groovy"><![CDATA[def filePath = mc.getProperty("filePath");
+def copiedToDir = mc.getProperty("copiedToDir");
+
+def file = filePath.replaceAll(/^.*\//, '');
+def extension = file.substring(file.lastIndexOf("."));
+def filename= file.substring(0, file.size() - extension.size());
+//def copiedToDir =filePath.substring(0, filePath.size() - file.size());
+def copiedToFile = filename + "_1" + extension;
+
+mc.setProperty('filename', filename.toString());
+mc.setProperty('copiedToDir', copiedToDir.toString());
+mc.setProperty('copiedToFile', copiedToFile.toString());]]></script>
+            <log>
+                <property name="message" value="Clone file"/>
+                <property expression="$ctx:filePath" name="filePath"/>
+                <property expression="$ctx:copiedToDir" name="copiedToDir"/>
+                <property expression="$ctx:copiedToFile" name="copiedToFile"/>
+            </log>
+            <file.copy configKey="SFTP_CONNECTION_1">
+                <sourcePath>{$ctx:filePath}</sourcePath>
+                <targetPath>{$ctx:copiedToDir}</targetPath>
+                <includeParent>false</includeParent>
+                <overwrite>true</overwrite>
+                <renameTo>{$ctx:copiedToFile}</renameTo>
+            </file.copy>
+            <payloadFactory media-type="json">
+                <format>{&#xd;
+                "managementData": {&#xd;
+                    "status": "SCAN_DONE",&#xd;
+                    "source": {&#xd;
+                        "sourceType": "SFTP",&#xd;
+                        "sourceHost": "10.10.15.34"&#xd;
+                    },&#xd;
+                    "stepsMetadata": [&#xd;
+                        {&#xd;
+                            "stepName": "cdipp-sftp-scanner",&#xd;
+                            "startTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "endTime": "2022-03-30T03:39:10.281-05:00"&#xd;
+                        }&#xd;
+                    ]&#xd;
+                },&#xd;
+                "processingData": [&#xd;
+                    {&#xd;
+                        "fileId": "0000009378",&#xd;
+                        "fileFormat": "zip",&#xd;
+                        "fileUrl": "$1",&#xd;
+                        "metadata": {&#xd;
+                            "lastModifiedTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "fileSize": 482962,&#xd;
+                            "lastScannedTime": "2022-03-30T03:39:10.275-05:00",&#xd;
+                            "createdTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "firstScannedTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "scanTimes": 1&#xd;
+                        },&#xd;
+                        "fileName": "$2"&#xd;
+                    }&#xd;
+                ],&#xd;
+                "traceId": "$3"&#xd;
+            }</format>
+                <args>
+                    <arg evaluator="xml" expression="fn:concat($ctx:copiedToDir,$ctx:copiedToFile)"/>
+                    <arg evaluator="xml" expression="$ctx:copiedToFile"/>
+                    <arg evaluator="xml" expression="fn:substring-after(get-property('MessageID'), 'urn:uuid:')"/>
+                </args>
+            </payloadFactory>
+            <kafkaTransport.publishMessages configKey="KAFKA_CONNECTION_CDIPP">
+                <topic>{$ctx:topic}</topic>
+            </kafkaTransport.publishMessages>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
