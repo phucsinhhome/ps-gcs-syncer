@@ -3,17 +3,18 @@
     <resource methods="POST" url-mapping="/list">
         <inSequence>
             <propertyGroup>
-                <property expression="json-eval($.url)" name="url" scope="default" type="STRING"/>
+                <property expression="json-eval($.sftpDir)" name="sftpDir" scope="default" type="STRING"/>
                 <property expression="json-eval($.username)" name="username" scope="default" type="STRING"/>
                 <property expression="json-eval($.password)" name="password" scope="default" type="STRING"/>
                 <property expression="json-eval($.subPath)" name="subPath" scope="default" type="STRING"/>
+                <property expression="json-eval($.url)" name="url" scope="default" type="STRING"/>
             </propertyGroup>
             <log>
                 <property name="message" value="List 1st level files"/>
-                <property expression="$ctx:url" name="url"/>
+                <property expression="$ctx:sftpDir" name="sftpDir"/>
             </log>
             <file.listFiles configKey="SFTP_CONNECTION_1">
-                <directoryPath>/SPS_DOWNLOAD/CDIPP_FUTURE/QC_VM/DOWNLOADED</directoryPath>
+                <directoryPath>{$ctx:sftpDir}</directoryPath>
                 <recursive>false</recursive>
                 <responseFormat>Flat</responseFormat>
                 <sortingAttribute>Name</sortingAttribute>
