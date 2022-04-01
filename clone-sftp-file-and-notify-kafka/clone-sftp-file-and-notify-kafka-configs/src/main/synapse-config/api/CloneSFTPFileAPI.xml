@@ -32,14 +32,30 @@
                 <property expression="json-eval($.topic)" name="topic" scope="default" type="STRING"/>
                 <property expression="json-eval($.copiedToDir)" name="copiedToDir" scope="default" type="STRING"/>
             </propertyGroup>
+            <call description="Get cloned file name number">
+                <endpoint>
+                    <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/clonedFilename/next?quantity=1&amp;length=4&amp;autoReset=true">
+                        <suspendOnFailure>
+                            <initialDuration>-1</initialDuration>
+                            <progressionFactor>-1</progressionFactor>
+                            <maximumDuration>0</maximumDuration>
+                        </suspendOnFailure>
+                        <markForSuspension>
+                            <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                        </markForSuspension>
+                    </http>
+                </endpoint>
+            </call>
+            <property expression="json-eval($.[0])" name="clonedFilename" scope="default" type="STRING"/>
             <script description="extract file name" language="groovy"><![CDATA[def filePath = mc.getProperty("filePath");
 def copiedToDir = mc.getProperty("copiedToDir");
+def clonedFilename = mc.getProperty("clonedFilename");
 
 def file = filePath.replaceAll(/^.*\//, '');
 def extension = file.substring(file.lastIndexOf("."));
 def filename= file.substring(0, file.size() - extension.size());
 //def copiedToDir =filePath.substring(0, filePath.size() - file.size());
-def copiedToFile = filename + "_1" + extension;
+def copiedToFile = filename + "_" + clonedFilename + extension;
 
 mc.setProperty('filename', filename.toString());
 mc.setProperty('copiedToDir', copiedToDir.toString());
@@ -57,7 +73,7 @@ mc.setProperty('copiedToFile', copiedToFile.toString());]]></script>
                 <overwrite>true</overwrite>
                 <renameTo>{$ctx:copiedToFile}</renameTo>
             </file.copy>
-            <call>
+            <call description="Get file id">
                 <endpoint>
                     <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/filename/next?quantity=1&amp;length=10&amp;autoReset=true">
                         <suspendOnFailure>
