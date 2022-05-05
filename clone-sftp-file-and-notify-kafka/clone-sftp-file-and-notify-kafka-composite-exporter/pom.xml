@@ -14,14 +14,15 @@
   <name>clone-sftp-file-and-notify-kafka-composite-exporter</name>
   <description>clone-sftp-file-and-notify-kafka-composite-exporter</description>
   <properties>
-    <vn.ifa.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ifa.study.lib_._file-connector>
-    <vn.ifa.study.lib_._kafkaTransport-connector>capp/EnterpriseServiceBus</vn.ifa.study.lib_._kafkaTransport-connector>
-    <vn.ifa.study.local-entry_._SFTP_CONNECTION_1>capp/EnterpriseServiceBus</vn.ifa.study.local-entry_._SFTP_CONNECTION_1>
-    <vn.ifa.study.local-entry_._KAFKA_CONNECTION_CDIPP>capp/EnterpriseServiceBus</vn.ifa.study.local-entry_._KAFKA_CONNECTION_CDIPP>
-    <vn.ifa.study.metadata_._CloneSFTPFileAPI_swagger>capp/EnterpriseServiceBus</vn.ifa.study.metadata_._CloneSFTPFileAPI_swagger>
     <vn.ifa.study.api_._CloneSFTPFileAPI>capp/EnterpriseServiceBus</vn.ifa.study.api_._CloneSFTPFileAPI>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
     <vn.ifa.study.metadata_._CloneSFTPFileAPI_metadata>capp/EnterpriseServiceBus</vn.ifa.study.metadata_._CloneSFTPFileAPI_metadata>
+    <vn.ifa.study.local-entry_._SFTP_CONNECTION_AWS_TEST>capp/EnterpriseServiceBus</vn.ifa.study.local-entry_._SFTP_CONNECTION_AWS_TEST>
+    <vn.ifa.study.lib_._kafkaTransport-connector>capp/EnterpriseServiceBus</vn.ifa.study.lib_._kafkaTransport-connector>
+    <vn.ifa.study.local-entry_._KAFKA_CONNECTION_CDIPP>capp/EnterpriseServiceBus</vn.ifa.study.local-entry_._KAFKA_CONNECTION_CDIPP>
+    <vn.ifa.study.local-entry_._SFTP_CONNECTION_RANCHER_DEV>capp/EnterpriseServiceBus</vn.ifa.study.local-entry_._SFTP_CONNECTION_RANCHER_DEV>
+    <vn.ifa.study.metadata_._CloneSFTPFileAPI_swagger>capp/EnterpriseServiceBus</vn.ifa.study.metadata_._CloneSFTPFileAPI_swagger>
+    <vn.ifa.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ifa.study.lib_._file-connector>
   </properties>
   <dependencies>
     <dependency>
@@ -37,6 +38,18 @@
       <type>yaml</type>
     </dependency>
     <dependency>
+      <groupId>vn.ifa.study.lib</groupId>
+      <artifactId>kafkaTransport-connector</artifactId>
+      <version>3.1.4</version>
+      <type>zip</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ifa.study.local-entry</groupId>
+      <artifactId>KAFKA_CONNECTION_CDIPP</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
       <groupId>vn.ifa.study.api</groupId>
       <artifactId>CloneSFTPFileAPI</artifactId>
       <version>1.0.0</version>
@@ -44,7 +57,13 @@
     </dependency>
     <dependency>
       <groupId>vn.ifa.study.local-entry</groupId>
-      <artifactId>SFTP_CONNECTION_1</artifactId>
+      <artifactId>SFTP_CONNECTION_AWS_TEST</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ifa.study.local-entry</groupId>
+      <artifactId>SFTP_CONNECTION_RANCHER_DEV</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -53,18 +72,6 @@
       <artifactId>file-connector</artifactId>
       <version>4.0.8</version>
       <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifa.study.lib</groupId>
-      <artifactId>kafkaTransport-connector</artifactId>
-      <version>3.1.2</version>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifa.study.local-entry</groupId>
-      <artifactId>KAFKA_CONNECTION_CDIPP</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
     </dependency>
   </dependencies>
   <repositories>

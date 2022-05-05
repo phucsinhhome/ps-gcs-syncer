@@ -1,16 +1,16 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<localEntry xmlns="http://ws.apache.org/ns/synapse" key="SFTP_CONNECTION_1">
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="SFTP_CONNECTION_AWS_TEST" xmlns="http://ws.apache.org/ns/synapse">
     <file.init>
         <strictHostKeyChecking>false</strictHostKeyChecking>
         <connectionType>SFTP</connectionType>
-        <password>Cdippcore!123#</password>
-        <host>10.10.15.34</host>
+        <password>12345%40Sps</password>
+        <host>10.20.32.232</host>
         <fileLockScheme>Local</fileLockScheme>
         <sftpConnectionTimeout>100000</sftpConnectionTimeout>
         <userDirIsRoot>false</userDirIsRoot>
-        <port>2309</port>
-        <name>SFTP_CONNECTION_1</name>
+        <port>22</port>
+        <name>SFTP_CONNECTION_AWS_TEST</name>
         <sftpSessionTimeout>150000</sftpSessionTimeout>
-        <username>cdippcore</username>
+        <username>cdipp_core</username>
     </file.init>
 </localEntry>

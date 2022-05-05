@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="SFTP_CONNECTION_RANCHER_DEV" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <strictHostKeyChecking>false</strictHostKeyChecking>
+        <connectionType>SFTP</connectionType>
+        <password>Cdippcore!123#</password>
+        <host>10.10.15.34</host>
+        <fileLockScheme>Local</fileLockScheme>
+        <sftpConnectionTimeout>100000</sftpConnectionTimeout>
+        <userDirIsRoot>false</userDirIsRoot>
+        <port>2309</port>
+        <name>SFTP_CONNECTION_RANCHER_DEV</name>
+        <sftpSessionTimeout>150000</sftpSessionTimeout>
+        <username>cdippcore</username>
+    </file.init>
+</localEntry>
