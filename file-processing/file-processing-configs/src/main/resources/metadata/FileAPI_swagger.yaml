@@ -32,6 +32,10 @@ components:
         fileContent:
           type: string
           format: binary
+        subPath:
+          type: string
+          format: string
+          example: projectA/2023
     UploadFileResponse:
       type: object
       properties:

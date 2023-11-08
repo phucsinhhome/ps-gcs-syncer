@@ -5,6 +5,7 @@
     </log>
     <propertyGroup>
         <property expression="$body/mediate/fileContent/@filename" name="filename" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subPath" name="subPath" scope="default" type="STRING"/>
     </propertyGroup>
     <payloadFactory media-type="xml">
         <format>
@@ -18,17 +19,19 @@
       mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
    binaryNode.setBinary(true);]]></script>
     <log>
-        <property expression="$ctx:filename" name="filename"/>
+        <property expression="$ctx:filename" name="Filename"/>
+        <property expression="$ctx:subPath" name="SubPath"/>
     </log>
     <propertyGroup>
         <property expression="$ctx:filename" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
         <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
         <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
         <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+        <property expression="fn:concat($FILE:fileProcessing_tempDir, '/',$ctx:subPath)" name="destinationDir" scope="default" type="STRING"/>
     </propertyGroup>
     <call description="This writes the received file into a pre-configured directory">
         <endpoint>
-            <address uri="$FILE:fileProcessing_tempDir">
+            <address uri="$ctx:destinationDir">
                 <suspendOnFailure>
                     <initialDuration>-1</initialDuration>
                     <progressionFactor>1</progressionFactor>
