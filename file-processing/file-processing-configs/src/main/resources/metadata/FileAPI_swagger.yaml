@@ -13,11 +13,31 @@ paths:
         content:
           multipart/form-data:
             schema:
-              type: object
-              properties:
-                payload:
-                  type: object
+              $ref: '#/components/schemas/UploadFile'
         required: false
       responses:
-        default:
-          description: Default response
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UploadFileResponse'
+components:
+  schemas:
+    UploadFile:
+      required:
+      - fileContent
+      type: object
+      properties:
+        fileContent:
+          type: string
+          format: binary
+    UploadFileResponse:
+      type: object
+      properties:
+        file:
+          type: string
+          example: sample.pdf
+        status:
+          type: string
+          example: File upload sucessfully
