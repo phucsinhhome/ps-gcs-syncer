@@ -7,3 +7,6 @@ The implementation helps to process binary file in different integration aspects
 - Scenario 3: Upload binary file via REST API and store it into Object Storage
 
 Below is the detail instruction for each scenario
+
+## Use cases
+### REST API to local folder
