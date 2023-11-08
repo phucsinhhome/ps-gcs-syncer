@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="FilesAPI" groupId="vn.ds.study.api" version="0.0.1" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/FilesAPI.xml</file>
+    </artifact>
+    <artifact name="ImageReceivingAPI_swagger" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/ImageReceivingAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="ImageReceivingAPI_metadata" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/ImageReceivingAPI_metadata.yaml</file>
+    </artifact>
+    <artifact name="FileReceiving_Process_Seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/FileReceiving_Process_Seq.xml</file>
+    </artifact>
+    <artifact name="CarbonAppsAPI" groupId="vn.ds.study.api" version="0.0.1" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/CarbonAppsAPI.xml</file>
+    </artifact>
+    <artifact name="CarbonAppsAPI_swagger" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CarbonAppsAPI_swagger.yaml</file>
+    </artifact>
+    <artifact name="CarbonAppsAPI_metadata" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
+        <file>src/main/resources/metadata/CarbonAppsAPI_metadata.yaml</file>
+    </artifact>
+</artifacts>

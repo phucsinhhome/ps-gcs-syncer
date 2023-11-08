@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/files" name="CloneSFTPFileAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" url-mapping="/list">
+        <inSequence>
+            <propertyGroup>
+                <property expression="json-eval($.sftpDir)" name="sftpDir" scope="default" type="STRING"/>
+                <property expression="json-eval($.username)" name="username" scope="default" type="STRING"/>
+                <property expression="json-eval($.password)" name="password" scope="default" type="STRING"/>
+                <property expression="json-eval($.subPath)" name="subPath" scope="default" type="STRING"/>
+                <property expression="json-eval($.url)" name="url" scope="default" type="STRING"/>
+                <property expression="json-eval($.env)" name="env" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log>
+                <property name="message" value="List 1st level files"/>
+                <property expression="$ctx:sftpDir" name="sftpDir"/>
+            </log>
+            <switch source="json-eval($.env)">
+                <case regex="AWS_TEST">
+                    <file.listFiles configKey="SFTP_CONNECTION_AWS_TEST">
+                        <directoryPath>{$ctx:sftpDir}</directoryPath>
+                        <recursive>false</recursive>
+                        <responseFormat>Flat</responseFormat>
+                        <sortingAttribute>Name</sortingAttribute>
+                        <sortingOrder>Ascending</sortingOrder>
+                    </file.listFiles>
+                </case>
+                <default>
+                    <file.listFiles configKey="SFTP_CONNECTION_RANCHER_DEV">
+                        <directoryPath>{$ctx:sftpDir}</directoryPath>
+                        <recursive>false</recursive>
+                        <responseFormat>Flat</responseFormat>
+                        <sortingAttribute>Name</sortingAttribute>
+                        <sortingOrder>Ascending</sortingOrder>
+                    </file.listFiles>
+                </default>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+    <resource methods="POST" url-mapping="/clone">
+        <inSequence>
+            <propertyGroup>
+                <property expression="json-eval($.filePath)" name="filePath" scope="default" type="STRING"/>
+                <property expression="json-eval($.topic)" name="topic" scope="default" type="STRING"/>
+                <property expression="json-eval($.copiedToDir)" name="copiedToDir" scope="default" type="STRING"/>
+                <property expression="json-eval($.env)" name="env" scope="default" type="STRING"/>
+            </propertyGroup>
+            <switch source="json-eval($.env)">
+                <case regex="AWS_TEST">
+                    <call description="Get cloned file name number">
+                        <endpoint>
+                            <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/clonedFilename/next?quantity=1&amp;length=4&amp;autoReset=true">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </http>
+                        </endpoint>
+                    </call>
+                    <property expression="json-eval($.[0])" name="clonedFilename" scope="default" type="STRING"/>
+                    <script description="extract file name" language="groovy"><![CDATA[def filePath = mc.getProperty("filePath");
+def copiedToDir = mc.getProperty("copiedToDir");
+def clonedFilename = mc.getProperty("clonedFilename");
+
+def file = filePath.replaceAll(/^.*\//, '');
+def extension = file.substring(file.lastIndexOf("."));
+def filename= file.substring(0, file.size() - extension.size());
+//def copiedToDir =filePath.substring(0, filePath.size() - file.size());
+def copiedToFile = filename + "_" + clonedFilename + extension;
+
+mc.setProperty('filename', filename.toString());
+mc.setProperty('copiedToDir', copiedToDir.toString());
+mc.setProperty('copiedToFile', copiedToFile.toString());]]></script>
+                    <log>
+                        <property name="message" value="Clone file"/>
+                        <property expression="$ctx:filePath" name="filePath"/>
+                        <property expression="$ctx:copiedToDir" name="copiedToDir"/>
+                        <property expression="$ctx:copiedToFile" name="copiedToFile"/>
+                    </log>
+                    <file.copy configKey="SFTP_CONNECTION_AWS_TEST">
+                        <sourcePath>{$ctx:filePath}</sourcePath>
+                        <targetPath>{$ctx:copiedToDir}</targetPath>
+                        <includeParent>false</includeParent>
+                        <overwrite>true</overwrite>
+                        <renameTo>{$ctx:copiedToFile}</renameTo>
+                    </file.copy>
+                    <call description="Get file id">
+                        <endpoint>
+                            <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/filename/next?quantity=1&amp;length=10&amp;autoReset=true">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </http>
+                        </endpoint>
+                    </call>
+                    <payloadFactory media-type="json">
+                        <format>{&#xd;
+                "managementData": {&#xd;
+                    "status": "SCAN_DONE",&#xd;
+                    "source": {&#xd;
+                        "sourceType": "SFTP",&#xd;
+                        "sourceHost": "10.10.15.34"&#xd;
+                    },&#xd;
+                    "stepsMetadata": [&#xd;
+                        {&#xd;
+                            "stepName": "cdipp-sftp-scanner",&#xd;
+                            "startTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "endTime": "2022-03-30T03:39:10.281-05:00"&#xd;
+                        }&#xd;
+                    ]&#xd;
+                },&#xd;
+                "processingData": [&#xd;
+                    {&#xd;
+                        "fileId": "$4",&#xd;
+                        "fileFormat": "zip",&#xd;
+                        "fileUrl": "$1",&#xd;
+                        "metadata": {&#xd;
+                            "lastModifiedTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "fileSize": 482962,&#xd;
+                            "lastScannedTime": "2022-03-30T03:39:10.275-05:00",&#xd;
+                            "createdTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "firstScannedTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "scanTimes": 1&#xd;
+                        },&#xd;
+                        "fileName": "$2"&#xd;
+                    }&#xd;
+                ],&#xd;
+                "traceId": "$3"&#xd;
+            }</format>
+                        <args>
+                            <arg evaluator="xml" expression="fn:concat($ctx:copiedToDir,$ctx:copiedToFile)"/>
+                            <arg evaluator="xml" expression="$ctx:copiedToFile"/>
+                            <arg evaluator="xml" expression="fn:substring-after(get-property('MessageID'), 'urn:uuid:')"/>
+                            <arg evaluator="json" expression="$.[0]"/>
+                        </args>
+                    </payloadFactory>
+                    <kafkaTransport.publishMessages configKey="KAFKA_CONNECTION_CDIPP">
+                        <topic>{$ctx:topic}</topic>
+                    </kafkaTransport.publishMessages>
+                </case>
+                <default>
+                    <call description="Get cloned file name number">
+                        <endpoint>
+                            <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/clonedFilename/next?quantity=1&amp;length=4&amp;autoReset=true">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </http>
+                        </endpoint>
+                    </call>
+                    <property expression="json-eval($.[0])" name="clonedFilename" scope="default" type="STRING"/>
+                    <script description="extract file name" language="groovy"><![CDATA[def filePath = mc.getProperty("filePath");
+def copiedToDir = mc.getProperty("copiedToDir");
+def clonedFilename = mc.getProperty("clonedFilename");
+
+def file = filePath.replaceAll(/^.*\//, '');
+def extension = file.substring(file.lastIndexOf("."));
+def filename= file.substring(0, file.size() - extension.size());
+//def copiedToDir =filePath.substring(0, filePath.size() - file.size());
+def copiedToFile = filename + "_" + clonedFilename + extension;
+
+mc.setProperty('filename', filename.toString());
+mc.setProperty('copiedToDir', copiedToDir.toString());
+mc.setProperty('copiedToFile', copiedToFile.toString());]]></script>
+                    <log>
+                        <property name="message" value="Clone file"/>
+                        <property expression="$ctx:filePath" name="filePath"/>
+                        <property expression="$ctx:copiedToDir" name="copiedToDir"/>
+                        <property expression="$ctx:copiedToFile" name="copiedToFile"/>
+                    </log>
+                    <file.copy configKey="SFTP_CONNECTION_RANCHER_DEV">
+                        <sourcePath>{$ctx:filePath}</sourcePath>
+                        <targetPath>{$ctx:copiedToDir}</targetPath>
+                        <includeParent>false</includeParent>
+                        <overwrite>true</overwrite>
+                        <renameTo>{$ctx:copiedToFile}</renameTo>
+                    </file.copy>
+                    <call description="Get file id">
+                        <endpoint>
+                            <http method="get" uri-template="https://idgenerator.cdc.zone:30303/sequence/filename/next?quantity=1&amp;length=10&amp;autoReset=true">
+                                <suspendOnFailure>
+                                    <initialDuration>-1</initialDuration>
+                                    <progressionFactor>-1</progressionFactor>
+                                    <maximumDuration>0</maximumDuration>
+                                </suspendOnFailure>
+                                <markForSuspension>
+                                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                                </markForSuspension>
+                            </http>
+                        </endpoint>
+                    </call>
+                    <payloadFactory media-type="json">
+                        <format>{&#xd;
+                "managementData": {&#xd;
+                    "status": "SCAN_DONE",&#xd;
+                    "source": {&#xd;
+                        "sourceType": "SFTP",&#xd;
+                        "sourceHost": "10.10.15.34"&#xd;
+                    },&#xd;
+                    "stepsMetadata": [&#xd;
+                        {&#xd;
+                            "stepName": "cdipp-sftp-scanner",&#xd;
+                            "startTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "endTime": "2022-03-30T03:39:10.281-05:00"&#xd;
+                        }&#xd;
+                    ]&#xd;
+                },&#xd;
+                "processingData": [&#xd;
+                    {&#xd;
+                        "fileId": "$4",&#xd;
+                        "fileFormat": "zip",&#xd;
+                        "fileUrl": "$1",&#xd;
+                        "metadata": {&#xd;
+                            "lastModifiedTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "fileSize": 482962,&#xd;
+                            "lastScannedTime": "2022-03-30T03:39:10.275-05:00",&#xd;
+                            "createdTime": "2022-03-17T03:59:06.000-05:00",&#xd;
+                            "firstScannedTime": "2022-03-30T03:38:50.260-05:00",&#xd;
+                            "scanTimes": 1&#xd;
+                        },&#xd;
+                        "fileName": "$2"&#xd;
+                    }&#xd;
+                ],&#xd;
+                "traceId": "$3"&#xd;
+            }</format>
+                        <args>
+                            <arg evaluator="xml" expression="fn:concat($ctx:copiedToDir,$ctx:copiedToFile)"/>
+                            <arg evaluator="xml" expression="$ctx:copiedToFile"/>
+                            <arg evaluator="xml" expression="fn:substring-after(get-property('MessageID'), 'urn:uuid:')"/>
+                            <arg evaluator="json" expression="$.[0]"/>
+                        </args>
+                    </payloadFactory>
+                    <kafkaTransport.publishMessages configKey="KAFKA_CONNECTION_CDIPP">
+                        <topic>{$ctx:topic}</topic>
+                    </kafkaTransport.publishMessages>
+                </default>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
