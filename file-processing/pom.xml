@@ -8,6 +8,11 @@
   <packaging>pom</packaging>
   <name>file-processing</name>
   <description>file-processing</description>
+  <modules>
+    <module>file-processing-connector-exporter</module>
+    <module>file-processing-configs</module>
+    <module>file-processing-composite-exporter</module>
+  </modules>
   <scm>
     <connection>scm:git:https://github.com/username/repository.git</connection>
     <developerConnection>scm:git:https://github.com/username/repository.git</developerConnection>

@@ -1,7 +1,6 @@
----
 key: "CarbonAppsAPI-1.0.0"
-name : "CarbonAppsAPI"
-displayName : "CarbonAppsAPI"
+name: "CarbonAppsAPI"
+displayName: "CarbonAppsAPI"
 description: "Sample API"
 version: "1.0.0"
 serviceUrl: "https://{MI_HOST}:{MI_PORT}/carbonapps"

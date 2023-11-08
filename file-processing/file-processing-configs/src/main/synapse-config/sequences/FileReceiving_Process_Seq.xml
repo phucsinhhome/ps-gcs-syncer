@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="FileReceiving_Process_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="Start processing file"/>
+    </log>
     <propertyGroup>
         <property expression="$body/mediate/fileContent/@filename" name="filename" scope="default" type="STRING"/>
     </propertyGroup>

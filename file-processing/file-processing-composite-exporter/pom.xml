@@ -14,17 +14,14 @@
   <name>file-processing-composite-exporter</name>
   <description>file-processing-composite-exporter</description>
   <properties>
-    <vn.ds.study.metadata_._CarbonAppsAPI_metadata>capp/EnterpriseServiceBus</vn.ds.study.metadata_._CarbonAppsAPI_metadata>
-    <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
-    <vn.ds.study.metadata_._FilesAPI_swagger>capp/ApplicationServer</vn.ds.study.metadata_._FilesAPI_swagger>
-    <vn.ds.study.lib_._comprehend-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._comprehend-connector>
     <vn.ds.study.sequence_._FileReceiving_Process_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._FileReceiving_Process_Seq>
     <vn.ds.study.api_._CarbonAppsAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._CarbonAppsAPI>
-    <vn.ds.study.metadata_._CarbonAppsAPI_swagger>capp/EnterpriseServiceBus</vn.ds.study.metadata_._CarbonAppsAPI_swagger>
-    <vn.ds.study.api_._ImageReceivingAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._ImageReceivingAPI>
-    <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
     <vn.ds.study.api_._FilesAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._FilesAPI>
-    <vn.ds.study.metadata_._ImageReceivingAPI_metadata>capp/EnterpriseServiceBus</vn.ds.study.metadata_._ImageReceivingAPI_metadata>
+    <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
+    <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
+    <vn.ds.study.lib_._comprehend-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._comprehend-connector>
+    <vn.ds.study.metadata_._FilesAPI_swagger>capp/ApplicationServer</vn.ds.study.metadata_._FilesAPI_swagger>
+    <vn.ds.study.api_._ImageReceivingAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._ImageReceivingAPI>
   </properties>
   <dependencies>
     <dependency>
@@ -32,48 +29,6 @@
       <artifactId>FileReceiving_Process_Seq</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.metadata</groupId>
-      <artifactId>FilesAPI_swagger</artifactId>
-      <version>0.0.1</version>
-      <type>yaml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.metadata</groupId>
-      <artifactId>ImageReceivingAPI_metadata</artifactId>
-      <version>0.0.1</version>
-      <type>yaml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.api</groupId>
-      <artifactId>ImageReceivingAPI</artifactId>
-      <version>0.0.1</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.lib</groupId>
-      <artifactId>comprehend-connector</artifactId>
-      <version>1.0.0</version>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.lib</groupId>
-      <artifactId>file-connector</artifactId>
-      <version>4.0.8</version>
-      <type>zip</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.metadata</groupId>
-      <artifactId>CarbonAppsAPI_metadata</artifactId>
-      <version>0.0.1</version>
-      <type>yaml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ds.study.metadata</groupId>
-      <artifactId>CarbonAppsAPI_swagger</artifactId>
-      <version>0.0.1</version>
-      <type>yaml</type>
     </dependency>
     <dependency>
       <groupId>vn.ds.study.api</groupId>
@@ -86,6 +41,12 @@
       <artifactId>FilesAPI</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.lib</groupId>
+      <artifactId>file-connector</artifactId>
+      <version>4.0.11</version>
+      <type>zip</type>
     </dependency>
   </dependencies>
   <repositories>
