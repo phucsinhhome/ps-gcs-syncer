@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Download_Binary_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <header name="Cookie" scope="transport" value="ASP.NET_SessionId=gaanjk5ufb5t12ktbmuttgdx; __RequestVerificationToken=HQb3Ga7-Ar78VkDVTiImBNROd9a2rJ469CexHUBHjfEOaSkZreM_WRTToTysy9_wB9fUBiPYyIrRUncKMYapDcY4PA-YAH2TfRtnIotMEWc1; .AspNet.ApplicationCookie=xf4KWDnDxzCIm2Xlea9fdJ48kkD1kDcR91FE86DEByLN4ZjS69XvjJiaz_P72nMlyhwvQ1lsdTpU4TN934gPu0cgdzBvpg9iTzyFA8lxiaMZnUjiRyY6ne3KlfjtaQkN-bL7yx00UrkAW2kPcWXlYWqXa-oxn3KAeJnB4YSQwGXttaA1v_0rPUUshrV4p1Gqpjjq8MKrImE-e6QveTSSdZFVqx_sI7HzqzTfV3-f3jLHV0RMrm62Za5cFBuZLWIlsVlAvxXsEn10y1PXx17S5iaGnjFSBeDAoi95DqwSBKJZXPyrAaoes4-1DHB6SdczDMgldmqRSrrMobhZH38ZYWNeI_aFWdntvMIzXIMOdZ4DhNfKsu6_tg1sg05fMelc"/>
+    <header name="Cookie" scope="transport" value="ASP.NET_SessionId=gaanjk5ufb5t12ktbmuttgdx; __RequestVerificationToken=HQb3Ga7-Ar78VkDVTiImBNROd9a2rJ469CexHUBHjfEOaSkZreM_WRTToTysy9_wB9fUBiPYyIrRUncKMYapDcY4PA-YAH2TfRtnIotMEWc1; .AspNet.ApplicationCookie=2DhhLmfvdClQ8fT_BUtRHAvmwLyIF-rR71Mw8uBwAjFPRf03msO26Rhq3EIX36m633BNbCup04B9uFI5lR4EZhuH8UVrM486sC1yDVxvYbcTRHTfUWgn-cBLyXKRDqKA0FvvOyK-1eN0bYLIi6wPMUG309fMlSfNRabRkIJFszYTnYlX7FY8NFMBI7tMjgs06J4Vbr6iKzkMPaQZxcJwBDk5np79eXU1gdns4odWqObaPhs3DrlWmgjjzTK2nYYrGIlKej3hRdf7HGEEXjrIEuowMqbDWdl3AEuZJsSUxRQk6MSahv2Q278pNTCW7bhJlKuRssDNp3n8r2j0nPG0qkhXpLPL9GIoKasLnyCUbbg80Ee44VkbzA60OZ-SgkKk"/>
+    <payloadFactory media-type="json">
+        <format>{}</format>
+        <args/>
+    </payloadFactory>
     <log>
         <property name="Message" value="Loading the file from remote server"/>
     </log>
