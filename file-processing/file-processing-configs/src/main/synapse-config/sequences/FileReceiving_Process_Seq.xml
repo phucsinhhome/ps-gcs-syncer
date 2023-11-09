@@ -5,6 +5,7 @@
     </log>
     <propertyGroup>
         <property expression="$body/mediate/fileContent/@filename" name="filename" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subPath" name="subPath" scope="default" type="STRING"/>
     </propertyGroup>
     <payloadFactory media-type="xml">
         <format>
@@ -18,7 +19,8 @@
       mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
    binaryNode.setBinary(true);]]></script>
     <log>
-        <property expression="$ctx:filename" name="filename"/>
+        <property expression="$ctx:filename" name="Filename"/>
+        <property expression="$ctx:subPath" name="SubPath"/>
     </log>
     <propertyGroup>
         <property expression="$ctx:filename" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
