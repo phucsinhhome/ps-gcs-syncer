@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Upload_To_SFTP_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="Setting the binary node"/>
+    </log>
+    <script language="js"><![CDATA[var binaryNode =       
+      mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+   binaryNode.setBinary(true);]]></script>
+    <log>
+        <property name="Message" value="Sending the file to SFTP"/>
+    </log>
+    <propertyGroup>
+        <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
+        <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+        <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+    </propertyGroup>
+    <call description="This writes the received file into a pre-configured directory">
+        <endpoint>
+            <address uri="$FILE:fileProcessing_tempDir">
+                <suspendOnFailure>
+                    <initialDuration>-1</initialDuration>
+                    <progressionFactor>1</progressionFactor>
+                </suspendOnFailure>
+                <markForSuspension>
+                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                </markForSuspension>
+            </address>
+        </endpoint>
+    </call>
+    <!-- 7. We define a success message to be the respose of the REST API request. -->
+    <payloadFactory media-type="json">
+        <format>{
+			"file": "$1",
+			"statusMessage" : "Upload successfully"
+}
+		</format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:filename"/>
+        </args>
+    </payloadFactory>
+</sequence>

@@ -7,4 +7,11 @@
         <outSequence/>
         <faultSequence/>
     </resource>
+    <resource methods="GET" uri-template="/download/{docId}">
+        <inSequence>
+            <sequence key="Download_Binary_Seq"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
 </api>

@@ -22,6 +22,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UploadFileResponse'
+  /download/{docId}:
+    get:
+      parameters:
+      - name: docId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        default:
+          description: Default response
 components:
   schemas:
     UploadFile:

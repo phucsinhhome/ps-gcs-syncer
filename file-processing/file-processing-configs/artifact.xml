@@ -20,4 +20,10 @@
     <artifact name="CarbonAppsAPI_metadata" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
         <file>src/main/resources/metadata/CarbonAppsAPI_metadata.yaml</file>
     </artifact>
+    <artifact name="Download_Binary_Seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Download_Binary_Seq.xml</file>
+    </artifact>
+    <artifact name="Upload_To_SFTP_Seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Upload_To_SFTP_Seq.xml</file>
+    </artifact>
 </artifacts>
