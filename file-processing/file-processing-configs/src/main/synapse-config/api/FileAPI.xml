@@ -1,1 +1,10 @@
-<api xmlns="http://ws.apache.org/ns/synapse" name="FileAPI" context="/files"><resource methods="POST" url-mapping="/upload"><inSequence><sequence key="FileReceiving_Process_Seq"/></inSequence><outSequence/><faultSequence/></resource></api>
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/files" name="FileAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" url-mapping="/upload">
+        <inSequence>
+            <sequence key="FileReceiving_Process_Seq"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>
