@@ -26,4 +26,10 @@
     <artifact name="Upload_To_SFTP_Seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Upload_To_SFTP_Seq.xml</file>
     </artifact>
+    <artifact name="Sample" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/local-entries/Sample.xml</file>
+    </artifact>
+    <artifact name="SCANNING_DIR" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/local-entries/SCANNING_DIR.xml</file>
+    </artifact>
 </artifacts>

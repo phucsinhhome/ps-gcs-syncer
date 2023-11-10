@@ -14,4 +14,30 @@
         <outSequence/>
         <faultSequence/>
     </resource>
+    <resource methods="POST" url-mapping="/uploadSftp">
+        <inSequence>
+            <log>
+                <property name="Message" value="Reading files..."/>
+            </log>
+            <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/binary"/>
+            <file.read configKey="SCANNING_DIR">
+                <path>/FileProcessing</path>
+                <filePattern>.*.pdf</filePattern>
+                <readMode>Complete File</readMode>
+                <startLineNum>0</startLineNum>
+                <endLineNum>0</endLineNum>
+                <lineNum>0</lineNum>
+                <includeResultTo>Message Body</includeResultTo>
+                <enableStreaming>true</enableStreaming>
+                <enableLock>false</enableLock>
+            </file.read>
+            <log level="full" separator=",">
+                <property name="Message" value="Read file complete"/>
+                <property expression="$ctx:FILE_NAME" name="Filename"/>
+            </log>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
 </api>

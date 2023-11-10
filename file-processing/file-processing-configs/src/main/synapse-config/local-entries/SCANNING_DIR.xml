@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="SCANNING_DIR" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>SCANNING_DIR</name>
+        <workingDir>C:/Users/thminh_1/Downloads</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>LOCAL</connectionType>
+    </file.init>
+</localEntry>
