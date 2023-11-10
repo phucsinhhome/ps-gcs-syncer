@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Local_File_To_SFTP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="Reading files..."/>
+    </log>
+    <file.read configKey="LOCAL_FILE_DIR">
+        <path>/Users/thminh_1/Downloads/FileProcessing</path>
+        <filePattern>.*.pdf</filePattern>
+        <readMode>Complete File</readMode>
+        <startLineNum>0</startLineNum>
+        <endLineNum>0</endLineNum>
+        <lineNum>0</lineNum>
+        <contentType>application/binary</contentType>
+        <includeResultTo>Message Body</includeResultTo>
+        <enableStreaming>false</enableStreaming>
+        <enableLock>false</enableLock>
+    </file.read>
+    <log>
+        <property name="Message" value="Read file complete"/>
+        <property expression="$ctx:FILE_NAME" name="Filename"/>
+        <property expression="$ctx:FILE_LAST_MODIFIED_TIME" name="Last Modified"/>
+        <property expression="$ctx:FILE_SIZE" name="Size"/>
+        <property expression="$ctx:FILE_IS_DIR" name="Is Dir"/>
+        <property expression="$ctx:FILE_PATH" name="Path"/>
+        <property expression="$ctx:FILE_URL" name="Url"/>
+        <property expression="$ctx:FILE_NAME_WITHOUT_EXTENSION" name="Name Without Ext"/>
+    </log>
+</sequence>

@@ -1,12 +1,55 @@
 ## File Processing
 
-The implementation helps to process binary file in different integration aspects. So far, it contains following scenarios:
+The implementation helps to process binary file in different integration aspects. So far, it contains following use cases:
 
-- Scenario 1: Upload binary file via REST API and store it into local preconfigured difrectoy
-- Scenario 2: Upload binary file via REST API and store it into SFTP server
-- Scenario 3: Upload binary file via REST API and store it into Object Storage
+- UC 1: Download binary file via REST API and store it into local preconfigured difrectoy
+- UC 2: Download binary file via REST API and store it into SFTP server
+- UC 3: Download binary file via REST API and store it into Object Storage
+- UC 4: Upload binary file from local storage to SFTP server
 
 Below is the detail instruction for each scenario
 
+## Prerequisites
+
+- Download Micro Integrator 4.2.0 and extract into directory named `{MI_HOME}`
+
 ## Use cases
-### REST API to local folder
+### UC 4: Upload binary file from local storage to SFTP server
+The integration will _scan a local directory_ for any PDF files, _upload those files to SFTP server_ and finally _move the upload files_ to local archived folder
+
+__Trigger__: REST API Call
+
+__Get Started__
+
+Step 1: Go to `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entries` and create following local-entry files
+
+__LOCAL_FILE_DIR__
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="LOCAL_FILE_DIR" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>LOCAL_FILE_DIR</name>
+        <workingDir>C:</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>LOCAL</connectionType>
+    </file.init>
+</localEntry>
+```
+
+__SFTP_SERVER__
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="LOCAL_FILE_DIR" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>LOCAL_FILE_DIR</name>
+        <workingDir>C:</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>LOCAL</connectionType>
+    </file.init>
+</localEntry>
+```
+
+> Note: Do NOT enclose above local registy entries in the `Composite Exporter` application because they need to be changed for different deployment scenarios. We tested the local entry to read the configuration from `file.properties`, it simply does not work.
+

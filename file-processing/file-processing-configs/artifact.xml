@@ -29,4 +29,7 @@
     <artifact name="LOCAL_FILE_DIR" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/LOCAL_FILE_DIR.xml</file>
     </artifact>
+    <artifact name="Local_File_To_SFTP" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Local_File_To_SFTP.xml</file>
+    </artifact>
 </artifacts>
