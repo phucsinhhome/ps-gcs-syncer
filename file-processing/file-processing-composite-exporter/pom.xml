@@ -18,6 +18,7 @@
     <vn.ds.study.api_._FileAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._FileAPI>
     <vn.ds.study.sequence_._Upload_To_SFTP_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Upload_To_SFTP_Seq>
     <vn.ds.study.api_._CarbonAppsAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._CarbonAppsAPI>
+    <vn.ds.study.local-entry_._LOCAL_FILE_DIR>capp/EnterpriseServiceBus</vn.ds.study.local-entry_._LOCAL_FILE_DIR>
     <vn.ds.study.metadata_._FileAPI_swagger>capp/ApplicationServer</vn.ds.study.metadata_._FileAPI_swagger>
     <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
     <vn.ds.study.sequence_._Download_Binary_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Download_Binary_Seq>
@@ -59,6 +60,12 @@
     <dependency>
       <groupId>vn.ds.study.sequence</groupId>
       <artifactId>Upload_To_SFTP_Seq</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.local-entry</groupId>
+      <artifactId>LOCAL_FILE_DIR</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
     </dependency>
