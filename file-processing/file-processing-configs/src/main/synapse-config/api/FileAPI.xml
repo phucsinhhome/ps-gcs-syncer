@@ -27,11 +27,12 @@
                 <startLineNum>0</startLineNum>
                 <endLineNum>0</endLineNum>
                 <lineNum>0</lineNum>
+                <contentType>application/binary</contentType>
                 <includeResultTo>Message Body</includeResultTo>
-                <enableStreaming>true</enableStreaming>
+                <enableStreaming>false</enableStreaming>
                 <enableLock>false</enableLock>
             </file.read>
-            <log level="full" separator=",">
+            <log separator=",">
                 <property name="Message" value="Read file complete"/>
                 <property expression="$ctx:FILE_NAME" name="Filename"/>
             </log>
