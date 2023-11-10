@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Local_File_To_SFTP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <log>
+        <property name="Message" value="Upload file to SFTP"/>
+    </log>
+    <propertyGroup>
+        <property expression="$body/mediate/dir" name="scanningDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
         <property name="Message" value="Reading files..."/>
+        <property expression="$ctx:scanningDir" name="Scanning Dir"/>
+        <property expression="$ctx:filePattern" name="File Pattern"/>
     </log>
     <file.read configKey="LOCAL_FILE_DIR">
-        <path>/Users/thminh_1/Downloads/FileProcessing</path>
-        <filePattern>.*.pdf</filePattern>
+        <path>{$ctx:scanningDir}</path>
+        <filePattern>{$ctx:filePattern}</filePattern>
         <readMode>Complete File</readMode>
         <startLineNum>0</startLineNum>
         <endLineNum>0</endLineNum>
