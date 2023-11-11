@@ -75,9 +75,9 @@ components:
       properties:
         dir:
           type: string
-          example: /Users/john/Downloads/FileStore/Source
           description: It's relative path to the workingDir defined in LOCAL_FILE_DIR
             local entry
+          example: /Users/john/Downloads/FileStore/Source
         filePattern:
           type: string
           example: .*.pdf

@@ -6,6 +6,7 @@
     <propertyGroup>
         <property expression="$body/mediate/dir" name="scanningDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
+        <property expression="$body/mediate/archivedDir" name="archivedDir" scope="default" type="STRING"/>
     </propertyGroup>
     <log>
         <property name="Message" value="Reading files..."/>
@@ -17,7 +18,6 @@
         <filePattern>{$ctx:filePattern}</filePattern>
         <readMode>Complete File</readMode>
         <startLineNum>0</startLineNum>
-        <endLineNum>0</endLineNum>
         <lineNum>0</lineNum>
         <contentType>application/binary</contentType>
         <includeResultTo>Message Body</includeResultTo>
@@ -33,5 +33,16 @@
         <property expression="$ctx:FILE_PATH" name="Path"/>
         <property expression="$ctx:FILE_URL" name="Url"/>
         <property expression="$ctx:FILE_NAME_WITHOUT_EXTENSION" name="Name Without Ext"/>
+    </log>
+    <file.move configKey="LOCAL_FILE_DIR">
+        <sourcePath>{get-property('FILE_PATH')}</sourcePath>
+        <targetPath>{$ctx:archivedDir}</targetPath>
+        <createParentDirectories>true</createParentDirectories>
+        <includeParent>false</includeParent>
+        <overwrite>false</overwrite>
+    </file.move>
+    <log>
+        <property name="Message" value="Upload completed"/>
+        <property expression="get-property('FILE_NAME')" name="Filename"/>
     </log>
 </sequence>
