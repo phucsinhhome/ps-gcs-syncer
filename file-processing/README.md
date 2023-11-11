@@ -53,3 +53,4 @@ __SFTP_SERVER__
 
 > Note: Do NOT enclose above local registy entries in the `Composite Exporter` application because they need to be changed for different deployment scenarios. We tested the local entry to read the configuration from `file.properties`, it simply does not work.
 
+Step 2: Export composite exporter. Right click on project `file-processing-local-to-sftp-composite-exporter` > `Export Composite Application Project` to export it to `{MI_HOME}/repository/deployment/server/carbonapps`
