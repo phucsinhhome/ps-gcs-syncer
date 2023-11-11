@@ -39,10 +39,15 @@
         <targetPath>{$ctx:archivedDir}</targetPath>
         <createParentDirectories>true</createParentDirectories>
         <includeParent>false</includeParent>
-        <overwrite>false</overwrite>
+        <overwrite>true</overwrite>
     </file.move>
     <log>
-        <property name="Message" value="Upload completed"/>
+        <property name="Message" value="Archived completed"/>
         <property expression="get-property('FILE_NAME')" name="Filename"/>
+        <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
     </log>
+    <propertyGroup>
+        <property name="UPLOAD_SUCCESSFUL" scope="default" type="STRING" value="true"/>
+        <property expression="//moveFilesResult/success/text()" name="ARCHIVE_SUCCESSFUL" scope="default" type="STRING"/>
+    </propertyGroup>
 </sequence>

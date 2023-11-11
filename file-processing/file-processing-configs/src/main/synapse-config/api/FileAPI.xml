@@ -19,15 +19,25 @@
             <sequence key="Local_File_To_SFTP"/>
             <payloadFactory media-type="json">
                 <format>{&#xd;
-"file": $1&#xd;
+"file": "$1",&#xd;
+"uploadSuccessful": $2,&#xd;
+"archiveSuccessful": $3 &#xd;
 }</format>
                 <args>
                     <arg evaluator="xml" expression="get-property('FILE_PATH')"/>
+                    <arg evaluator="xml" expression="$ctx:UPLOAD_SUCCESSFUL"/>
+                    <arg evaluator="xml" expression="$ctx:ARCHIVE_SUCCESSFUL"/>
                 </args>
             </payloadFactory>
             <respond/>
         </inSequence>
         <outSequence/>
-        <faultSequence/>
+        <faultSequence>
+            <payloadFactory media-type="text">
+                <format>There is no file</format>
+                <args/>
+            </payloadFactory>
+            <respond/>
+        </faultSequence>
     </resource>
 </api>
