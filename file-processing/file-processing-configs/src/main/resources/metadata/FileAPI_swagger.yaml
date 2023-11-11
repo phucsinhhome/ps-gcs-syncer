@@ -40,12 +40,9 @@ paths:
       requestBody:
         description: Sample Payload
         content:
-          application/json:
+          application/form-data:
             schema:
-              type: object
-              properties:
-                payload:
-                  type: object
+              $ref: '#/components/schemas/LocalFileScanRequest'
         required: false
       responses:
         default:
@@ -73,3 +70,14 @@ components:
         status:
           type: string
           example: File upload sucessfully
+    LocalFileScanRequest:
+      type: object
+      properties:
+        dir:
+          type: string
+          example: /Users/john/Downloads/FileStore/Source
+          description: It's relative path to the workingDir defined in LOCAL_FILE_DIR
+            local entry
+        filePattern:
+          type: string
+          example: .*.pdf
