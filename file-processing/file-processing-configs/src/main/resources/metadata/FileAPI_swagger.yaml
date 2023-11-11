@@ -45,8 +45,12 @@ paths:
               $ref: '#/components/schemas/LocalFileScanRequest'
         required: false
       responses:
-        default:
-          description: Default response
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocalToSFTPResponse'
 components:
   schemas:
     UploadFile:
@@ -81,3 +85,15 @@ components:
         filePattern:
           type: string
           example: .*.pdf
+    LocalToSFTPResponse:
+      type: object
+      properties:
+        file:
+          type: string
+          example: /Users/john/Downloads/FileStore/Source/abc.pdf
+        uploadSuccessful:
+          type: boolean
+          example: true
+        archiveSuccessful:
+          type: boolean
+          example: true
