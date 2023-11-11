@@ -13,41 +13,39 @@
         <property expression="$ctx:scanningDir" name="Scanning Dir"/>
         <property expression="$ctx:filePattern" name="File Pattern"/>
     </log>
-    <file.read configKey="LOCAL_FILE_DIR">
-        <path>{$ctx:scanningDir}</path>
-        <filePattern>{$ctx:filePattern}</filePattern>
-        <readMode>Complete File</readMode>
-        <startLineNum>0</startLineNum>
-        <lineNum>0</lineNum>
-        <contentType>application/binary</contentType>
-        <includeResultTo>Message Body</includeResultTo>
-        <enableStreaming>false</enableStreaming>
-        <enableLock>false</enableLock>
-    </file.read>
-    <log>
-        <property name="Message" value="Read file complete"/>
-        <property expression="$ctx:FILE_NAME" name="Filename"/>
-        <property expression="$ctx:FILE_LAST_MODIFIED_TIME" name="Last Modified"/>
-        <property expression="$ctx:FILE_SIZE" name="Size"/>
-        <property expression="$ctx:FILE_IS_DIR" name="Is Dir"/>
-        <property expression="$ctx:FILE_PATH" name="Path"/>
-        <property expression="$ctx:FILE_URL" name="Url"/>
-        <property expression="$ctx:FILE_NAME_WITHOUT_EXTENSION" name="Name Without Ext"/>
-    </log>
-    <file.move configKey="LOCAL_FILE_DIR">
-        <sourcePath>{get-property('FILE_PATH')}</sourcePath>
-        <targetPath>{$ctx:archivedDir}</targetPath>
-        <createParentDirectories>true</createParentDirectories>
-        <includeParent>false</includeParent>
-        <overwrite>true</overwrite>
-    </file.move>
-    <log>
-        <property name="Message" value="Archived completed"/>
-        <property expression="get-property('FILE_NAME')" name="Filename"/>
-        <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
-    </log>
-    <propertyGroup>
-        <property name="UPLOAD_SUCCESSFUL" scope="default" type="STRING" value="true"/>
-        <property expression="//moveFilesResult/success/text()" name="ARCHIVE_SUCCESSFUL" scope="default" type="STRING"/>
-    </propertyGroup>
+    <file.listFiles configKey="LOCAL_FILE_DIR">
+        <directoryPath>{$ctx:scanningDir}</directoryPath>
+        <matchingPattern>{$ctx:filePattern}</matchingPattern>
+        <recursive>false</recursive>
+        <responseFormat>Hierarchical</responseFormat>
+        <sortingAttribute>Name</sortingAttribute>
+        <sortingOrder>Ascending</sortingOrder>
+    </file.listFiles>
+    <log level="full"/>
+    <foreach expression="//listFilesResult/directory/file/text()">
+        <sequence>
+            <property expression="$body" name="filename" scope="default" type="STRING"/>
+            <log>
+                <property name="Message" value="Moving file..."/>
+                <property expression="$ctx:filename" name="Filename"/>
+                <property expression="get-property('FOREACH_COUNTER')" name="Offset"/>
+            </log>
+            <file.move configKey="LOCAL_FILE_DIR">
+                <sourcePath>{fn:concat($ctx:scanningDir,'/',$ctx:filename)}</sourcePath>
+                <targetPath>{$ctx:archivedDir}</targetPath>
+                <createParentDirectories>true</createParentDirectories>
+                <includeParent>false</includeParent>
+                <overwrite>true</overwrite>
+            </file.move>
+            <log>
+                <property name="Message" value="Archived completed"/>
+                <property expression="$ctx:filename" name="Filename"/>
+                <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
+            </log>
+            <propertyGroup>
+                <property name="UPLOAD_SUCCESSFUL" scope="default" type="STRING" value="true"/>
+                <property expression="//moveFilesResult/success/text()" name="ARCHIVE_SUCCESSFUL" scope="default" type="STRING"/>
+            </propertyGroup>
+        </sequence>
+    </foreach>
 </sequence>
