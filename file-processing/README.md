@@ -21,7 +21,7 @@ __Trigger__: REST API Call
 
 __Get Started__
 
-Step 1: Go to `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entries` and create following local-entry files
+__Step 1__: Go to `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entries` and create following local-entry files
 
 __LOCAL_FILE_DIR__
 
@@ -53,6 +53,6 @@ __SFTP_SERVER__
 
 > Note: Do NOT enclose above local registy entries in the `Composite Exporter` application because they need to be changed for different deployment scenarios. We tested the local entry to read the configuration from `file.properties`, it simply does not work.
 
-Step 2: Export composite exporter. Right click on project `file-processing-local-to-sftp-composite-exporter` > `Export Composite Application Project` to export it to `{MI_HOME}/repository/deployment/server/carbonapps`. Wait for the MI deploy the necessary artifacts sucessfully.
+__Step 2__: Export composite exporter. Right click on project `file-processing-local-to-sftp-composite-exporter` > `Export Composite Application Project` to export it to `{MI_HOME}/repository/deployment/server/carbonapps`. Wait for the MI deploy the necessary artifacts sucessfully.
 
-Step 3: Call API to `FileAPI` at resource `/uploadSftp` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`
+__Step 3__: Call API to `FileAPI` at resource `/uploadSftp` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`. The example and detailed description is mentioned in the API specification.
