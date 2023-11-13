@@ -13,6 +13,7 @@
     <module>file-processing-configs</module>
     <module>file-processing-composite-exporter</module>
     <module>file-processing-local-to-sftp-composite-exporter</module>
+    <module>file-processing-download-binary-file-composite-exporter</module>
   </modules>
   <scm>
     <connection>scm:git:https://github.com/username/repository.git</connection>
