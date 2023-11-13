@@ -6,6 +6,7 @@
     <propertyGroup>
         <property expression="$body/mediate/fileContent/@filename" name="filename" scope="default" type="STRING"/>
         <property expression="$body/mediate/subPath" name="subPath" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subPath" name="sftpDir" scope="default" type="STRING"/>
     </propertyGroup>
     <payloadFactory media-type="xml">
         <format>
@@ -15,32 +16,7 @@
             <arg evaluator="xml" expression="$body/mediate/fileContent"/>
         </args>
     </payloadFactory>
-    <script language="js"><![CDATA[var binaryNode =       
-      mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
-   binaryNode.setBinary(true);]]></script>
-    <log>
-        <property expression="$ctx:filename" name="Filename"/>
-        <property expression="$ctx:subPath" name="SubPath"/>
-    </log>
-    <propertyGroup>
-        <property expression="$ctx:filename" name="transport.vfs.ReplyFileName" scope="transport" type="STRING"/>
-        <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
-        <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
-        <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
-    </propertyGroup>
-    <call description="This writes the received file into a pre-configured directory">
-        <endpoint>
-            <address uri="$FILE:fileProcessing_tempDir">
-                <suspendOnFailure>
-                    <initialDuration>-1</initialDuration>
-                    <progressionFactor>1</progressionFactor>
-                </suspendOnFailure>
-                <markForSuspension>
-                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
-                </markForSuspension>
-            </address>
-        </endpoint>
-    </call>
+    <sequence key="Upload_To_SFTP_Seq"/>
     <!-- 7. We define a success message to be the respose of the REST API request. -->
     <payloadFactory media-type="json">
         <format>{
