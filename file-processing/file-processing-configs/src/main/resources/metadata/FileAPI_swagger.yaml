@@ -28,6 +28,8 @@ paths:
       - name: docId
         in: path
         required: true
+        style: simple
+        explode: false
         schema:
           type: string
       requestBody:

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="Download_Binary_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="Download_File_To_SFTP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <header expression="$body/mediate/Cookie" name="Cookie" scope="transport"/>
     <payloadFactory media-type="json">
         <format>{}</format>

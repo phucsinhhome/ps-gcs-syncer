@@ -2,14 +2,14 @@
 <api context="/files" name="FileAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" url-mapping="/upload">
         <inSequence>
-            <sequence key="FileReceiving_Process_Seq"/>
+            <sequence key="Form_Submit_File_To_SFTP"/>
         </inSequence>
         <outSequence/>
         <faultSequence/>
     </resource>
     <resource methods="POST" uri-template="/download/{docId}">
         <inSequence>
-            <sequence key="Download_Binary_Seq"/>
+            <sequence key="Download_File_To_SFTP"/>
         </inSequence>
         <outSequence/>
         <faultSequence/>
