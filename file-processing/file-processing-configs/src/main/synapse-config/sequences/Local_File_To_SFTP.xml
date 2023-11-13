@@ -22,14 +22,25 @@
         <sortingOrder>Ascending</sortingOrder>
     </file.listFiles>
     <log level="full"/>
-    <foreach expression="//listFilesResult/directory/file/text()">
+    <foreach expression="//listFilesResult/directory/file">
         <sequence>
-            <property expression="$body" name="filename" scope="default" type="STRING"/>
+            <property expression="//file/text()" name="filename" scope="default" type="STRING"/>
             <log>
                 <property name="Message" value="Moving file..."/>
                 <property expression="$ctx:filename" name="Filename"/>
                 <property expression="get-property('FOREACH_COUNTER')" name="Offset"/>
             </log>
+            <file.read configKey="LOCAL_FILE_DIR">
+                <path>{fn:concat($ctx:scanningDir,'/',$ctx:filename)}</path>
+                <readMode>Complete File</readMode>
+                <startLineNum>0</startLineNum>
+                <lineNum>0</lineNum>
+                <contentType>application/binary</contentType>
+                <includeResultTo>Message Body</includeResultTo>
+                <enableStreaming>false</enableStreaming>
+                <enableLock>false</enableLock>
+            </file.read>
+            <sequence key="Upload_To_SFTP_Seq"/>
             <file.move configKey="LOCAL_FILE_DIR">
                 <sourcePath>{fn:concat($ctx:scanningDir,'/',$ctx:filename)}</sourcePath>
                 <targetPath>{$ctx:archivedDir}</targetPath>
@@ -46,6 +57,24 @@
                 <property name="UPLOAD_SUCCESSFUL" scope="default" type="STRING" value="true"/>
                 <property expression="//moveFilesResult/success/text()" name="ARCHIVE_SUCCESSFUL" scope="default" type="STRING"/>
             </propertyGroup>
+            <payloadFactory media-type="xml">
+                <format>
+                    <file xmlns="">
+                        <filename>$1</filename>
+                        <uploadSuccessful>$2</uploadSuccessful>
+                        <archiveSuccessful>$3</archiveSuccessful>
+                    </file>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:filename"/>
+                    <arg evaluator="xml" expression="$ctx:UPLOAD_SUCCESSFUL"/>
+                    <arg evaluator="xml" expression="$ctx:ARCHIVE_SUCCESSFUL"/>
+                </args>
+            </payloadFactory>
         </sequence>
     </foreach>
+    <log level="full">
+        <property name="Message" value="Process completed"/>
+    </log>
+    <respond/>
 </sequence>
