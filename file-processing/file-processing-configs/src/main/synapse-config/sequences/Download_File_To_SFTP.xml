@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Download_File_To_SFTP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <header expression="$body/mediate/Cookie" name="Cookie" scope="transport"/>
-    <payloadFactory media-type="json">
-        <format>{}</format>
-        <args/>
-    </payloadFactory>
-    <property name="HTTP_SC" scope="axis2" type="STRING" value="200"/>
+    <property name="NO_ENTITY_BODY" scope="axis2" type="BOOLEAN" value="false"/>
     <log>
         <property name="Message" value="Loading the file from remote server"/>
     </log>
