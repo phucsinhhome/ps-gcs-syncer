@@ -5,14 +5,13 @@
         <property expression="$ctx:uri.var.docId" name="fileId" scope="default" type="STRING"/>
         <property expression="$body/mediate/sftpDir" name="sftpDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/endpoint" name="endpoint" scope="default" type="STRING"/>
-        <property expression="$body/mediate/resourcePath" name="resourcePath" scope="default" type="STRING"/>
     </propertyGroup>
     <log level="full">
         <property name="Message" value="Loading the file from remote server"/>
         <property expression="$ctx:fileId" name="FileId"/>
     </log>
     <propertyGroup>
-        <property expression="fn:concat('https://',$ctx:endpoint,$ctx:resourcePath,'?docid=',$ctx:fileId)" name="uri.var.fileurl" scope="default" type="STRING"/>
+        <property expression="fn:concat($ctx:endpoint,$ctx:fileId)" name="uri.var.fileurl" scope="default" type="STRING"/>
     </propertyGroup>
     <call>
         <endpoint>

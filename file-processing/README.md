@@ -36,9 +36,22 @@ Go to `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entr
 
 __Configure SFTP__
 
-Append following configuration into `{MI_HOME}/repository/conf/file.properties`
-```properties
-fileProcessing_tempDir=vfs:sftp://username:password@sftp-server
+Similarly, you need to create an local-entry `SFTP_SERVER.xml` at the same directory
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="SFTP_SERVER" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>SFTP_SERVER</name>
+        <workingDir>/</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>SFTP</connectionType>
+        <host>mysftp.com</host>
+        <port>2309</port>
+        <username>username</username>
+        <password>password</password>
+        <userDirectoryIsRoot>false</userDirectoryIsRoot>
+    </file.init>
+</localEntry>
 ```
 __Deploy Composite Exporter Application__
 
