@@ -2,7 +2,7 @@
 <api context="/files" name="FileAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" url-mapping="/upload">
         <inSequence>
-            <sequence key="Form_Submit_File_To_SFTP"/>
+            <sequence key="FileReceiving_Process_Seq"/>
         </inSequence>
         <outSequence/>
         <faultSequence/>
