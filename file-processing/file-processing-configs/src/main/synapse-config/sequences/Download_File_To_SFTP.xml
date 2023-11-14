@@ -2,15 +2,9 @@
 <sequence name="Download_File_To_SFTP" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <header expression="$body/mediate/Cookie" name="Cookie" scope="transport"/>
     <propertyGroup>
-        <property name="NO_ENTITY_BODY" scope="axis2" type="BOOLEAN" value="false"/>
-        <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
         <property expression="$ctx:uri.var.docId" name="fileId" scope="default" type="STRING"/>
         <property expression="$body/mediate/sftpDir" name="sftpDir" scope="default" type="STRING"/>
     </propertyGroup>
-    <payloadFactory media-type="json">
-        <format>{}</format>
-        <args/>
-    </payloadFactory>
     <log level="full">
         <property name="Message" value="Loading the file from remote server"/>
         <property expression="$ctx:fileId" name="FileId"/>
@@ -29,12 +23,14 @@
             </http>
         </endpoint>
     </call>
-    <log>
-        <property name="Message" value="Download completed"/>
-    </log>
     <propertyGroup>
         <property expression="fn:substring($trp:Content-Disposition,18)" name="filename" scope="default" type="STRING"/>
+        <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/binary"/>
     </propertyGroup>
+    <log>
+        <property name="Message" value="Download completed"/>
+        <property expression="$ctx:filename" name="Filename"/>
+    </log>
     <sequence key="Upload_To_SFTP_Seq"/>
     <payloadFactory media-type="json">
         <format>{&#xd;
