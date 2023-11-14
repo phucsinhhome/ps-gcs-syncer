@@ -5,6 +5,7 @@
         <property name="NO_ENTITY_BODY" scope="axis2" type="BOOLEAN" value="false"/>
         <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
         <property expression="$ctx:uri.var.docId" name="fileId" scope="default" type="STRING"/>
+        <property expression="$body/mediate/sftpDir" name="sftpDir" scope="default" type="STRING"/>
     </propertyGroup>
     <payloadFactory media-type="json">
         <format>{}</format>
@@ -34,6 +35,7 @@
     <propertyGroup>
         <property expression="fn:substring($trp:Content-Disposition,18)" name="filename" scope="default" type="STRING"/>
     </propertyGroup>
+    <sequence key="Upload_To_SFTP_Seq"/>
     <payloadFactory media-type="json">
         <format>{&#xd;
 "filename": "$1",&#xd;
