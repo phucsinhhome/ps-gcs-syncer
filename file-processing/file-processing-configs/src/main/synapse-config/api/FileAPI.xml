@@ -27,4 +27,11 @@
             <respond/>
         </faultSequence>
     </resource>
+    <resource methods="POST" url-mapping="/uploadObjectStorage">
+        <inSequence>
+            <sequence key="Local_File_To_Object_Storage"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
 </api>
