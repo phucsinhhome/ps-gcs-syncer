@@ -24,7 +24,7 @@
         <enableLock>false</enableLock>
     </file.read>
     <minio.putObject>
-        <address>https://tst-fileservice-intodigital.spsvietnam.vn</address>
+        <address>{get-property('FILE_SERVICE_ENDPOINT')}</address>
         <bucket>{$ctx:bucket}</bucket>
         <objectKey>{fn:concat($ctx:osDir,'/',get-property('FILE_NAME'))}</objectKey>
         <accessKey>minioadmin</accessKey>

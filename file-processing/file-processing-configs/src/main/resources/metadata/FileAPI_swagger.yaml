@@ -66,13 +66,9 @@ paths:
       requestBody:
         description: Sample Payload
         content:
-          application/json:
+          application/form-data:
             schema:
-              type: object
-              properties:
-                payload:
-                  type: object
-        required: false
+              $ref: '#/components/schemas/LocalFileToObjectStorageReq'
       responses:
         default:
           description: Default response
@@ -122,3 +118,25 @@ components:
         archiveSuccessful:
           type: boolean
           example: true
+    LocalFileToObjectStorageReq:
+      type: object
+      properties:
+        localDir:
+          type: string
+          description: It's relative path to the workingDir defined in LOCAL_FILE_DIR
+            local entry
+          example: /Users/john/Downloads/FileStore/Source
+        filePattern:
+          type: string
+          example: .*.pdf
+        bucket:
+          type: string
+          example: project
+        osDir:
+          type: string
+          description: The directory on Object Storage to which the file will be uploaded
+          example: /test/2023/12
+        topic:
+          type: string
+          description: The kafka topic to which the message will be published
+          example: upload-events

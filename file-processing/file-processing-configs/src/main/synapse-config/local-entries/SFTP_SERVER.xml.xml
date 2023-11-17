@@ -5,8 +5,8 @@
         <workingDir>/</workingDir>
         <fileLockScheme>Local</fileLockScheme>
         <connectionType>SFTP</connectionType>
-        <host/>
-        <port/>
+        <host>sftp.ifr.vn</host>
+        <port>22</port>
         <username/>
         <password/>
         <userDirectoryIsRoot>false</userDirectoryIsRoot>

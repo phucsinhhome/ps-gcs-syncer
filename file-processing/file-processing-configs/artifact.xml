@@ -35,4 +35,7 @@
     <artifact name="IDP_API_GATEWAY_ENDPOINT" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/IDP_API_GATEWAY_ENDPOINT.xml</file>
     </artifact>
+    <artifact name="FILE_SERVICE_ENDPOINT" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/local-entries/FILE_SERVICE_ENDPOINT.xml</file>
+    </artifact>
 </artifacts>

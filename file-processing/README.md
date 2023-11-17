@@ -14,6 +14,37 @@ Below is the detail instruction for each scenario
 - Download Micro Integrator 4.2.0 and extract into directory named `{MI_HOME}`
 
 ## Use cases
+### UC 3: Upload binary file from local storage to File Service (Object Storage)
+The integration will _scan for first file in local directory_, send it to _Object Storage_ and finally publish the relevant message to _Kafka_
+
+__Configure Kafka Endpoint__
+
+In this use case, to be able to publish a message to kafka. We make a POST request to REST API with the body is the message content with `application/json` format.
+
+Create an local-entry in `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entries` and with the name `IDP_API_GATEWAY_ENDPOINT.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="IDP_API_GATEWAY_ENDPOINT" xmlns="http://ws.apache.org/ns/synapse">
+    <![CDATA[https://gw.ifr.vn]]>
+</localEntry>
+```
+
+__Configure File Service Endpoint__
+
+Similarly, create an local-entry named `FILE_SERVICE_ENDPOINT.xml` with following content
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="FILE_SERVICE_ENDPOINT" xmlns="http://ws.apache.org/ns/synapse">
+    <![CDATA[https://fs.ifr.vn]]>
+</localEntry>
+```
+
+__Trigger API__
+
+Call API to `FileAPI` at resource `/uploadObjectStorage` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`. The example and detailed description is mentioned in the API specification.
+
 ### UC 4: Upload binary file from local storage to SFTP server
 The integration will _scan a local directory_ for any PDF files, _upload those files to SFTP server_ and finally _move the upload files_ to local archived folder
 
@@ -45,8 +76,8 @@ Similarly, you need to create an local-entry `SFTP_SERVER.xml` at the same direc
         <workingDir>/</workingDir>
         <fileLockScheme>Local</fileLockScheme>
         <connectionType>SFTP</connectionType>
-        <host>mysftp.com</host>
-        <port>2309</port>
+        <host>sftp.ifr.vn</host>
+        <port>22</port>
         <username>username</username>
         <password>password</password>
         <userDirectoryIsRoot>false</userDirectoryIsRoot>
