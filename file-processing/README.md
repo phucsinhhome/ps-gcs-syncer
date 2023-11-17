@@ -84,6 +84,9 @@ Similarly, you need to create an local-entry `SFTP_SERVER.xml` at the same direc
     </file.init>
 </localEntry>
 ```
+
+> If password contains special characters like `@`, then replace them with hex representation as mentioned in section below
+
 __Deploy Composite Exporter Application__
 
 Right click on project `file-processing-local-to-sftp-composite-exporter` > `Export Composite Application Project` to export it to `{MI_HOME}/repository/deployment/server/carbonapps`. Wait for the MI deploy the necessary artifacts sucessfully.
@@ -91,3 +94,33 @@ Right click on project `file-processing-local-to-sftp-composite-exporter` > `Exp
 __Trigger API__
 
 Call API to `FileAPI` at resource `/uploadSftp` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`. The example and detailed description is mentioned in the API specification.
+
+## Hex Representation
+ | Char  | Hex Code |
+ |------|-------- |
+ | [space] | %20
+ |    " |    %22
+ |    # |    %23
+ |    $ |    %24
+ |    % |    %25
+ |    & |    %26
+ |    ' |    %27
+ |    ( |    %28
+ |    ) |    %29
+ |    * |    %2A
+ |    + |    %2B
+ |    , |    %2C
+ |    - |    %2D
+ |    . |    %2E
+ |    / |    %2F
+ |    : |    %3A
+ |    ; |    %3B
+ |    < |    %3C
+ |    = |    %3D
+ |    > |    %3E
+ |    ? |    %3F
+ |    @ |    %40
+ |    \ |    %5C
+ |    ^ |    %5E
+ |    ` |    %60
+ |    | |    %7C
