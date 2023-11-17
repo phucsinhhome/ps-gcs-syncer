@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="Upload_To_SFTP_Seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="Write_To_Local_Storage" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <log>
-        <property name="Message" value="Prepare to upload file to SFTP server"/>
+        <property name="Message" value="Prepare to write file to local storage"/>
         <property expression="$ctx:filename" name="Filename"/>
         <property expression="$ctx:targetDir" name="Directory"/>
     </log>
@@ -21,10 +21,10 @@
         <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
     </propertyGroup>
     <log>
-        <property name="Message" value="Uploading file to SFTP server"/>
+        <property name="Message" value="Writing file to local storage"/>
         <property expression="$ctx:filename" name="Filename"/>
     </log>
-    <file.write configKey="SFTP_SERVER">
+    <file.write configKey="LOCAL_FILE_DIR">
         <filePath>{fn:concat($ctx:targetDir,'/',$ctx:filename)}</filePath>
         <mimeType>application/binary</mimeType>
         <compress>false</compress>
@@ -50,7 +50,7 @@
     </call> -->
     <!-- 7. We define a success message to be the respose of the REST API request. -->
     <log>
-        <property name="Message" value="Upload completed"/>
+        <property name="Message" value="Write file completed"/>
         <property expression="$ctx:filename" name="Filename"/>
     </log>
 </sequence>

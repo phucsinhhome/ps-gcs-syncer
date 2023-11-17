@@ -3,8 +3,9 @@
     <header expression="$body/mediate/Cookie" name="Cookie" scope="transport"/>
     <propertyGroup>
         <property expression="$ctx:uri.var.docId" name="fileId" scope="default" type="STRING"/>
-        <property expression="$body/mediate/sftpDir" name="sftpDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/targetDir" name="targetDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/endpoint" name="endpoint" scope="default" type="STRING"/>
+        <property expression="$body/mediate/target" name="target" scope="default" type="STRING"/>
     </propertyGroup>
     <log level="full">
         <property name="Message" value="Loading the file from remote server"/>
@@ -35,7 +36,14 @@
         <property name="Message" value="Download completed"/>
         <property expression="$ctx:filename" name="Filename"/>
     </log>
-    <sequence key="Upload_To_SFTP_Seq"/>
+    <filter regex="SFTP" source="$target">
+        <then>
+            <sequence key="Upload_To_SFTP_Seq"/>
+        </then>
+        <else>
+            <sequence key="Write_To_Local_Storage"/>
+        </else>
+    </filter>
     <payloadFactory media-type="json">
         <format>{&#xd;
 "filename": "$1",&#xd;

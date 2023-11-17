@@ -6,7 +6,7 @@
     <propertyGroup>
         <property expression="$body/mediate/fileContent/@filename" name="filename" scope="default" type="STRING"/>
         <property expression="$body/mediate/subPath" name="subPath" scope="default" type="STRING"/>
-        <property expression="$body/mediate/subPath" name="sftpDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subPath" name="targetDir" scope="default" type="STRING"/>
     </propertyGroup>
     <payloadFactory media-type="xml">
         <format>

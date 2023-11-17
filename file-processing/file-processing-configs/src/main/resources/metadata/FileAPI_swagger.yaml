@@ -118,6 +118,29 @@ components:
         archiveSuccessful:
           type: boolean
           example: true
+    DownloadFileToSFTPReq:
+      type: object
+      properties:
+        Cookie:
+          type: string
+          description: All the cookies neccessary for authentication against file
+            endpoint
+          example: ASP.NET_SessionId=2ymw1a2vqa...
+        endpoint:
+          type: string
+          description: The file url from which the file would be downloaded. This
+            url will be appened with the `fileId` path variable
+          example: https://file.endpoint?fileId=
+        target:
+          type: string
+          description: Identify the target storage of the file. It's one of SFTP or
+            Local
+          example: SFTP
+        targetDir:
+          type: string
+          description: The sub-directory on SFTP server to which the file will be
+            uploaded
+          example: /project/2023/12
     LocalFileToObjectStorageReq:
       type: object
       properties:

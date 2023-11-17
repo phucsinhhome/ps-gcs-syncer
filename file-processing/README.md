@@ -2,7 +2,7 @@
 
 The implementation helps to process binary file in different integration aspects. So far, it contains following use cases:
 
-- UC 1: Download binary file via REST API and store it into local preconfigured difrectoy
+- UC 1: Download binary file via REST API and store it into local preconfigured directory
 - UC 2: Download binary file via REST API and store it into SFTP server
 - UC 3: Download binary file via REST API and store it into Object Storage
 - UC 4: Upload binary file from local storage to SFTP server
@@ -14,6 +14,62 @@ Below is the detail instruction for each scenario
 - Download Micro Integrator 4.2.0 and extract into directory named `{MI_HOME}`
 
 ## Use cases
+
+### UC 1: Download binary file via REST API and store it into local preconfigured directory
+The integration helps to download binary file from particular REST API endpoint to local storage
+
+__Configure Local File Storage__
+
+Go to `{MI_HOME}/repository/deployment/server/synapse-configs/default/local-entries` and create following local-entry `LOCAL_FILE_DIR.xml`
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="LOCAL_FILE_DIR" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>LOCAL_FILE_DIR</name>
+        <workingDir>C:</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>LOCAL</connectionType>
+    </file.init>
+</localEntry>
+```
+
+__Trigger API__
+
+Call API to `FileAPI` at resource path `/upload/{fileId}` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`. The example and detailed description is mentioned in the API specification.
+
+### UC 2: Download binary file via REST API and store it into SFTP server
+The integration helps to download binary file from particular REST API endpoint then upload that file to SFTP server. The File API authentication is supported with following mechanism:
+- Cookie
+- Basic
+
+__Configure SFTP__
+
+Similarly, you need to create an local-entry `SFTP_SERVER.xml` at the same directory
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="SFTP_SERVER" xmlns="http://ws.apache.org/ns/synapse">
+    <file.init>
+        <name>SFTP_SERVER</name>
+        <workingDir>/</workingDir>
+        <fileLockScheme>Local</fileLockScheme>
+        <connectionType>SFTP</connectionType>
+        <host>sftp.ifr.vn</host>
+        <port>22</port>
+        <username>username</username>
+        <password>password</password>
+        <userDirectoryIsRoot>false</userDirectoryIsRoot>
+    </file.init>
+</localEntry>
+```
+
+> If password contains special characters like `@`, then replace them with hex representation as mentioned in section below
+
+
+__Trigger API__
+
+Call API to `FileAPI` at resource path `/upload/{fileId}` which is composed in `file-processing/file-processing-configs/src/main/resources/metadata/FileAPI_swagger.yaml`. The example and detailed description is mentioned in the API specification.
+
 ### UC 3: Upload binary file from local storage to File Service (Object Storage)
 The integration will _scan for first file in local directory_, send it to _Object Storage_ and finally publish the relevant message to _Kafka_
 
