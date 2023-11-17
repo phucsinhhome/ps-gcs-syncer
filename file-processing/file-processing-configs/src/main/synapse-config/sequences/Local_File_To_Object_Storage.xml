@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Local_File_To_Object_Storage" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <propertyGroup>
-        <property name="bucket" scope="default" type="STRING" value="intodigital"/>
-        <property name="osDir" scope="default" type="STRING" value="/dnb/samples"/>
+        <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
+        <property expression="$body/mediate/osDir" name="osDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
+        <property expression="$body/mediate/localDir" name="localDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
     </propertyGroup>
+    <log>
+        <property name="Message" value="Reading file from local storage"/>
+        <property expression="$ctx:localDir" name="Local Dir"/>
+        <property expression="$ctx:filePattern" name="File Pattern"/>
+    </log>
     <file.read configKey="LOCAL_FILE_DIR">
-        <path>/Users/thminh_1/Downloads/FileProcessing/Source</path>
-        <filePattern>.*.pdf</filePattern>
+        <path>{$ctx:localDir}</path>
+        <filePattern>{$ctx:filePattern}</filePattern>
         <readMode>Complete File</readMode>
         <startLineNum>0</startLineNum>
         <lineNum>0</lineNum>
@@ -34,25 +42,7 @@
             <arg evaluator="xml" expression="fn:concat($ctx:bucket,$ctx:osDir,'/',get-property('FILE_NAME'))"/>
         </args>
     </payloadFactory>
-    <propertyGroup>
-        <property name="uri.var.apigateway" scope="default" type="STRING" value="https://tst-gw-intodigital.spsvietnam.vn"/>
-        <property name="uri.var.topic" scope="default" type="STRING" value="events"/>
-        <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
-    </propertyGroup>
-    <call>
-        <endpoint>
-            <http method="post" uri-template="{uri.var.apigateway}/event/api/event/{uri.var.topic}">
-                <suspendOnFailure>
-                    <initialDuration>-1</initialDuration>
-                    <progressionFactor>-1</progressionFactor>
-                    <maximumDuration>0</maximumDuration>
-                </suspendOnFailure>
-                <markForSuspension>
-                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
-                </markForSuspension>
-            </http>
-        </endpoint>
-    </call>
+    <sequence key="Publish_Message_To_Kafka"/>
     <propertyGroup>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>

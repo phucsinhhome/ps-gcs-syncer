@@ -29,4 +29,10 @@
     <artifact name="Local_File_To_Object_Storage" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Local_File_To_Object_Storage.xml</file>
     </artifact>
+    <artifact name="Publish_Message_To_Kafka" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Publish_Message_To_Kafka.xml</file>
+    </artifact>
+    <artifact name="IDP_API_GATEWAY_ENDPOINT" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/local-entries/IDP_API_GATEWAY_ENDPOINT.xml</file>
+    </artifact>
 </artifacts>
