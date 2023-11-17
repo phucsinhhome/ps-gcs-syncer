@@ -36,7 +36,7 @@
         <property name="Message" value="Download completed"/>
         <property expression="$ctx:filename" name="Filename"/>
     </log>
-    <filter regex="SFTP" source="$target">
+    <filter regex="SFTP" source="$ctx:target">
         <then>
             <sequence key="Upload_To_SFTP_Seq"/>
         </then>
