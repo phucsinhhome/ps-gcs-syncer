@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="Read_Email_And_Send_To_Kafka" statistics="enable" trace="enable" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="Read_Email_And_Send_To_Kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <log>
         <property name="Message" value="Processing mailbox"/>
     </log>
     <email.list configKey="imapsconnection">
         <deleteAfterRetrieve>false</deleteAfterRetrieve>
     </email.list>
-    <foreach expression="json-eval($.emails.email)">
+    <log level="full">
+        <property name="Message" value="List email completed"/>
+    </log>
+    <foreach expression="//emails/email">
         <sequence>
             <log level="full">
                 <property name="Message" value="Process each email"/>

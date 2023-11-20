@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<api context="/email" name="EmailAPI" statistics="enable" trace="enable" xmlns="http://ws.apache.org/ns/synapse">
+<api context="/email" name="EmailAPI" xmlns="http://ws.apache.org/ns/synapse">
     <resource methods="POST" url-mapping="/inbox/read">
         <inSequence>
             <sequence key="Read_Email_And_Send_To_Kafka"/>
