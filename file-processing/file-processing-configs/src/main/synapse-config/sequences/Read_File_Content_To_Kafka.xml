@@ -73,6 +73,9 @@ java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
             <sequence key="Publish_Message_To_Kafka"/>
         </sequence>
     </foreach>
+    <log level="full">
+        <property name="Message" value="Build response message"/>
+    </log>
     <propertyGroup>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>
