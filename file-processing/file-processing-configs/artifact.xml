@@ -41,4 +41,7 @@
     <artifact name="Write_To_Local_Storage" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Write_To_Local_Storage.xml</file>
     </artifact>
+    <artifact name="Read_File_Content_To_Kafka" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Read_File_Content_To_Kafka.xml</file>
+    </artifact>
 </artifacts>

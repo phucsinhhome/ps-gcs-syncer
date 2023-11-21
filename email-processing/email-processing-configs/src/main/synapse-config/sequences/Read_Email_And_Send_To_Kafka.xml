@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Read_Email_And_Send_To_Kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/folder" name="folder" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subjectRegex" name="subjectRegex" scope="default" type="STRING"/>
+    </propertyGroup>
     <log>
         <property name="Message" value="Processing mailbox"/>
+        <property expression="$ctx:folder" name="Folder"/>
     </log>
     <email.list configKey="imapsconnection">
         <deleteAfterRetrieve>false</deleteAfterRetrieve>
+        <seen>true</seen>
+        <limit>10</limit>
+        <folder>{$ctx:folder}</folder>
     </email.list>
     <log level="full">
         <property name="Message" value="List email completed"/>
+        <property expression="get-property('PROPERTY_EMAILS')" name="PROPERTY_EMAILS"/>
     </log>
     <foreach expression="//emails/email">
         <sequence>

@@ -20,6 +20,7 @@
     <vn.ds.study.sequence_._Publish_Message_To_Kafka>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Publish_Message_To_Kafka>
     <vn.ds.study.sequence_._Local_File_To_SFTP>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Local_File_To_SFTP>
     <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
+    <vn.ds.study.sequence_._Read_File_Content_To_Kafka>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Read_File_Content_To_Kafka>
     <vn.ds.study.sequence_._Write_To_Local_Storage>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Write_To_Local_Storage>
     <vn.ds.study.sequence_._Local_File_To_Object_Storage>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Local_File_To_Object_Storage>
     <vn.ds.study.metadata_._FileAPI_swagger>capp/EnterpriseServiceBus</vn.ds.study.metadata_._FileAPI_swagger>
@@ -91,6 +92,12 @@
     <dependency>
       <groupId>vn.ds.study.sequence</groupId>
       <artifactId>Write_To_Local_Storage</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>Read_File_Content_To_Kafka</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
     </dependency>

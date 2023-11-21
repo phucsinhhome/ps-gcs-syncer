@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Read_File_Content_To_Kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/sourceDir" name="sourceDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/archiveDir" name="archiveDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
+        <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log/>
+    <file.listFiles configKey="LOCAL_FILE_DIR">
+        <directoryPath>{$ctx:sourceDir}</directoryPath>
+        <matchingPattern>{$ctx:filePattern}</matchingPattern>
+        <recursive>false</recursive>
+        <responseFormat>Hierarchical</responseFormat>
+        <sortingAttribute>Name</sortingAttribute>
+        <sortingOrder>Ascending</sortingOrder>
+    </file.listFiles>
+    <foreach expression="//listFilesResult/directory/file">
+        <sequence>
+            <propertyGroup>
+                <property expression="//file/text()" name="filename" scope="default" type="STRING"/>
+            </propertyGroup>
+            <file.read configKey="LOCAL_FILE_DIR">
+                <path>{fn:concat($ctx:sourceDir,'/',$ctx:filename)}</path>
+                <readMode>Complete File</readMode>
+                <startLineNum>0</startLineNum>
+                <lineNum>0</lineNum>
+                <contentType>text/plain</contentType>
+                <includeResultTo>Message Body</includeResultTo>
+                <enableStreaming>false</enableStreaming>
+                <enableLock>false</enableLock>
+            </file.read>
+            <property expression="//text()" name="fileContent" scope="default" type="STRING"/>
+            <script language="js"><![CDATA[var content =mc.getProperty('fileContent');
+java.lang.System.out.println('CONTENT: ' + content); 
+
+var match = content.match(/(From: [A-Za-z ",@.]+<)([A-Za-z.-]+@[a-z.]+)/);
+mc.setProperty('fromEmail', match[2]);
+java.lang.System.out.println('FROM EMAIL: ' + match[2]);
+
+var match = content.match(/(To: [A-Za-z ",@.]+<)([A-Za-z.-]+@[a-z.]+)/);
+mc.setProperty('toEmail', match[2]);
+java.lang.System.out.println('TO EMAIL: ' + match[2]);
+
+
+var match = content.match(/(Subject: )(.+)/);
+mc.setProperty('subject', match[2]);
+java.lang.System.out.println('SUBJECT: ' + match[2]);
+
+var match = content.match(/(Date: )(.+)/);
+mc.setProperty('receivedDate', match[2]);
+java.lang.System.out.println('DATE: ' + match[2]);
+
+var parts = content.split('----------');
+mc.setProperty('emailBody', parts[1]);
+java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
+            <propertyGroup/>
+            <log level="full">
+                <property name="Message" value="Read file completed"/>
+            </log>
+            <payloadFactory media-type="json">
+                <format>{"email": { "subject": "$1", "from": "$2", "to": "$3","cc": "$4", "time": "$5", "content": "$6"}}</format>
+                <args>
+                    <arg evaluator="xml" expression="get-property('subject')"/>
+                    <arg evaluator="xml" expression="get-property('fromEmail')"/>
+                    <arg evaluator="xml" expression="get-property('toEmail')"/>
+                    <arg value="Sample"/>
+                    <arg evaluator="xml" expression="get-property('receivedDate')"/>
+                    <arg evaluator="xml" expression="get-property('emailBody')"/>
+                </args>
+            </payloadFactory>
+            <log level="full"/>
+            <sequence key="Publish_Message_To_Kafka"/>
+        </sequence>
+    </foreach>
+    <propertyGroup>
+        <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
+    </propertyGroup>
+    <log>
+        <property name="Message" value="Complete processing request"/>
+    </log>
+    <respond/>
+</sequence>

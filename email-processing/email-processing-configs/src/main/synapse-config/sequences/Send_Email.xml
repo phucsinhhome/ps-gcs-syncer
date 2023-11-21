@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Send_Email" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/from" name="fromEmail" scope="default" type="STRING"/>
+        <property expression="$body/mediate/to" name="toEmails" scope="default" type="STRING"/>
+        <property expression="$body/mediate/subject" name="subject" scope="default" type="STRING"/>
+        <property expression="$body/mediate/content" name="content" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property name="Message" value="Sending email"/>
+    </log>
+    <email.send configKey="smtpconnection">
+        <from>{$ctx:fromEmail}</from>
+        <to>{$ctx:toEmails}</to>
+        <subject>{$ctx:subject}</subject>
+        <content>{$ctx:content}</content>
+    </email.send>
+    <respond/>
+</sequence>

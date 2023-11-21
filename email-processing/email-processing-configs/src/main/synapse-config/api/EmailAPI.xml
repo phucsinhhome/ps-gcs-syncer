@@ -7,4 +7,11 @@
         <outSequence/>
         <faultSequence/>
     </resource>
+    <resource methods="POST" url-mapping="/send">
+        <inSequence>
+            <sequence key="Send_Email"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
 </api>
