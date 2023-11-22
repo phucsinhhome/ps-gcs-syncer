@@ -9,6 +9,9 @@
         <file>src/main/resources/metadata/MediatorTestAPI_metadata.yaml</file>
     </artifact>
     <artifact name="REPOSITORY_DATA_FILE_CONNECTION" groupId="vn.ifa.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
-        <file>\src\main\synapse-config\local-entries\REPOSITORY_DATA_FILE_CONNECTION.xml</file>
+        <file>src/main/synapse-config/local-entries/REPOSITORY_DATA_FILE_CONNECTION.xml</file>
+    </artifact>
+    <artifact name="JSON_Path_Filter" groupId="vn.ifa.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/JSON_Path_Filter.xml</file>
     </artifact>
 </artifacts>

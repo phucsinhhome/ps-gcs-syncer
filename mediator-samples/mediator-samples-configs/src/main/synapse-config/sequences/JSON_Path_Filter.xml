@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="JSON_Path_Filter" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="json-eval($.filterPath)" name="filterPath" scope="default" type="STRING"/>
+        <property expression="json-eval($.json)" name="json" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log level="full">
+        <property name="Message" value="Test json path filter"/>
+    </log>
+    <property expression="json-eval($.json.hits.hits[*]._source.email)" name="filteredJson" scope="default" type="STRING"/>
+    <log>
+        <property expression="$ctx:filteredJson" name="Filtered JSON"/>
+    </log>
+    <payloadFactory media-type="json">
+        <format>$1</format>
+        <args>
+            <arg evaluator="json" expression="$ctx:filteredJson"/>
+        </args>
+    </payloadFactory>
+    <log level="full"/>
+    <respond/>
+</sequence>
