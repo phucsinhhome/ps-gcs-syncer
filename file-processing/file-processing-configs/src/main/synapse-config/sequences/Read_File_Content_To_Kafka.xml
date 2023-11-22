@@ -5,6 +5,7 @@
         <property expression="$body/mediate/archiveDir" name="archiveDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
         <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
+        <property expression="$body/mediate/archiveAction" name="archiveAction" scope="default" type="STRING"/>
     </propertyGroup>
     <log/>
     <file.listFiles configKey="LOCAL_FILE_DIR">
@@ -53,25 +54,30 @@ mc.setProperty('subject', match[2]);
 java.lang.System.out.println('SUBJECT: ' + match[2]);
 
 var match = content.match(/(Date: )(.+)/);
-mc.setProperty('receivedDate', match[2]);
+mc.setProperty('date', match[2]);
 java.lang.System.out.println('DATE: ' + match[2]);
 
+var match = content.match(/(ID: )(.+)/);
+mc.setProperty('emailId', match[2]);
+java.lang.System.out.println('EMAIL ID: ' + match[2]);
+
 var parts = content.split('----------');
-mc.setProperty('emailBody', parts[1]);
+mc.setProperty('body', parts[1]);
 java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
             <propertyGroup/>
             <log level="full">
                 <property name="Message" value="Read file completed"/>
             </log>
             <payloadFactory media-type="json">
-                <format>{"email": { "subject": "$1", "from": "$2", "to": "$3","cc": "$4", "time": "$5", "content": "$6"}}</format>
+                <format>{"email": { "subject": "$1", "from": "$2", "to": "$3", "time": "$4", "body": "$5","emailId": "$6", "traceId": "$7"}}</format>
                 <args>
                     <arg evaluator="xml" expression="get-property('subject')"/>
                     <arg evaluator="xml" expression="get-property('fromEmail')"/>
                     <arg evaluator="xml" expression="get-property('toEmail')"/>
-                    <arg value="Sample"/>
                     <arg evaluator="xml" expression="get-property('receivedDate')"/>
                     <arg evaluator="xml" expression="get-property('emailBody')"/>
+                    <arg evaluator="xml" expression="get-property('emailId')"/>
+                    <arg evaluator="xml" expression="fn:substring-after(get-property('MessageID'), 'urn:uuid:')"/>
                 </args>
             </payloadFactory>
             <sequence key="Publish_Message_To_Kafka"/>
@@ -79,6 +85,27 @@ java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
                 <property name="Message" value="Read file completed"/>
                 <property expression="$ctx:filename" name="Filename"/>
             </log>
+            <filter regex="MOVE" source="$ctx:archiveAction">
+                <then>
+                    <log>
+                        <property name="Message" value="Moving file to archive dir"/>
+                        <property expression="$ctx:filename" name="Filename"/>
+                    </log>
+                    <file.move configKey="LOCAL_FILE_DIR">
+                        <sourcePath>{fn:concat($ctx:sourceDir,'/',$ctx:filename)}</sourcePath>
+                        <targetPath>{fn:concat($ctx:archiveDir,'/',$ctx:filename)}</targetPath>
+                        <createParentDirectories>true</createParentDirectories>
+                        <includeParent>false</includeParent>
+                        <overwrite>false</overwrite>
+                    </file.move>
+                </then>
+                <else>
+                    <log>
+                        <property name="Message" value="Archive disabled"/>
+                        <property expression="$ctx:filename" name="Filename"/>
+                    </log>
+                </else>
+            </filter>
         </sequence>
     </foreach>
     <propertyGroup>
