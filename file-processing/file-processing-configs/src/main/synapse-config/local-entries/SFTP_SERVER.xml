@@ -5,10 +5,10 @@
         <workingDir>/</workingDir>
         <fileLockScheme>Local</fileLockScheme>
         <connectionType>SFTP</connectionType>
-        <host>sftp.ifr.vn</host>
-        <port>22</port>
-        <username/>
-        <password/>
+        <host>10.10.15.34</host>
+        <port>2309</port>
+        <username>demo</username>
+        <password>Demo%40123</password>
         <userDirectoryIsRoot>false</userDirectoryIsRoot>
     </file.init>
 </localEntry>

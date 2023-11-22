@@ -5,7 +5,8 @@
         <host>imap.mail.eu-west-1.awsapps.com</host>
         <port>993</port>
         <connectionType>IMAPS</connectionType>
-        <username>username</username>
-        <password>password</password>
+        <username>intodigital@spsdip.net</username>
+        <password>12345!Fra</password>
+        <requireTLS>false</requireTLS>
     </email.init>
 </localEntry>

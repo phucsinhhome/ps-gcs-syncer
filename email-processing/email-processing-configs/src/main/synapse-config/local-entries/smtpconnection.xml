@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<localEntry xmlns="http://ws.apache.org/ns/synapse" key="smtpconnection">
+<?xml version="1.0" encoding="UTF-8"?>
+<localEntry key="smtpconnection" xmlns="http://ws.apache.org/ns/synapse">
     <email.init>
-        <connectionType>SMTPS</connectionType>
-        <password>password</password>
-        <host>smtp.ifr.vn</host>
-        <requireTLS>false</requireTLS>
-        <port>465</port>
         <name>smtpconnection</name>
-        <username>username</username>
+        <host>smtp.mail.eu-west-1.awsapps.com</host>
+        <port>465</port>
+        <connectionType>SMTPS</connectionType>
+        <username>intodigital@spsdip.net</username>
+        <password>12345!Fra</password>
+        <requireTLS>false</requireTLS>
     </email.init>
 </localEntry>
