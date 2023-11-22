@@ -15,11 +15,16 @@
         <sortingAttribute>Name</sortingAttribute>
         <sortingOrder>Ascending</sortingOrder>
     </file.listFiles>
+    <log level="full"/>
     <foreach expression="//listFilesResult/directory/file">
         <sequence>
             <propertyGroup>
                 <property expression="//file/text()" name="filename" scope="default" type="STRING"/>
             </propertyGroup>
+            <log level="full">
+                <property name="Message" value="Reading file"/>
+                <property expression="$ctx:filename" name="Filename"/>
+            </log>
             <file.read configKey="LOCAL_FILE_DIR">
                 <path>{fn:concat($ctx:sourceDir,'/',$ctx:filename)}</path>
                 <readMode>Complete File</readMode>
@@ -69,13 +74,13 @@ java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
                     <arg evaluator="xml" expression="get-property('emailBody')"/>
                 </args>
             </payloadFactory>
-            <log level="full"/>
             <sequence key="Publish_Message_To_Kafka"/>
+            <log>
+                <property name="Message" value="Read file completed"/>
+                <property expression="$ctx:filename" name="Filename"/>
+            </log>
         </sequence>
     </foreach>
-    <log level="full">
-        <property name="Message" value="Build response message"/>
-    </log>
     <propertyGroup>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>

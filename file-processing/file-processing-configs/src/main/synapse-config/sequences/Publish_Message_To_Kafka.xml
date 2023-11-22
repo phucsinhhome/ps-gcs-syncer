@@ -9,7 +9,7 @@
         <property name="Message" value="Publishing message to kafka"/>
         <property expression="$ctx:topic" name="Topic"/>
     </log>
-    <call>
+    <call blocking="true">
         <endpoint>
             <http method="post" uri-template="{uri.var.apigateway}/event/api/event/{uri.var.topic}">
                 <suspendOnFailure>
