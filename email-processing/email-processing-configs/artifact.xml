@@ -11,9 +11,6 @@
     <artifact name="Read_Email_And_Send_To_Kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Read_Email_And_Send_To_Kafka.xml</file>
     </artifact>
-    <artifact name="Publish_Message_To_Kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Publish_Message_To_Kafka.xml</file>
-    </artifact>
     <artifact name="imapsconnection" groupId="vn.ifr.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/imapsconnection.xml</file>
     </artifact>
