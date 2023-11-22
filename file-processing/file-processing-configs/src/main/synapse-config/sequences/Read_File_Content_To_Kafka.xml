@@ -54,7 +54,7 @@ mc.setProperty('subject', match[2]);
 java.lang.System.out.println('SUBJECT: ' + match[2]);
 
 var match = content.match(/(Date: )(.+)/);
-mc.setProperty('date', match[2]);
+mc.setProperty('receivedDate', match[2]);
 java.lang.System.out.println('DATE: ' + match[2]);
 
 var match = content.match(/(ID: )(.+)/);
@@ -62,7 +62,7 @@ mc.setProperty('emailId', match[2]);
 java.lang.System.out.println('EMAIL ID: ' + match[2]);
 
 var parts = content.split('----------');
-mc.setProperty('body', parts[1]);
+mc.setProperty('emailBody', parts[1]);
 java.lang.System.out.println('BODY: ' + parts[1]);]]></script>
             <propertyGroup/>
             <log level="full">
