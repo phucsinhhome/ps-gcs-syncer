@@ -10,8 +10,6 @@
     </log>
     <email.list configKey="imapsconnection">
         <deleteAfterRetrieve>false</deleteAfterRetrieve>
-        <seen>true</seen>
-        <limit>10</limit>
         <folder>{$ctx:folder}</folder>
     </email.list>
     <log level="full">
