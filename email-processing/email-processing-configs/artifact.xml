@@ -18,6 +18,6 @@
         <file>src/main/synapse-config/sequences/Send_Email.xml</file>
     </artifact>
     <artifact name="smtpconnection" groupId="vn.ifr.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
-        <file>\src\main\synapse-config\local-entries\smtpconnection.xml</file>
+        <file>src/main/synapse-config/local-entries/smtpconnection.xml</file>
     </artifact>
 </artifacts>
