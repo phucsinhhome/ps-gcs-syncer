@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="jsonpath_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="json-eval($.jsonPath)" name="jsonPath" scope="default" type="STRING"/>
+        <property expression="json-eval($.json)" name="json" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property name="Message" value="Test json path filter"/>
+        <property expression="$ctx:jsonPath" name="jsonPath"/>
+    </log>
+    <property expression="json-eval({$ctx:jsonPath})" name="outputJson" scope="default" type="STRING"/>
+    <log>
+        <property expression="$ctx:outputJson" name="Processed JSON"/>
+    </log>
+    <payloadFactory media-type="json">
+        <format>$1</format>
+        <args>
+            <arg evaluator="json" expression="$ctx:outputJson"/>
+        </args>
+    </payloadFactory>
+    <log>
+        <property name="Message" value="Filter JSON completed"/>
+    </log>
+    <respond/>
+</sequence>

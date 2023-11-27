@@ -1,62 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/mediators" name="MediatorTestAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST" url-mapping="/enrich">
+    <resource methods="POST" uri-template="/{mediator}">
         <inSequence>
-            <log level="full">
-                <property expression="$url:version" name="MI Version"/>
-            </log>
-            <enrich description="Append field &quot;count&quot;">
-                <source clone="true" type="inline">{ "count": 0}</source>
-                <target action="child" xpath="json-eval($)"/>
-            </enrich>
-            <log level="full"/>
-            <enrich description="Replace existing value">
-                <source clone="true" type="inline">10</source>
-                <target xpath="json-eval($.count)"/>
-            </enrich>
-            <log level="full"/>
-            <property name="COUNTER" scope="default" type="INTEGER" value="20"/>
-            <enrich description="Replace by property. It doesn't work with 4.0.0">
-                <source clone="true" type="inline">
-                    <inline xmlns=""/>
-                </source>
-                <target xpath="json-eval($.count)"/>
-            </enrich>
-            <respond/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence>
-            <respond/>
-        </faultSequence>
-    </resource>
-    <resource methods="POST" url-mapping="/foreach">
-        <inSequence>
-            <log level="full"/>
-            <enrich>
-                <source clone="true" type="inline">{ "processedItems":[]}</source>
-                <target action="child" xpath="json-eval($)"/>
-            </enrich>
-            <foreach expression="json-eval($.items)" id="item">
-                <sequence>
-                    <log>
-                        <property expression="json-eval($)" name="Item"/>
-                        <property name="Message" value="Processing ..."/>
-                    </log>
-                </sequence>
-            </foreach>
-            <log>
-                <property name="Message" value="Process done"/>
-            </log>
-            <respond/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence>
-            <respond/>
-        </faultSequence>
-    </resource>
-    <resource methods="POST" url-mapping="/jsonpath">
-        <inSequence>
-            <sequence key="JSON_Path_Filter"/>
+            <sequence key="{fn:concat(get-property('uri.var.mediator'),'_seq')}"/>
         </inSequence>
         <outSequence/>
         <faultSequence/>

@@ -11,7 +11,10 @@
     <artifact name="REPOSITORY_DATA_FILE_CONNECTION" groupId="vn.ifa.study.local-entry" version="1.0.0" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/REPOSITORY_DATA_FILE_CONNECTION.xml</file>
     </artifact>
-    <artifact name="JSON_Path_Filter" groupId="vn.ifa.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/JSON_Path_Filter.xml</file>
+    <artifact name="jsonpath_seq" groupId="vn.ifa.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/jsonpath_seq.xml</file>
+    </artifact>
+    <artifact name="MediatorSequenceTemp" groupId="vn.ifa.study.template" version="1.0.0" type="synapse/sequenceTemplate" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/templates/MediatorSequenceTemp.xml</file>
     </artifact>
 </artifacts>
