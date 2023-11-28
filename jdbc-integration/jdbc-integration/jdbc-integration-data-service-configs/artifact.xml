@@ -1,1 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><artifacts/>
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="EmailDataService" groupId="vn.ifr.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/EmailDataService.dbs</file>
+    </artifact>
+</artifacts>
