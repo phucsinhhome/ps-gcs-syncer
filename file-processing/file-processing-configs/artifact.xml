@@ -8,11 +8,11 @@
     <artifact name="FileAPI_metadata" groupId="vn.ds.study.metadata" version="0.0.1" type="synapse/metadata" serverRole="EnterpriseServiceBus">
         <file>src/main/resources/metadata/FileAPI_metadata.yaml</file>
     </artifact>
-    <artifact name="Form_Submit_File_To_SFTP" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Form_Submit_File_To_SFTP.xml</file>
+    <artifact name="main_form_to_sftp_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_form_to_sftp_seq.xml</file>
     </artifact>
-    <artifact name="Download_File_To_SFTP" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Download_File_To_SFTP.xml</file>
+    <artifact name="main_rest_to_sftp_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_rest_to_sftp_seq.xml</file>
     </artifact>
     <artifact name="Upload_To_SFTP_Seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Upload_To_SFTP_Seq.xml</file>
@@ -20,14 +20,14 @@
     <artifact name="LOCAL_FILE_DIR" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/LOCAL_FILE_DIR.xml</file>
     </artifact>
-    <artifact name="Local_File_To_SFTP" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Local_File_To_SFTP.xml</file>
+    <artifact name="main_local_to_sftp_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_local_to_sftp_seq.xml</file>
     </artifact>
     <artifact name="SFTP_SERVER.xml" groupId="vn.ds.study.local-entry" version="0.0.1" type="synapse/local-entry" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/local-entries/SFTP_SERVER.xml.xml</file>
     </artifact>
-    <artifact name="Local_File_To_Object_Storage" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Local_File_To_Object_Storage.xml</file>
+    <artifact name="main_local_to_s3_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_local_to_s3_seq.xml</file>
     </artifact>
     <artifact name="Publish_Message_To_Kafka" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Publish_Message_To_Kafka.xml</file>
@@ -41,10 +41,7 @@
     <artifact name="Write_To_Local_Storage" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Write_To_Local_Storage.xml</file>
     </artifact>
-    <artifact name="Read_File_Content_To_Kafka" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Read_File_Content_To_Kafka.xml</file>
-    </artifact>
-    <artifact name="Read_DB_To_Kafka" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/Read_DB_To_Kafka.xml</file>
+    <artifact name="main_local_to_kafka_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_local_to_kafka_seq.xml</file>
     </artifact>
 </artifacts>

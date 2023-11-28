@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="Local_File_To_Object_Storage" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+<sequence name="main_local_to_s3_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <propertyGroup>
         <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
         <property expression="$body/mediate/osDir" name="osDir" scope="default" type="STRING"/>

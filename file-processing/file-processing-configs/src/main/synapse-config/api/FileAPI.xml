@@ -1,42 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/files" name="FileAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST" url-mapping="/upload">
+    <resource methods="POST" uri-template="/{source}/{destination}">
         <inSequence>
-            <sequence key="Form_Submit_File_To_SFTP"/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence/>
-    </resource>
-    <resource methods="POST" uri-template="/download/{docId}">
-        <inSequence>
-            <sequence key="Download_File_To_SFTP"/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence/>
-    </resource>
-    <resource methods="POST" url-mapping="/uploadSftp">
-        <inSequence>
-            <sequence key="Local_File_To_SFTP"/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence>
-            <payloadFactory media-type="text">
-                <format>Failed to process the request</format>
-                <args/>
-            </payloadFactory>
-            <respond/>
-        </faultSequence>
-    </resource>
-    <resource methods="POST" url-mapping="/uploadObjectStorage">
-        <inSequence>
-            <sequence key="Local_File_To_Object_Storage"/>
-        </inSequence>
-        <outSequence/>
-        <faultSequence/>
-    </resource>
-    <resource methods="POST" url-mapping="/readTextFile">
-        <inSequence>
-            <sequence key="Read_File_Content_To_Kafka"/>
+            <propertyGroup>
+                <property expression="get-property('uri.var.source')" name="source" scope="default" type="STRING"/>
+                <property expression="get-property('uri.var.destination')" name="destination" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log>
+                <property name="Message" value="Trigger sequence to process file ..."/>
+                <property expression="$ctx:source" name="Source"/>
+                <property expression="$ctx:destination" name="Destination"/>
+            </log>
+            <sequence key="{fn:concat('main_',$ctx:source,'_to_',$ctx:destination,'_seq')}"/>
         </inSequence>
         <outSequence/>
         <faultSequence/>

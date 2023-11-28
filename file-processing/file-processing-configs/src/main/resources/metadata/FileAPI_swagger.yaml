@@ -6,74 +6,23 @@ info:
 servers:
 - url: http://localhost:8290/files
 paths:
-  /upload:
-    post:
-      requestBody:
-        description: Sample Payload
-        content:
-          multipart/form-data:
-            schema:
-              $ref: '#/components/schemas/UploadFile'
-        required: false
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UploadFileResponse'
-  /download/{docId}:
+  /{source}/{destination}:
     post:
       parameters:
-      - name: docId
+      - name: source
         in: path
         required: true
         style: simple
         explode: false
         schema:
           type: string
-      requestBody:
-        description: Sample Payload
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                payload:
-                  type: object
-        required: false
-      responses:
-        default:
-          description: Default response
-  /uploadSftp:
-    post:
-      requestBody:
-        description: Sample Payload
-        content:
-          application/form-data:
-            schema:
-              $ref: '#/components/schemas/LocalFileScanRequest'
-        required: false
-      responses:
-        '200':
-          description: Successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LocalToSFTPResponse'
-  /uploadObjectStorage:
-    post:
-      requestBody:
-        description: Sample Payload
-        content:
-          application/form-data:
-            schema:
-              $ref: '#/components/schemas/LocalFileToObjectStorageReq'
-      responses:
-        default:
-          description: Default response
-  /readTextFile:
-    post:
+      - name: destination
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
       requestBody:
         description: Sample Payload
         content:
