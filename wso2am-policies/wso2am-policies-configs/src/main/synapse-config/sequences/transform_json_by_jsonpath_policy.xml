@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="transform_json_by_jsonpath_policy" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <payloadFactory description="Transform input JSON by JSON Path" media-type="json">
+        <format>
+        $1
+    </format>
+        <args>
+            <arg evaluator="json" expression="{{jsonPath}}"/>
+        </args>
+    </payloadFactory>
+</sequence>

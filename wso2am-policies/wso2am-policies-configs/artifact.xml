@@ -2,8 +2,8 @@
     <artifact name="remove_postfix_policy" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/remove_postfix_policy.xml</file>
     </artifact>
-    <artifact name="extract_elasticsearch_source_policy" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/sequences/extract_elasticsearch_source_policy.xml</file>
+    <artifact name="transform_json_by_jsonpath_policy" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/transform_json_by_jsonpath_policy.xml</file>
     </artifact>
     <artifact name="json_field_to_postfix_policy" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/json_field_to_postfix_policy.xml</file>
