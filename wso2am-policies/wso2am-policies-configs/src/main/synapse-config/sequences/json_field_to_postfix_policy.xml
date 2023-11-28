@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="json_field_to_postfix_policy" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <property expression="json-eval({{jsonPath}})" name="DOC_FILENAME" scope="default" type="STRING"/>
+    <property name="NEW_URL" scope="default" type="STRING" value="{{docIdPostfixPattern}}"/>
+    <rewrite inProperty="NEW_URL" outProperty="NEW_URL">
+        <rewriterule>
+            <action fragment="path" regex="doc_id" type="replace" xpath="get-property('DOC_FILENAME')"/>
+        </rewriterule>
+    </rewrite>
+    <property expression="get-property('NEW_URL')" name="REST_URL_POSTFIX" scope="axis2" type="STRING"/>
+</sequence>
