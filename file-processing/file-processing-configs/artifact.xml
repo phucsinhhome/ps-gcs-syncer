@@ -44,4 +44,7 @@
     <artifact name="main_local_to_kafka_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/main_local_to_kafka_seq.xml</file>
     </artifact>
+    <artifact name="main_localdir_to_s3_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_localdir_to_s3_seq.xml</file>
+    </artifact>
 </artifacts>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="main_localdir_to_s3_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
+        <property expression="$body/mediate/osDir" name="osDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
+        <property expression="$body/mediate/localDir" name="localDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
+        <property expression="$body/mediate/archivedDir" name="archivedDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/archiveAction" name="archiveAction" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property name="Message" value="Reading files..."/>
+        <property expression="$ctx:localDir" name="Local Dir"/>
+        <property expression="$ctx:filePattern" name="File Pattern"/>
+    </log>
+    <file.listFiles configKey="LOCAL_FILE_DIR">
+        <directoryPath>{$ctx:localDir}</directoryPath>
+        <matchingPattern>{$ctx:filePattern}</matchingPattern>
+        <recursive>false</recursive>
+        <responseFormat>Hierarchical</responseFormat>
+        <sortingAttribute>Name</sortingAttribute>
+        <sortingOrder>Ascending</sortingOrder>
+    </file.listFiles>
+    <log level="full"/>
+    <foreach expression="//listFilesResult/directory/file">
+        <sequence>
+            <propertyGroup>
+                <property expression="//file/text()" name="filePath" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log>
+                <property name="Message" value="Reading file from local storage"/>
+                <property expression="$ctx:localDir" name="Local Dir"/>
+                <property expression="$ctx:filePath" name="File"/>
+            </log>
+            <file.read configKey="LOCAL_FILE_DIR">
+                <path>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</path>
+                <readMode>Complete File</readMode>
+                <startLineNum>0</startLineNum>
+                <lineNum>0</lineNum>
+                <contentType>application/binary</contentType>
+                <includeResultTo>Message Body</includeResultTo>
+                <enableStreaming>false</enableStreaming>
+                <enableLock>false</enableLock>
+            </file.read>
+            <propertyGroup>
+                <property expression="fn:concat($ctx:osDir,'/',$ctx:filePath)" name="objectKey" scope="default" type="STRING"/>
+                <property expression="get-property('FILE_NAME')" name="filename" scope="default" type="STRING"/>
+            </propertyGroup>
+            <minio.putObject>
+                <address>{get-property('FILE_SERVICE_ENDPOINT')}</address>
+                <bucket>{$ctx:bucket}</bucket>
+                <objectKey>{$ctx:objectKey}</objectKey>
+                <accessKey>minioadmin</accessKey>
+                <secretKey>minioadmin</secretKey>
+            </minio.putObject>
+            <script language="js"><![CDATA[var filePath =mc.getProperty('filePath');
+var filename =mc.getProperty('filename');
+
+java.lang.System.out.println('Script processing - File Path: ' + filePath + '   Filename: '+ filename); 
+var ext = filename.substring(filename.lastIndexOf('.')+1)
+mc.setProperty('fileFormat', ext);]]></script>
+            <log>
+                <property name="Message" value="Upload completed"/>
+                <property expression="get-property('putObjectResult')" name="PutObjectResult"/>
+                <property expression="$ctx:filename" name="Filename"/>
+            </log>
+            <switch source="$ctx:archiveAction">
+                <case regex="MOVE">
+                    <log/>
+                    <file.move configKey="LOCAL_FILE_DIR">
+                        <sourcePath>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</sourcePath>
+                        <targetPath>{$ctx:archivedDir}</targetPath>
+                        <createParentDirectories>true</createParentDirectories>
+                        <includeParent>false</includeParent>
+                        <overwrite>true</overwrite>
+                    </file.move>
+                    <log>
+                        <property name="Message" value="Archived completed"/>
+                        <property expression="$ctx:filename" name="Filename"/>
+                        <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
+                    </log>
+                </case>
+                <case regex="DELETE">
+                    <log/>
+                    <file.move configKey="LOCAL_FILE_DIR">
+                        <sourcePath>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</sourcePath>
+                        <targetPath>{$ctx:archivedDir}</targetPath>
+                        <createParentDirectories>true</createParentDirectories>
+                        <includeParent>false</includeParent>
+                        <overwrite>true</overwrite>
+                    </file.move>
+                    <log>
+                        <property name="Message" value="Archived completed"/>
+                        <property expression="$ctx:filename" name="Filename"/>
+                        <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
+                    </log>
+                </case>
+                <default>
+                    <log/>
+                </default>
+            </switch>
+            <payloadFactory media-type="json">
+                <format>{"filename":"$1","fileUrl":"$2","fileFormat":"$3"}</format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:filename"/>
+                    <arg evaluator="xml" expression="$ctx:objectKey"/>
+                    <arg evaluator="xml" expression="$ctx:fileFormat"/>
+                </args>
+            </payloadFactory>
+        </sequence>
+    </foreach>
+    <sequence key="Publish_Message_To_Kafka"/>
+    <propertyGroup>
+        <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
+    </propertyGroup>
+    <log level="full">
+        <property name="Message" value="Publish message to kafka successfully"/>
+    </log>
+    <respond/>
+</sequence>
