@@ -17,24 +17,32 @@
     <file.listFiles configKey="LOCAL_FILE_DIR">
         <directoryPath>{$ctx:localDir}</directoryPath>
         <matchingPattern>{$ctx:filePattern}</matchingPattern>
-        <recursive>false</recursive>
-        <responseFormat>Hierarchical</responseFormat>
+        <recursive>true</recursive>
+        <responseFormat>Flat</responseFormat>
         <sortingAttribute>Name</sortingAttribute>
         <sortingOrder>Ascending</sortingOrder>
     </file.listFiles>
     <log level="full"/>
-    <foreach expression="//listFilesResult/directory/file">
+    <foreach expression="//listFilesResult/files/file">
         <sequence>
             <propertyGroup>
-                <property expression="//file/text()" name="filePath" scope="default" type="STRING"/>
+                <property expression="//file/path/text()" name="filePath" scope="default" type="STRING"/>
+                <property expression="//file/name/text()" name="filename" scope="default" type="STRING"/>
             </propertyGroup>
+            <script language="js"><![CDATA[var filePath = mc.getProperty('filePath')
+var localDir = mc.getProperty('localDir')
+var idx = filePath.indexOf(localDir)
+var subPath = filePath.substring(idx + localDir.length() + 1)
+java.lang.System.out.println("Relative path: " + subPath)
+mc.setProperty('fileSubPath', subPath)]]></script>
             <log>
                 <property name="Message" value="Reading file from local storage"/>
                 <property expression="$ctx:localDir" name="Local Dir"/>
                 <property expression="$ctx:filePath" name="File"/>
+                <property expression="$ctx:fileSubPath" name="SubPath"/>
             </log>
             <file.read configKey="LOCAL_FILE_DIR">
-                <path>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</path>
+                <path>{fn:concat($ctx:localDir,'/',$ctx:fileSubPath)}</path>
                 <readMode>Complete File</readMode>
                 <startLineNum>0</startLineNum>
                 <lineNum>0</lineNum>
@@ -44,8 +52,7 @@
                 <enableLock>false</enableLock>
             </file.read>
             <propertyGroup>
-                <property expression="fn:concat($ctx:osDir,'/',$ctx:filePath)" name="objectKey" scope="default" type="STRING"/>
-                <property expression="get-property('FILE_NAME')" name="filename" scope="default" type="STRING"/>
+                <property expression="fn:concat($ctx:osDir,'/',$ctx:fileSubPath)" name="objectKey" scope="default" type="STRING"/>
             </propertyGroup>
             <minio.putObject>
                 <address>{get-property('FILE_SERVICE_ENDPOINT')}</address>
@@ -54,10 +61,9 @@
                 <accessKey>minioadmin</accessKey>
                 <secretKey>minioadmin</secretKey>
             </minio.putObject>
-            <script language="js"><![CDATA[var filePath =mc.getProperty('filePath');
-var filename =mc.getProperty('filename');
+            <script language="js"><![CDATA[var filename =mc.getProperty('filename');
 
-java.lang.System.out.println('Script processing - File Path: ' + filePath + '   Filename: '+ filename); 
+java.lang.System.out.println('Extract file extension from  filename: '+ filename); 
 var ext = filename.substring(filename.lastIndexOf('.')+1)
 mc.setProperty('fileFormat', ext);]]></script>
             <log>
@@ -97,23 +103,53 @@ mc.setProperty('fileFormat', ext);]]></script>
                     </log>
                 </case>
                 <default>
-                    <log/>
+                    <log>
+                        <property name="Message" value="Do nothing with archiving step"/>
+                    </log>
                 </default>
             </switch>
-            <payloadFactory media-type="json">
-                <format>{"filename":"$1","fileUrl":"$2","fileFormat":"$3"}</format>
+            <payloadFactory media-type="xml">
+                <format>
+                    <file xmlns="">
+                        <filename>$1</filename>
+                        <fileUrl>$2</fileUrl>
+                        <fileFormat>$3</fileFormat>
+                    </file>
+                </format>
                 <args>
                     <arg evaluator="xml" expression="$ctx:filename"/>
                     <arg evaluator="xml" expression="$ctx:objectKey"/>
                     <arg evaluator="xml" expression="$ctx:fileFormat"/>
                 </args>
             </payloadFactory>
+            <log level="full">
+                <property name="Message" value="Process file completed"/>
+                <property expression="$ctx:filename" name="Filename"/>
+            </log>
         </sequence>
     </foreach>
+    <log level="full"/>
+    <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+    <jsontransform schema="files"/>
+    <payloadFactory media-type="json">
+        <format>{"files": $1}</format>
+        <args>
+            <arg evaluator="json" expression="$.listFilesResult.files.file"/>
+        </args>
+    </payloadFactory>
+    <property expression="json-eval($.)" name="kafkaMessage" scope="default" type="STRING"/>
+    <log level="full"/>
     <sequence key="Publish_Message_To_Kafka"/>
     <propertyGroup>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>
+    <payloadFactory media-type="json">
+        <format>{ "status": "$1", "kafkaMessage": $2}</format>
+        <args>
+            <arg evaluator="json" expression="$.text"/>
+            <arg evaluator="xml" expression="$ctx:kafkaMessage"/>
+        </args>
+    </payloadFactory>
     <log level="full">
         <property name="Message" value="Publish message to kafka successfully"/>
     </log>

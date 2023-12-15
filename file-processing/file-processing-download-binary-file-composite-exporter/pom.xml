@@ -23,6 +23,7 @@
     <vn.ds.study.sequence_._main_rest_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_rest_to_sftp_seq>
     <vn.ds.study.sequence_._main_local_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_local_to_sftp_seq>
     <vn.ds.study.sequence_._Write_To_Local_Storage>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Write_To_Local_Storage>
+    <vn.ds.study.local-entry_._files>capp/EnterpriseServiceBus</vn.ds.study.local-entry_._files>
     <vn.ds.study.sequence_._main_form_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_form_to_sftp_seq>
     <vn.ds.study.sequence_._main_local_to_s3_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_local_to_s3_seq>
     <vn.ds.study.metadata_._FileAPI_swagger>capp/EnterpriseServiceBus</vn.ds.study.metadata_._FileAPI_swagger>
@@ -105,6 +106,12 @@
     <dependency>
       <groupId>vn.ds.study.sequence</groupId>
       <artifactId>main_localdir_to_s3_seq</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.local-entry</groupId>
+      <artifactId>files</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
     </dependency>
