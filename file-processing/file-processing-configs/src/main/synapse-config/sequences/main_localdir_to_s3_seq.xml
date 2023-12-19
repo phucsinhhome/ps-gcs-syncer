@@ -22,7 +22,28 @@
         <sortingAttribute>Name</sortingAttribute>
         <sortingOrder>Ascending</sortingOrder>
     </file.listFiles>
-    <log level="full"/>
+    <log category="DEBUG" level="full"/>
+    <filter xpath="count(//listFilesResult/files/file) &lt;= 0">
+        <then>
+            <log>
+                <property name="Message" value="No file found"/>
+            </log>
+            <property name="HTTP_SC" scope="axis2" type="STRING" value="404"/>
+            <payloadFactory media-type="json">
+                <format>{ "status": "no_message_sent", "message": "No matched file found in $1"}</format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:localDir"/>
+                </args>
+            </payloadFactory>
+            <respond/>
+        </then>
+        <else>
+            <property expression="count(//listFilesResult/files/file)" name="numOfFile" scope="default" type="STRING"/>
+            <log>
+                <property expression="fn:concat('Found ',$ctx:numOfFile,' file(s)')" name="Message"/>
+            </log>
+        </else>
+    </filter>
     <foreach expression="//listFilesResult/files/file">
         <sequence>
             <propertyGroup>
@@ -73,9 +94,12 @@ mc.setProperty('fileFormat', ext);]]></script>
             </log>
             <switch source="$ctx:archiveAction">
                 <case regex="MOVE">
-                    <log/>
+                    <log>
+                        <property name="Message" value="ARCHIVING: Moving file to archive directory"/>
+                        <property expression="$ctx:fileSubPath" name="File"/>
+                    </log>
                     <file.move configKey="LOCAL_FILE_DIR">
-                        <sourcePath>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</sourcePath>
+                        <sourcePath>{fn:concat($ctx:localDir,'/',$ctx:fileSubPath)}</sourcePath>
                         <targetPath>{$ctx:archivedDir}</targetPath>
                         <createParentDirectories>true</createParentDirectories>
                         <includeParent>false</includeParent>
@@ -83,28 +107,28 @@ mc.setProperty('fileFormat', ext);]]></script>
                     </file.move>
                     <log>
                         <property name="Message" value="Archived completed"/>
-                        <property expression="$ctx:filename" name="Filename"/>
+                        <property expression="$ctx:fileSubPath" name="File"/>
                         <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
                     </log>
                 </case>
                 <case regex="DELETE">
-                    <log/>
-                    <file.move configKey="LOCAL_FILE_DIR">
-                        <sourcePath>{fn:concat($ctx:localDir,'/',$ctx:filePath)}</sourcePath>
-                        <targetPath>{$ctx:archivedDir}</targetPath>
-                        <createParentDirectories>true</createParentDirectories>
-                        <includeParent>false</includeParent>
-                        <overwrite>true</overwrite>
-                    </file.move>
+                    <log>
+                        <property name="Message" value="ARCHIVING: Delete file"/>
+                        <property expression="$ctx:fileSubPath" name="File"/>
+                    </log>
+                    <file.delete configKey="LOCAL_FILE_DIR">
+                        <path>{fn:concat($ctx:localDir,'/',$ctx:fileSubPath)}</path>
+                    </file.delete>
                     <log>
                         <property name="Message" value="Archived completed"/>
-                        <property expression="$ctx:filename" name="Filename"/>
-                        <property expression="//moveFilesResult/success/text()" name="Archive Result"/>
+                        <property expression="$ctx:fileSubPath" name="File"/>
+                        <property expression="//deleteFileResult/success/text()" name="Archive Result"/>
                     </log>
                 </case>
                 <default>
                     <log>
-                        <property name="Message" value="Do nothing with archiving step"/>
+                        <property name="Message" value="ARCHIVING: Do nothing"/>
+                        <property expression="$ctx:fileSubPath" name="File"/>
                     </log>
                 </default>
             </switch>
@@ -122,13 +146,15 @@ mc.setProperty('fileFormat', ext);]]></script>
                     <arg evaluator="xml" expression="$ctx:fileFormat"/>
                 </args>
             </payloadFactory>
-            <log level="full">
+            <log>
                 <property name="Message" value="Process file completed"/>
                 <property expression="$ctx:filename" name="Filename"/>
             </log>
         </sequence>
     </foreach>
-    <log level="full"/>
+    <log category="DEBUG" level="full">
+        <property name="Message" value="Prepare message to kafka"/>
+    </log>
     <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
     <jsontransform schema="files"/>
     <payloadFactory media-type="json">
@@ -138,7 +164,9 @@ mc.setProperty('fileFormat', ext);]]></script>
         </args>
     </payloadFactory>
     <property expression="json-eval($.)" name="kafkaMessage" scope="default" type="STRING"/>
-    <log level="full"/>
+    <log level="full">
+        <property name="Message" value="Calling to send to kafka"/>
+    </log>
     <sequence key="Publish_Message_To_Kafka"/>
     <propertyGroup>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
@@ -150,7 +178,7 @@ mc.setProperty('fileFormat', ext);]]></script>
             <arg evaluator="xml" expression="$ctx:kafkaMessage"/>
         </args>
     </payloadFactory>
-    <log level="full">
+    <log>
         <property name="Message" value="Publish message to kafka successfully"/>
     </log>
     <respond/>
