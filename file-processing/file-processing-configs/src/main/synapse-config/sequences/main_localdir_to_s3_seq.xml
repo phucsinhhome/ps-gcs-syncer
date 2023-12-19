@@ -164,7 +164,7 @@ mc.setProperty('fileFormat', ext);]]></script>
         </args>
     </payloadFactory>
     <property expression="json-eval($.)" name="kafkaMessage" scope="default" type="STRING"/>
-    <log level="full">
+    <log category="DEBUG" level="full">
         <property name="Message" value="Calling to send to kafka"/>
     </log>
     <sequence key="Publish_Message_To_Kafka"/>
