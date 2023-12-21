@@ -8,6 +8,7 @@
         <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
         <property expression="$body/mediate/archivedDir" name="archivedDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/archiveAction" name="archiveAction" scope="default" type="STRING"/>
+        <property expression="$body/mediate/requestId" name="requestId" scope="default" type="STRING"/>
     </propertyGroup>
     <log>
         <property name="Message" value="Reading files..."/>
@@ -30,8 +31,9 @@
             </log>
             <property name="HTTP_SC" scope="axis2" type="STRING" value="404"/>
             <payloadFactory media-type="json">
-                <format>{ "status": "no_message_sent", "message": "No matched file found in $1"}</format>
+                <format>{"requestId": "$1", "status": "no_message_sent", "message": "No matched file found in $2"}</format>
                 <args>
+                    <arg evaluator="xml" expression="$ctx:requestId"/>
                     <arg evaluator="xml" expression="$ctx:localDir"/>
                 </args>
             </payloadFactory>
@@ -158,8 +160,9 @@ mc.setProperty('fileFormat', ext);]]></script>
     <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
     <jsontransform schema="files"/>
     <payloadFactory media-type="json">
-        <format>{"files": $1}</format>
+        <format>{"requestId": "$1", "files": $2}</format>
         <args>
+            <arg evaluator="xml" expression="$ctx:requestId"/>
             <arg evaluator="json" expression="$.listFilesResult.files.file"/>
         </args>
     </payloadFactory>
@@ -172,8 +175,9 @@ mc.setProperty('fileFormat', ext);]]></script>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>
     <payloadFactory media-type="json">
-        <format>{ "status": "$1", "kafkaMessage": $2}</format>
+        <format>{ "requestId": "$1", "status": "$2", "kafkaMessage": $3}</format>
         <args>
+            <arg evaluator="xml" expression="$ctx:requestId"/>
             <arg evaluator="json" expression="$.text"/>
             <arg evaluator="xml" expression="$ctx:kafkaMessage"/>
         </args>

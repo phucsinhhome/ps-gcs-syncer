@@ -1,0 +1,56 @@
+<data transports="http https local" serviceGroup="" serviceNamespace="" name="id_generation">
+  <description>The service to store ID Generators</description>
+  <config id="idgeneration">
+    <property name="driverClassName">org.h2.Driver</property>
+    <property name="url">jdbc:h2:file:./data/id_generation</property>
+    <property name="username">admin</property>
+    <property name="password">admin</property>
+  </config>
+  <query id="readSequence" useConfig="idgeneration">
+    <sql>select * from sequence_generator where sequence_id = :sequenceId</sql>
+    <param type="IN" name="sequenceId" paramType="SCALAR" sqlType="STRING" defaultValue="default" optional="false" />
+  </query>
+  <query id="writeSequence" useConfig="idgeneration">
+    <sql>insert sequence_generator (sequence_id, sequence_name, current_value) values (:sequenceId, :sequenceName, :currentValue)</sql>
+    <param type="IN" name="sequenceId" paramType="SCALAR" sqlType="STRING" optional="false">
+      <validateLength maximum="100" minimum="2" />
+    </param>
+    <param type="IN" name="sequenceName" paramType="SCALAR" sqlType="STRING" optional="false" />
+    <param type="IN" name="currentValue" paramType="SCALAR" sqlType="INTEGER" defaultValue="0" optional="false" />
+  </query>
+  <query id="updateSequence" useConfig="idgeneration">
+    <sql>update sequence_generator set current_value = :currentValue where sequence_id = :sequenceId</sql>
+    <param type="IN" name="sequenceId" paramType="SCALAR" sqlType="STRING" defaultValue="0" optional="false" />
+    <param type="IN" name="currentValue" paramType="SCALAR" sqlType="INTEGER" defaultValue="0" optional="false" />
+  </query>
+  <query id="readSequenceCurrentValue" useConfig="idgeneration">
+    <sql>select current_value from sequence_generator where sequence_id = :sequenceId</sql>
+    <param type="IN" name="sequenceId" paramType="SCALAR" sqlType="STRING" defaultValue="default" optional="false" />
+  </query>
+  <operation name="findSequenceById" disableStreaming="true">
+    <description>Read sequence generator by its id such as 'envelope', 'email',...</description>
+    <call-query href="readSequence">
+      <with-param name="sequenceId" query-param="sequenceId" />
+    </call-query>
+  </operation>
+  <operation name="saveSequence" disableStreaming="true">
+    <description>Write new value into sequence</description>
+    <call-query href="updateSequence">
+      <with-param name="sequenceId" query-param="sequenceId" />
+      <with-param name="currentValue" query-param="currentValue" />
+    </call-query>
+  </operation>
+  <operation name="addSequence" disableStreaming="true">
+    <description>Create a new sequence with id and initial value</description>
+    <call-query href="writeSequence">
+      <with-param name="sequenceId" query-param="sequenceId" />
+      <with-param name="sequenceName" query-param="sequenceName" />
+      <with-param name="currentValue" query-param="currentValue" />
+    </call-query>
+  </operation>
+  <operation name="getSequenceValueById" disableStreaming="true">
+    <call-query href="readSequenceCurrentValue">
+      <with-param name="sequenceId" query-param="sequenceId" />
+    </call-query>
+  </operation>
+</data>

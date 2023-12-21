@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sequence name="main_rest_to_sftp_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <header expression="$body/mediate/Cookie" name="Cookie" scope="transport"/>
+<sequence name="main_rest_to_local_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <propertyGroup>
         <property expression="$body/mediate/docId" name="fileId" scope="default" type="STRING"/>
         <property expression="$body/mediate/targetDir" name="targetDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/endpoint" name="endpoint" scope="default" type="STRING"/>
         <property expression="$body/mediate/target" name="target" scope="default" type="STRING"/>
+        <property expression="$body/mediate/filename" name="filename" scope="default" type="STRING"/>
     </propertyGroup>
     <log level="full">
         <property name="Message" value="Loading the file from remote server"/>
@@ -29,29 +29,31 @@
         </endpoint>
     </call>
     <propertyGroup>
-        <property expression="fn:substring($trp:Content-Disposition,18)" name="filename" scope="default" type="STRING"/>
-        <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/binary"/>
+        <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/json"/>
+        <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>
     <log>
         <property name="Message" value="Download completed"/>
         <property expression="$ctx:filename" name="Filename"/>
     </log>
-    <filter regex="SFTP" source="$ctx:target">
-        <then>
-            <sequence key="Upload_To_SFTP_Seq"/>
-        </then>
-        <else>
-            <sequence key="Write_To_Local_Storage"/>
-        </else>
-    </filter>
+    <property expression="json-eval($.aiData)" name="stringifiedAiData" scope="default" type="STRING"/>
+    <property expression="$ctx:stringifiedAiData" name="aiData" scope="default" type="STRING"/>
+    <file.write configKey="LOCAL_FILE_DIR">
+        <filePath>{fn:concat($ctx:targetDir,'/',$ctx:filename)}</filePath>
+        <contentOrExpression>{$ctx:aiData}</contentOrExpression>
+        <mimeType>Automatic</mimeType>
+        <compress>false</compress>
+        <writeMode>Overwrite</writeMode>
+        <enableStreaming>false</enableStreaming>
+        <appendNewLine>false</appendNewLine>
+        <enableLock>false</enableLock>
+        <includeResultTo>Message Body</includeResultTo>
+        <updateLastModified>true</updateLastModified>
+    </file.write>
     <payloadFactory media-type="json">
-        <format>{&#xd;
-"filename": "$1",&#xd;
-"fileId": $2&#xd;
-}</format>
+        <format>{"filename": "$1"}</format>
         <args>
             <arg evaluator="xml" expression="$ctx:filename"/>
-            <arg evaluator="xml" expression="$ctx:fileId"/>
         </args>
     </payloadFactory>
     <respond/>

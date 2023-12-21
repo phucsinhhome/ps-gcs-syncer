@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="main_id_next_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/sequenceId" name="sequenceId" scope="default" type="STRING"/>
+    </propertyGroup>
+    <dataServiceCall serviceName="id_generation">
+        <operations type="request-box">
+            <operation name="getSequenceValueById">
+                <param evaluator="xml" expression="$ctx:sequenceId" name="sequenceId"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target name="currentValue" type="property"/>
+    </dataServiceCall>
+    <filter regex="[0-9]+" source="$ctx:currentValue">
+        <then>
+            <log>
+                <property name="Message" value="Sequence exists"/>
+                <property expression="$ctx:currentValue" name="Current Value"/>
+            </log>
+        </then>
+        <else>
+            <log>
+                <property name="Message" value="The sequence does not exist"/>
+                <property expression="$ctx:sequenceId" name="Sequence"/>
+            </log>
+            <dataServiceCall serviceName="">
+                <operations type="request-box">
+                    <operation name="addSequence">
+                        <param evaluator="xml" expression="$ctx:sequenceId" name="sequenceId"/>
+                        <param name="sequenceName" value="property_value"/>
+                        <param name="currentValue" value="0"/>
+                    </operation>
+                </operations>
+                <source type="inline"/>
+                <target type="body"/>
+            </dataServiceCall>
+        </else>
+    </filter>
+    <propertyGroup>
+        <property expression="$currentValue + 1" name="newValue" scope="default" type="INTEGER"/>
+    </propertyGroup>
+    <dataServiceCall serviceName="">
+        <operations type="request-box">
+            <operation name="saveSequence">
+                <param evaluator="xml" expression="$ctx:sequenceId" name="sequenceId"/>
+                <param evaluator="xml" expression="$ctx:newValue" name="currentValue"/>
+            </operation>
+        </operations>
+        <source type="inline"/>
+        <target type="body"/>
+    </dataServiceCall>
+</sequence>

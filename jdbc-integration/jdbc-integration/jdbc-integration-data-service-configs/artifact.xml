@@ -2,4 +2,7 @@
     <artifact name="EmailDataService" groupId="vn.ifr.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
         <file>dataservice/EmailDataService.dbs</file>
     </artifact>
+    <artifact name="id_generation" groupId="vn.ifr.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
+        <file>dataservice/id_generation.dbs</file>
+    </artifact>
 </artifacts>
