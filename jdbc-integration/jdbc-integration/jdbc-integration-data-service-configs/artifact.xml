@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="EmailDataService" groupId="vn.ifr.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
-        <file>dataservice/EmailDataService.dbs</file>
-    </artifact>
     <artifact name="id_generation" groupId="vn.ifr.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
         <file>dataservice/id_generation.dbs</file>
+    </artifact>
+    <artifact name="h2" groupId="vn.ifr.study.datasource" version="5.2.45" type="datasource/datasource" serverRole="DataServicesServer">
+        <file>datasource/h2.xml</file>
+    </artifact>
+    <artifact name="postgresql" groupId="vn.ifr.study.datasource" version="5.2.45" type="datasource/datasource" serverRole="DataServicesServer">
+        <file>datasource/postgresql.xml</file>
     </artifact>
 </artifacts>
