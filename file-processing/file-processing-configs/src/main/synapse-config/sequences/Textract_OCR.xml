@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="Textract_OCR" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="fn:concat(get-property('file','API_GATEWAY'),'/textract/api/ocr/file/path')" name="uri.var.textractOCRUrl" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property name="Message" value="Extract text from image with AWS Textract"/>
+        <property expression="$ctx:filePath" name="File Path"/>
+    </log>
+    <payloadFactory media-type="json">
+        <format>{&#xd;
+    "id": "1",&#xd;
+    "filePath": "$1"&#xd;
+}</format>
+        <args>
+            <arg evaluator="xml" expression="$ctx:filePath"/>
+        </args>
+    </payloadFactory>
+    <call>
+        <endpoint>
+            <http method="post" uri-template="{uri.var.textractOCRUrl}">
+                <suspendOnFailure>
+                    <initialDuration>-1</initialDuration>
+                    <progressionFactor>-1</progressionFactor>
+                    <maximumDuration>0</maximumDuration>
+                </suspendOnFailure>
+                <markForSuspension>
+                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                </markForSuspension>
+            </http>
+        </endpoint>
+    </call>
+    <propertyGroup>
+        <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/json"/>
+        <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
+    </propertyGroup>
+    <log level="full">
+        <property name="Message" value="Extract Textract OCR completed"/>
+    </log>
+</sequence>

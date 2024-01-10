@@ -53,4 +53,13 @@
     <artifact name="main_rest_to_local_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/main_rest_to_local_seq.xml</file>
     </artifact>
+    <artifact name="main_convert_ocr_elasticsearch_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_convert_ocr_elasticsearch_seq.xml</file>
+    </artifact>
+    <artifact name="Convert_File" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Convert_File.xml</file>
+    </artifact>
+    <artifact name="Textract_OCR" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Textract_OCR.xml</file>
+    </artifact>
 </artifacts>

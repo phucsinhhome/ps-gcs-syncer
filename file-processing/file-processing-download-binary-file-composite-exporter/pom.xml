@@ -15,6 +15,7 @@
   <description>file-processing-download-binary-file-composite-exporter</description>
   <properties>
     <vn.ds.study.api_._FileAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._FileAPI>
+    <vn.ds.study.sequence_._Convert_File>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Convert_File>
     <vn.ds.study.sequence_._Upload_To_SFTP_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Upload_To_SFTP_Seq>
     <vn.ds.study.sequence_._main_localdir_to_s3_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_localdir_to_s3_seq>
     <vn.ds.study.lib_._minio-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._minio-connector>
@@ -26,10 +27,12 @@
     <vn.ds.study.local-entry_._files>capp/EnterpriseServiceBus</vn.ds.study.local-entry_._files>
     <vn.ds.study.sequence_._main_rest_to_local_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_rest_to_local_seq>
     <vn.ds.study.sequence_._main_form_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_form_to_sftp_seq>
+    <vn.ds.study.sequence_._main_convert_ocr_elasticsearch_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_convert_ocr_elasticsearch_seq>
     <vn.ds.study.sequence_._main_local_to_s3_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_local_to_s3_seq>
     <vn.ds.study.metadata_._FileAPI_swagger>capp/EnterpriseServiceBus</vn.ds.study.metadata_._FileAPI_swagger>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
     <vn.ds.study.sequence_._main_local_to_kafka_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_local_to_kafka_seq>
+    <vn.ds.study.sequence_._Textract_OCR>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Textract_OCR>
   </properties>
   <dependencies>
     <dependency>
@@ -119,6 +122,24 @@
     <dependency>
       <groupId>vn.ds.study.sequence</groupId>
       <artifactId>main_rest_to_local_seq</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>Convert_File</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>main_convert_ocr_elasticsearch_seq</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>Textract_OCR</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
     </dependency>

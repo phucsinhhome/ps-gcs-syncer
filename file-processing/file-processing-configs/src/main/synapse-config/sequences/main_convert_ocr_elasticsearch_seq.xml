@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="main_convert_ocr_elasticsearch_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/fileUrl" name="fileUrl" scope="default" type="STRING"/>
+        <property expression="$body/mediate/toFileFormat" name="toFileFormat" scope="default" type="STRING"/>
+        <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
+        <property expression="$body/mediate/traceId" name="traceId" scope="default" type="STRING"/>
+    </propertyGroup>
+    <sequence key="Convert_File"/>
+    <propertyGroup>
+        <property expression="json-eval($.fileUrl)" name="filePath" scope="default" type="STRING"/>
+    </propertyGroup>
+    <sequence key="Textract_OCR"/>
+    <respond/>
+</sequence>
