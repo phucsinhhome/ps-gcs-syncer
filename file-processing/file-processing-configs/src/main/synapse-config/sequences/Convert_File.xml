@@ -14,7 +14,8 @@
 var filename = fileUrl.substring(fileUrl.lastIndexOf('/')+1)
 var fileFormat = filename.substring(filename.lastIndexOf('.')+1)
 mc.setProperty('filename',filename)
-mc.setProperty('fileFormat',fileFormat)]]></script>
+mc.setProperty('fileFormat',fileFormat)
+mc.setProperty('shortFilename',filename.substring(0,filename.lastIndexOf('.')))]]></script>
     <log>
         <property expression="$ctx:filename" name="Filename"/>
         <property expression="$ctx:filePath" name="File Path"/>

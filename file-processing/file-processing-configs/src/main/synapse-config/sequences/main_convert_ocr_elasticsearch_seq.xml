@@ -11,5 +11,17 @@
         <property expression="json-eval($.fileUrl)" name="filePath" scope="default" type="STRING"/>
     </propertyGroup>
     <sequence key="Textract_OCR"/>
+    <file.write configKey="LOCAL_FILE_DIR">
+        <filePath>{fn:concat('/Users/thminh_1/Documents/BreakerPOD/100 samples/VietnamTest/',$ctx:shortFilename,'_textract.txt')}</filePath>
+        <contentOrExpression>{json-eval($.rawText)}</contentOrExpression>
+        <mimeType>text/plain</mimeType>
+        <compress>false</compress>
+        <writeMode>Overwrite</writeMode>
+        <enableStreaming>false</enableStreaming>
+        <appendNewLine>false</appendNewLine>
+        <enableLock>false</enableLock>
+        <includeResultTo>Message Body</includeResultTo>
+        <updateLastModified>true</updateLastModified>
+    </file.write>
     <respond/>
 </sequence>
