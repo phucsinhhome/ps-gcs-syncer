@@ -7,15 +7,16 @@
         <property name="Message" value="Extract text from image with AWS Textract"/>
         <property expression="$ctx:filePath" name="File Path"/>
     </log>
+    <header action="remove" name="Content-Encoding" scope="transport"/>
     <payloadFactory media-type="json">
-        <format>{&#xd;
-    "id": "1",&#xd;
-    "filePath": "$1"&#xd;
-}</format>
+        <format>{"id": "1","filePath": "$1"}</format>
         <args>
             <arg evaluator="xml" expression="$ctx:filePath"/>
         </args>
     </payloadFactory>
+    <log level="full">
+        <property name="Message" value="Ready to call OCR Textract"/>
+    </log>
     <call>
         <endpoint>
             <http method="post" uri-template="{uri.var.textractOCRUrl}">
