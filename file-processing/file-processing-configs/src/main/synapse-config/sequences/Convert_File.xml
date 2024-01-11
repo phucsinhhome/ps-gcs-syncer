@@ -7,7 +7,7 @@
         <property expression="$ctx:toFileFormat" name="To Format"/>
     </log>
     <propertyGroup>
-        <property expression="fn:concat(get-property('file','API_GATEWAY'),'/convert/convert')" name="uri.var.imageConversionUrl" scope="default" type="STRING"/>
+        <property expression="fn:concat(get-property('file','API_GATEWAY'),'/imageprocessor/convert')" name="uri.var.imageConversionUrl" scope="default" type="STRING"/>
         <property expression="fn:substring($ctx:fileUrl, fn:string-length($ctx:bucket))" name="filePath" scope="default" type="STRING"/>
     </propertyGroup>
     <script language="js"><![CDATA[var fileUrl = mc.getProperty('fileUrl')
