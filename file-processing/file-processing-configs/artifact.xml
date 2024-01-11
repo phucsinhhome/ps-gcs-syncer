@@ -62,4 +62,7 @@
     <artifact name="Textract_OCR" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/Textract_OCR.xml</file>
     </artifact>
+	<artifact name="Azure_OpenAI" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Azure_OpenAI.xml</file>
+    </artifact>
 </artifacts>
