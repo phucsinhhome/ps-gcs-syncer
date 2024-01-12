@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="main_kafka_to_gcs_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <log level="full">
+    <log>
         <property name="Message" value="Receive cache event"/>
+        <property expression="get-property('partitionNo')" name="Partition"/>
+        <property expression="get-property('offset')" name="Offset"/>
+        <property expression="get-property('eventId')" name="Event Id"/>
+        <property expression="get-property('action')" name="Event Action"/>
+        <property expression="get-property('type')" name="Event Type"/>
     </log>
+    <propertyGroup/>
+    <gcs.putObject>
+        <projectId>splendid-sonar-174914</projectId>
+        <bucket>ps_data</bucket>
+        <objectKey>{fn:concat('expense/',get-property('eventId'))}</objectKey>
+    </gcs.putObject>
 </sequence>
