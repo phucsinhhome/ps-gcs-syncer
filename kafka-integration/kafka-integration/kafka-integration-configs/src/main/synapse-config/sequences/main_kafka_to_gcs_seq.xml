@@ -7,11 +7,21 @@
         <property expression="get-property('eventId')" name="Event Id"/>
         <property expression="get-property('action')" name="Event Action"/>
         <property expression="get-property('type')" name="Event Type"/>
+        <property expression="get-property('topic')" name="Topic"/>
     </log>
-    <propertyGroup/>
-    <gcs.putObject>
-        <projectId>splendid-sonar-174914</projectId>
-        <bucket>ps_data</bucket>
-        <objectKey>{fn:concat('expense/',get-property('eventId'))}</objectKey>
-    </gcs.putObject>
+    <switch source="get-property('action')">
+        <case regex="EXPIRED"/>
+        <default>
+            <log>
+                <property name="Message" value="Save event to GCS"/>
+                <property expression="$ctx:eventId" name="Event Id"/>
+            </log>
+            <gcs.putObject>
+                <projectId>splendid-sonar-174914</projectId>
+                <bucket>ps_data</bucket>
+                <objectKey>{fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('eventId'),'.json')}</objectKey>
+                <content>{json-eval($.)}</content>
+            </gcs.putObject>
+        </default>
+    </switch>
 </sequence>
