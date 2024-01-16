@@ -7,7 +7,7 @@
         <parameter name="coordination">true</parameter>
         <parameter name="inbound.behavior">polling</parameter>
         <parameter name="value.deserializer">org.apache.kafka.common.serialization.StringDeserializer</parameter>
-        <parameter name="topic.name">psassistanttest-cache-events</parameter>
+        <parameter name="topic.pattern">[a-z]+-cache-events</parameter>
         <parameter name="poll.timeout">100</parameter>
         <parameter name="bootstrap.servers">phucsinhhcm.hopto.org:9092</parameter>
         <parameter name="group.id">gcs-syncer</parameter>
