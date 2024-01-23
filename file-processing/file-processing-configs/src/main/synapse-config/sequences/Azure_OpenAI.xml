@@ -33,8 +33,12 @@
                     <maximumDuration>0</maximumDuration>
                 </suspendOnFailure>
                 <markForSuspension>
-                    <retriesBeforeSuspension>0</retriesBeforeSuspension>
+                    <retriesBeforeSuspension>3</retriesBeforeSuspension>
+                    <retryDelay>2000</retryDelay>
                 </markForSuspension>
+                <retryConfig>
+                    <disabledErrorCodes>400</disabledErrorCodes>
+                </retryConfig>
             </http>
         </endpoint>
     </call>
