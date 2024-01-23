@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/object" name="ObjectStorageAPI" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="POST" uri-template="/{bucket}/{objectKey}">
+        <inSequence>
+            <propertyGroup>
+                <property expression="get-property('uri.var.bucket')" name="bucket" scope="default" type="STRING"/>
+                <property expression="get-property('uri.var.objectKey')" name="objectKey" scope="default" type="STRING"/>
+            </propertyGroup>
+            <sequence key="put_object_gcs"/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

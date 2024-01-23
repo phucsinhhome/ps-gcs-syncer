@@ -12,16 +12,11 @@
     <switch source="get-property('action')">
         <case regex="EXPIRED"/>
         <default>
-            <log>
-                <property name="Message" value="Save event to GCS"/>
-                <property expression="$ctx:eventId" name="Event Id"/>
-            </log>
-            <gcs.putObject>
-                <projectId>splendid-sonar-174914</projectId>
-                <bucket>ps_data</bucket>
-                <objectKey>{fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('eventId'),'.json')}</objectKey>
-                <content>{json-eval($.)}</content>
-            </gcs.putObject>
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+            </propertyGroup>
+            <sequence key="put_object_gcs"/>
         </default>
     </switch>
 </sequence>
