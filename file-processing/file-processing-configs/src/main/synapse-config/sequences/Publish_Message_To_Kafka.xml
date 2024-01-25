@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <sequence name="Publish_Message_To_Kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
     <propertyGroup>
-        <property expression="get-property('IDP_API_GATEWAY_ENDPOINT')" name="uri.var.apigateway" scope="default" type="STRING"/>
+        <property expression="get-property('file','IDP_API_GATEWAY_ENDPOINT')" name="uri.var.apigateway" scope="default" type="STRING"/>
         <property expression="$ctx:topic" name="uri.var.topic" scope="default" type="STRING"/>
         <property name="ContentType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>

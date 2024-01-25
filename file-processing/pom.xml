@@ -12,6 +12,7 @@
     <module>file-processing-connector-exporter</module>
     <module>file-processing-configs</module>
     <module>file-processing-download-binary-file-composite-exporter</module>
+    <module>equity-ers-composite-exporter</module>
   </modules>
   <scm>
     <connection>scm:git:https://github.com/username/repository.git</connection>

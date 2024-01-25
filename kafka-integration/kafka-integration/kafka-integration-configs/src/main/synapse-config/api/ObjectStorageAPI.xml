@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/object" name="ObjectStorageAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST GET" uri-template="/{bucket}">
+    <resource methods="POST GET" uri-template="/gcs">
         <inSequence>
             <propertyGroup>
-                <property expression="get-property('uri.var.bucket')" name="bucket" scope="default" type="STRING"/>
+                <property expression="get-property('query.param.bucket')" name="bucket" scope="default" type="STRING"/>
                 <property expression="get-property('query.param.objectKey')" name="objectKey" scope="default" type="STRING"/>
                 <property expression="get-property('query.param.eventId')" name="eventId" scope="default" type="STRING"/>
                 <property expression="get-property('axis2','HTTP_METHOD')" name="method" scope="default" type="STRING"/>

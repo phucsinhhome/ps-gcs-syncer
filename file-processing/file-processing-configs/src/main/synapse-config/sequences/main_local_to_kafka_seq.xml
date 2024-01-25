@@ -6,12 +6,13 @@
         <property expression="$body/mediate/filePattern" name="filePattern" scope="default" type="STRING"/>
         <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
         <property expression="$body/mediate/archiveAction" name="archiveAction" scope="default" type="STRING"/>
+        <property expression="$body/mediate/includeSubDir" name="includeSubDir" scope="default" type="STRING"/>
     </propertyGroup>
     <log/>
     <file.listFiles configKey="LOCAL_FILE_DIR">
         <directoryPath>{$ctx:sourceDir}</directoryPath>
         <matchingPattern>{$ctx:filePattern}</matchingPattern>
-        <recursive>false</recursive>
+        <recursive>{$ctx:includeSubDir}</recursive>
         <responseFormat>Hierarchical</responseFormat>
         <sortingAttribute>Name</sortingAttribute>
         <sortingOrder>Ascending</sortingOrder>
