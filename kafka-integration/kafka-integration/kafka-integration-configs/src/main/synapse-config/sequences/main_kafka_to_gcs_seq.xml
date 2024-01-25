@@ -15,6 +15,7 @@
             <propertyGroup>
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
             </propertyGroup>
             <sequence key="put_object_gcs"/>
         </default>

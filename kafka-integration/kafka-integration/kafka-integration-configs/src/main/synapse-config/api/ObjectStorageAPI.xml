@@ -1,12 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/object" name="ObjectStorageAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST" uri-template="/{bucket}/{objectKey}">
+    <resource methods="POST GET" uri-template="/{bucket}">
         <inSequence>
             <propertyGroup>
                 <property expression="get-property('uri.var.bucket')" name="bucket" scope="default" type="STRING"/>
-                <property expression="get-property('uri.var.objectKey')" name="objectKey" scope="default" type="STRING"/>
+                <property expression="get-property('query.param.objectKey')" name="objectKey" scope="default" type="STRING"/>
+                <property expression="get-property('query.param.eventId')" name="eventId" scope="default" type="STRING"/>
+                <property expression="get-property('axis2','HTTP_METHOD')" name="method" scope="default" type="STRING"/>
+                <property expression="$trp:Content-Type" name="contentType" scope="default" type="STRING"/>
             </propertyGroup>
-            <sequence key="put_object_gcs"/>
+            <log>
+                <property name="Message" value="Manipulate object from OS"/>
+                <property expression="$ctx:contentType" name="Content Type"/>
+            </log>
+            <switch source="$ctx:method">
+                <case regex="POST">
+                    <log>
+                        <property name="Message" value="Request to write object to GCS"/>
+                    </log>
+                    <sequence key="put_object_gcs"/>
+                    <payloadFactory media-type="json">
+                        <format>{"bucket": "$1", "objectKey":"$2", "putObjectResult": true}</format>
+                        <args>
+                            <arg evaluator="xml" expression="$ctx:bucket"/>
+                            <arg evaluator="xml" expression="$ctx:objectKey"/>
+                        </args>
+                    </payloadFactory>
+                </case>
+                <case regex="GET">
+                    <log>
+                        <property name="Message" value="Request to read object from GCS"/>
+                    </log>
+                    <sequence key="get_object_gcs"/>
+                    <payloadFactory media-type="json">
+                        <format>$1</format>
+                        <args>
+                            <arg evaluator="json" expression="$"/>
+                        </args>
+                    </payloadFactory>
+                </case>
+                <default>
+                    <log>
+                        <property name="Message" value="The request should be POST, GET, DELET"/>
+                    </log>
+                </default>
+            </switch>
+            <respond/>
         </inSequence>
         <outSequence/>
         <faultSequence/>

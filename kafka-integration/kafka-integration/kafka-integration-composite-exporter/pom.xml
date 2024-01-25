@@ -25,12 +25,6 @@
   </properties>
   <dependencies>
     <dependency>
-      <groupId>vn.ifr.study.inbound-endpoint</groupId>
-      <artifactId>cache_events</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
       <artifactId>main_kafka_to_gcs_seq</artifactId>
       <version>1.0.0</version>
@@ -63,6 +57,12 @@
     <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
       <artifactId>get_object_gcs</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ifr.study.inbound-endpoint</groupId>
+      <artifactId>cache_events</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
