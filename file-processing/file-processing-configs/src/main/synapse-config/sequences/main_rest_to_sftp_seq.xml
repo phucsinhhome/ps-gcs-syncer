@@ -6,6 +6,8 @@
         <property expression="$body/mediate/targetDir" name="targetDir" scope="default" type="STRING"/>
         <property expression="$body/mediate/endpoint" name="endpoint" scope="default" type="STRING"/>
         <property expression="$body/mediate/target" name="target" scope="default" type="STRING"/>
+        <property expression="$body/mediate/responseContentType" name="responseContentType" scope="default" type="STRING"/>
+        <property expression="$body/mediate/responseFilename" name="responseFilename" scope="default" type="STRING"/>
     </propertyGroup>
     <log level="full">
         <property name="Message" value="Loading the file from remote server"/>
@@ -29,7 +31,7 @@
         </endpoint>
     </call>
     <propertyGroup>
-        <property expression="fn:substring($trp:Content-Disposition,18)" name="filename" scope="default" type="STRING"/>
+        <property expression="$ctx:responseFilename" name="filename" scope="default" type="STRING"/>
         <property name="transport.vfs.ContentType" scope="default" type="STRING" value="application/binary"/>
     </propertyGroup>
     <log>

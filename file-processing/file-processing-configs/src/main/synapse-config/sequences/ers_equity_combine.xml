@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ers_equity_combine" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <propertyGroup>
+        <property expression="$body/mediate/sourceDir" name="sourceDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/docId" name="fileId" scope="default" type="STRING"/>
+        <property expression="$body/mediate/combinedToDir" name="combinedToDir" scope="default" type="STRING"/>
+        <property expression="$body/mediate/combinedToFilename" name="combinedToFilename" scope="default" type="STRING"/>
+    </propertyGroup>
+    <propertyGroup>
+        <property expression="fn:concat($ctx:fileId,'_classification.json')" name="filename" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property expression="fn:concat('Reading file ', $ctx:filename, '...')" name="Message"/>
+    </log>
+    <file.read configKey="LOCAL_FILE_DIR">
+        <path>{fn:concat($ctx:sourceDir,'/',$ctx:filename)}</path>
+        <readMode>Complete File</readMode>
+        <startLineNum>0</startLineNum>
+        <lineNum>0</lineNum>
+        <contentType>application/json</contentType>
+        <includeResultTo>Message Body</includeResultTo>
+        <enableStreaming>false</enableStreaming>
+        <enableLock>false</enableLock>
+    </file.read>
+    <property expression="json-eval($.class)" name="class" scope="default" type="STRING"/>
+    <propertyGroup>
+        <property expression="fn:concat($ctx:fileId,'_extraction.json')" name="filename" scope="default" type="STRING"/>
+    </propertyGroup>
+    <log>
+        <property expression="fn:concat('Reading file ', $ctx:filename, '...')" name="Message"/>
+    </log>
+    <file.read configKey="LOCAL_FILE_DIR">
+        <path>{fn:concat($ctx:sourceDir,'/',$ctx:filename)}</path>
+        <readMode>Complete File</readMode>
+        <startLineNum>0</startLineNum>
+        <lineNum>0</lineNum>
+        <contentType>application/json</contentType>
+        <includeResultTo>Message Body</includeResultTo>
+        <enableStreaming>false</enableStreaming>
+        <enableLock>false</enableLock>
+    </file.read>
+    <property expression="json-eval($.extraction)" name="extraction" scope="default" type="STRING"/>
+    <filter regex="true" source="fn:string-length($ctx:extraction) >10">
+        <then>
+            <log>
+                <property name="Message" value="Extract data fields..."/>
+            </log>
+            <script language="js"><![CDATA[var content =mc.getProperty('extraction');
+//java.lang.System.out.println('CONTENT: ' + content); 
+// INSURANCE CLAIM NUMBER
+var match = content.match(/(Claim Number: )([A-Za-z0-9\/\- .\(\)]+)\n/);
+mc.setProperty('insuranceClaimNumber', match[2]);
+java.lang.System.out.println('InsuranceClaimNumber: ' + match[2]);
+// POLICY REFERENCE NUMBER
+var match = content.match(/(Reference Number: )([A-Za-z0-9\/\- .\(\)]+)\n/);
+mc.setProperty('policyReferenceNumber', match[2]);
+java.lang.System.out.println('PolicyReferenceNumber: ' + match[2]);
+// INCIDENT DATE
+var match = content.match(/(Incident Date: )([A-Za-z0-9\/,\- .\(\)]+)\n/);
+mc.setProperty('incidentDate', match[2]);
+java.lang.System.out.println('IncidentDate: ' + match[2]);
+// VEHICLE REGISTRATION NUMBER
+var match = content.match(/(Vehicle Registration Number: )([A-Za-z0-9\/ .\(\)]+)/);
+mc.setProperty('vehicleRegistrationNumber', match[2]);
+java.lang.System.out.println('VehicleRegistrationNumber: ' + match[2]);]]></script>
+        </then>
+        <else>
+            <log>
+                <property name="Message" value="TOO SHORT"/>
+            </log>
+            <propertyGroup>
+                <property name="insuranceClaimNumber" scope="default" type="STRING" value="''"/>
+                <property name="policyReferenceNumber" scope="default" type="STRING" value="''"/>
+                <property name="incidentDate" scope="default" type="STRING" value="''"/>
+                <property name="vehicleRegistrationNumber" scope="default" type="STRING" value="''"/>
+            </propertyGroup>
+        </else>
+    </filter>
+    <file.write configKey="LOCAL_FILE_DIR">
+        <filePath>{fn:concat($ctx:combinedToDir,'/',$ctx:combinedToFilename)}</filePath>
+        <contentOrExpression>{fn:concat($ctx:fileId,';',$ctx:class,';',$ctx:insuranceClaimNumber,';',$ctx:policyReferenceNumber,';',$ctx:incidentDate,';',$ctx:vehicleRegistrationNumber)}</contentOrExpression>
+        <mimeType>Automatic</mimeType>
+        <writeMode>Append</writeMode>
+        <enableStreaming>false</enableStreaming>
+        <appendNewLine>true</appendNewLine>
+        <enableLock>false</enableLock>
+        <includeResultTo>Message Body</includeResultTo>
+        <updateLastModified>true</updateLastModified>
+    </file.write>
+</sequence>

@@ -13,12 +13,17 @@
             <arg evaluator="xml" expression="$body/attachments/content"/>
         </args>
     </payloadFactory> -->
-    <script language="js"><![CDATA[var binaryNode =       
+    <switch source="$ctx:responseContentType">
+        <case regex="application/binary">
+            <script language="js"><![CDATA[var binaryNode =       
       mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
    binaryNode.setBinary(true);]]></script>
+            <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+        </case>
+        <default/>
+    </switch>
     <propertyGroup>
         <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
-        <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
     </propertyGroup>
     <log>
         <property name="Message" value="Writing file to local storage"/>
@@ -26,7 +31,7 @@
     </log>
     <file.write configKey="LOCAL_FILE_DIR">
         <filePath>{fn:concat($ctx:targetDir,'/',$ctx:filename)}</filePath>
-        <mimeType>application/binary</mimeType>
+        <mimeType>Automatic</mimeType>
         <compress>false</compress>
         <writeMode>Overwrite</writeMode>
         <enableStreaming>false</enableStreaming>
