@@ -15,14 +15,16 @@
   <description>equity-ers-composite-exporter</description>
   <properties>
     <vn.ds.study.api_._FileAPI>capp/EnterpriseServiceBus</vn.ds.study.api_._FileAPI>
-    <vn.ds.study.sequence_._Write_To_Local_Storage>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Write_To_Local_Storage>
-    <vn.ds.study.sequence_._main_equity_ers_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_equity_ers_seq>
     <vn.ds.study.sequence_._Upload_To_SFTP_Seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Upload_To_SFTP_Seq>
     <vn.ds.study.sequence_._Publish_Message_To_Kafka>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Publish_Message_To_Kafka>
+    <vn.ds.study.sequence_._main_equity_ers2_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_equity_ers2_seq>
+    <vn.ds.study.sequence_._Azure_OpenAI>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Azure_OpenAI>
     <vn.ds.study.lib_._file-connector>capp/EnterpriseServiceBus</vn.ds.study.lib_._file-connector>
+    <vn.ds.study.sequence_._main_rest_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_rest_to_sftp_seq>
+    <vn.ds.study.sequence_._Write_To_Local_Storage>capp/EnterpriseServiceBus</vn.ds.study.sequence_._Write_To_Local_Storage>
+    <vn.ds.study.sequence_._main_equity_ers_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_equity_ers_seq>
     <vn.ds.study.sequence_._ers_equity_combine>capp/EnterpriseServiceBus</vn.ds.study.sequence_._ers_equity_combine>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
-    <vn.ds.study.sequence_._main_rest_to_sftp_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_rest_to_sftp_seq>
     <vn.ds.study.sequence_._main_local_to_kafka_seq>capp/EnterpriseServiceBus</vn.ds.study.sequence_._main_local_to_kafka_seq>
   </properties>
   <dependencies>
@@ -77,6 +79,18 @@
     <dependency>
       <groupId>vn.ds.study.sequence</groupId>
       <artifactId>ers_equity_combine</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>main_equity_ers2_seq</artifactId>
+      <version>0.0.1</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ds.study.sequence</groupId>
+      <artifactId>Azure_OpenAI</artifactId>
       <version>0.0.1</version>
       <type>xml</type>
     </dependency>

@@ -71,4 +71,7 @@
     <artifact name="ers_equity_combine" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/ers_equity_combine.xml</file>
     </artifact>
+    <artifact name="main_equity_ers2_seq" groupId="vn.ds.study.sequence" version="0.0.1" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_equity_ers2_seq.xml</file>
+    </artifact>
 </artifacts>

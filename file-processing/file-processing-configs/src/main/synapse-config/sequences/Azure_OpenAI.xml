@@ -4,7 +4,7 @@
         <property expression="fn:concat(get-property('file','API_GATEWAY'),'/openai')" name="uri.var.openAIUrl" scope="default" type="STRING"/>
     </propertyGroup>
     <log>
-        <property name="Message" value="Extract data fields from text with OpenAI"/>
+        <property name="Message" value="Send request to OpenAI"/>
     </log>
     <header action="remove" name="Content-Encoding" scope="transport"/>
     <payloadFactory media-type="json">
@@ -12,7 +12,7 @@
     "messages": [&#xd;
         {&#xd;
             "role": "user",&#xd;
-            "content": "$1 $2"&#xd;
+            "content": "$1"&#xd;
         }&#xd;
     ],&#xd;
     "temperature": 0.7,&#xd;
@@ -20,8 +20,7 @@
     "max_tokens":2000&#xd;
 }</format>
         <args>
-            <arg value="Extract customer customer number from below text:"/>
-            <arg evaluator="xml" expression="$ctx:rawText"/>
+            <arg evaluator="xml" expression="$ctx:prompt"/>
         </args>
     </payloadFactory>
     <call>
@@ -47,6 +46,6 @@
         <property name="messageType" scope="axis2" type="STRING" value="application/json"/>
     </propertyGroup>
     <log level="full">
-        <property name="Message" value="Extract data fields from OpenAI completed"/>
+        <property name="Message" value="Request OpenAI completed"/>
     </log>
 </sequence>
