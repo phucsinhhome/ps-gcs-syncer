@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="ProcessingDataService" groupId="vn.ifa.study.dataservice" version="1.0.0" type="service/dataservice" serverRole="DataServicesServer">
-        <file>dataservice/ProcessingDataService.dbs</file>
-    </artifact>
-</artifacts>

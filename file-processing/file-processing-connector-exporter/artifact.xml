@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="file-connector" groupId="vn.ds.study.lib" version="4.0.18" type="synapse/lib" serverRole="EnterpriseServiceBus">
-        <file>file-connector-4.0.18.zip</file>
-    </artifact>
-</artifacts>
