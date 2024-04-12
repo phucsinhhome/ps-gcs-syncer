@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<sequence name="remove_postfix_policy" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
-    <property action="remove" name="REST_URL_POSTFIX" scope="axis2"/>
-</sequence>

@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="email-connector" groupId="vn.ifr.study.lib" version="1.1.1" type="synapse/lib" serverRole="EnterpriseServiceBus">
-        <file>email-connector-1.1.1.zip</file>
-    </artifact>
-</artifacts>
