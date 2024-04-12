@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><artifacts>
+    <artifact name="Consume_And_Send_Email" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/Consume_And_Send_Email.xml</file>
+    </artifact>
+    <artifact name="main_kafka_to_gcs_seq" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_kafka_to_gcs_seq.xml</file>
+    </artifact>
+    <artifact name="failure_to_log" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/failure_to_log.xml</file>
+    </artifact>
+    <artifact name="cache_events" groupId="vn.ifr.study.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/inbound-endpoints/cache_events.xml</file>
+    </artifact>
+    <artifact name="put_object_gcs" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/put_object_gcs.xml</file>
+    </artifact>
+    <artifact name="get_object_gcs" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/get_object_gcs.xml</file>
+    </artifact>
+    <artifact name="ObjectStorageAPI" groupId="vn.ifr.study.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/ObjectStorageAPI.xml</file>
+    </artifact>
+</artifacts>
