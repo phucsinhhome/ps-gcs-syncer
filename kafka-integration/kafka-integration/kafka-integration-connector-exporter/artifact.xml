@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="gcs-connector" groupId="vn.ifr.study.lib" version="1.0.6" type="synapse/lib" serverRole="EnterpriseServiceBus">
-        <file>gcs-connector-1.0.6.zip</file>
+    <artifact name="gcs-connector" groupId="vn.ifr.study.lib" version="1.0.5" type="synapse/lib" serverRole="EnterpriseServiceBus">
+        <file>gcs-connector-1.0.5.zip</file>
     </artifact>
 </artifacts>
