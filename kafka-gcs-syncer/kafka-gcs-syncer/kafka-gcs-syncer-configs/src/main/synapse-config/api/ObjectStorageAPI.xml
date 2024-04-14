@@ -1,20 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/object" name="ObjectStorageAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST GET" uri-template="/gcs">
+    <resource methods="POST GET" uri-template="/gcs/{operation}">
         <inSequence>
             <propertyGroup>
-                <property expression="get-property('query.param.bucket')" name="bucket" scope="default" type="STRING"/>
-                <property expression="get-property('query.param.objectKey')" name="objectKey" scope="default" type="STRING"/>
-                <property expression="get-property('query.param.eventId')" name="eventId" scope="default" type="STRING"/>
+                <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
+                <property expression="$body/mediate/eventId" name="eventId" scope="default" type="STRING"/>
                 <property expression="get-property('axis2','HTTP_METHOD')" name="method" scope="default" type="STRING"/>
                 <property expression="$trp:Content-Type" name="contentType" scope="default" type="STRING"/>
+                <property expression="get-property('uri.var.operation')" name="operation" scope="default" type="STRING"/>
             </propertyGroup>
             <log>
                 <property name="Message" value="Manipulate object from OS"/>
                 <property expression="$ctx:contentType" name="Content Type"/>
             </log>
-            <switch source="$ctx:method">
-                <case regex="POST">
+            <switch source="$ctx:operation">
+                <case regex="write">
+                    <propertyGroup>
+                        <property expression="$body/mediate/objectKey" name="objectKey" scope="default" type="STRING"/>
+                        <property expression="$body/mediate/file/@filename" name="filename" scope="default" type="STRING"/>
+                    </propertyGroup>
                     <log>
                         <property name="Message" value="Request to write object to GCS"/>
                     </log>
@@ -27,11 +31,44 @@
                         </args>
                     </payloadFactory>
                 </case>
-                <case regex="GET">
+                <case regex="read">
+                    <propertyGroup>
+                        <property expression="$body/mediate/objectKey" name="objectKey" scope="default" type="STRING"/>
+                    </propertyGroup>
                     <log>
                         <property name="Message" value="Request to read object from GCS"/>
                     </log>
                     <sequence key="get_object_gcs"/>
+                    <payloadFactory media-type="json">
+                        <format>$1</format>
+                        <args>
+                            <arg evaluator="json" expression="$"/>
+                        </args>
+                    </payloadFactory>
+                </case>
+                <case regex="list">
+                    <propertyGroup>
+                        <property expression="$body/mediate/objectKeyPrefix" name="objectKeyPrefix" scope="default" type="STRING"/>
+                    </propertyGroup>
+                    <log>
+                        <property name="Message" value="Request to list the objects from GCS"/>
+                    </log>
+                    <sequence key="list_object_by_prefix"/>
+                    <payloadFactory media-type="json">
+                        <format>$1</format>
+                        <args>
+                            <arg evaluator="json" expression="$"/>
+                        </args>
+                    </payloadFactory>
+                </case>
+                <case regex="import">
+                    <propertyGroup>
+                        <property expression="$body/mediate/objectKeyPrefix" name="objectKeyPrefix" scope="default" type="STRING"/>
+                    </propertyGroup>
+                    <log>
+                        <property name="Message" value="Request to import objects from GCS"/>
+                    </log>
+                    <sequence key="main_gcs_to_kafka"/>
                     <payloadFactory media-type="json">
                         <format>$1</format>
                         <args>
