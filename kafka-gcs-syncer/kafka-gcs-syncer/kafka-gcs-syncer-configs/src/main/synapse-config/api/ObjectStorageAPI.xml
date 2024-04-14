@@ -64,6 +64,7 @@
                 <case regex="import">
                     <propertyGroup>
                         <property expression="$body/mediate/objectKeyPrefix" name="objectKeyPrefix" scope="default" type="STRING"/>
+                        <property expression="$body/mediate/topic" name="topic" scope="default" type="STRING"/>
                     </propertyGroup>
                     <log>
                         <property name="Message" value="Request to import objects from GCS"/>

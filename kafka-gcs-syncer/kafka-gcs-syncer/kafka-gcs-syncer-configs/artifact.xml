@@ -26,4 +26,7 @@
     <artifact name="main_gcs_to_kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/main_gcs_to_kafka.xml</file>
     </artifact>
+    <artifact name="publish_message_to_kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/publish_message_to_kafka.xml</file>
+    </artifact>
 </artifacts>

@@ -17,6 +17,7 @@
     <vn.ifr.study.sequence_._main_kafka_to_gcs_seq>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._main_kafka_to_gcs_seq>
     <vn.ifr.study.sequence_._get_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._get_object_gcs>
     <vn.ifr.study.sequence_._put_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._put_object_gcs>
+    <vn.ifr.study.sequence_._publish_message_to_kafka>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._publish_message_to_kafka>
     <vn.ifr.study.api_._ObjectStorageAPI>capp/EnterpriseServiceBus</vn.ifr.study.api_._ObjectStorageAPI>
     <vn.ifr.study.lib_._gcs-connector>capp/EnterpriseServiceBus</vn.ifr.study.lib_._gcs-connector>
     <vn.ifr.study.sequence_._failure_to_log>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._failure_to_log>
@@ -70,6 +71,12 @@
     <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
       <artifactId>main_gcs_to_kafka</artifactId>
+      <version>1.0.0</version>
+      <type>xml</type>
+    </dependency>
+    <dependency>
+      <groupId>vn.ifr.study.sequence</groupId>
+      <artifactId>publish_message_to_kafka</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

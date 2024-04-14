@@ -6,9 +6,39 @@
     </log>
     <foreach expression="$body/listObjectByPrefixResult/objs/obj">
         <sequence>
+            <propertyGroup>
+                <property expression="$body/obj/key" name="objectKey" scope="default" type="STRING"/>
+            </propertyGroup>
             <log level="full">
-                <property name="Message" value="Process object"/>
+                <property name="Message" value="Start importing message object from GCS to KAFKA"/>
+                <property expression="$ctx:objectKey" name="Key"/>
+                <property expression="$ctx:topic" name="Topic"/>
             </log>
+            <sequence key="get_object_gcs"/>
+            <log/>
+            <payloadFactory media-type="json">
+                <format>{"data":$1}</format>
+                <args>
+                    <arg evaluator="json" expression="$"/>
+                </args>
+            </payloadFactory>
+            <sequence key="publish_message_to_kafka"/>
+            <log>
+                <property name="Message" value="Complete importing object from GCS to KAFKA"/>
+                <property expression="$ctx:objectKey" name="Key"/>
+                <property expression="$ctx:topic" name="Topic"/>
+            </log>
+            <payloadFactory media-type="xml">
+                <format>
+                    <obj xmlns="">
+                        <key>$1</key>
+                        <status>published</status>
+                    </obj>
+                </format>
+                <args>
+                    <arg evaluator="xml" expression="$ctx:objectKey"/>
+                </args>
+            </payloadFactory>
         </sequence>
     </foreach>
 </sequence>
