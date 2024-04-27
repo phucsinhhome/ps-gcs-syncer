@@ -20,4 +20,16 @@
     <artifact name="ObjectStorageAPI" groupId="vn.ifr.study.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/api/ObjectStorageAPI.xml</file>
     </artifact>
+    <artifact name="list_object_by_prefix" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/list_object_by_prefix.xml</file>
+    </artifact>
+    <artifact name="main_gcs_to_kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/main_gcs_to_kafka.xml</file>
+    </artifact>
+    <artifact name="publish_message_to_kafka" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/publish_message_to_kafka.xml</file>
+    </artifact>
+    <artifact name="delete_object_gcs" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/delete_object_gcs.xml</file>
+    </artifact>
 </artifacts>

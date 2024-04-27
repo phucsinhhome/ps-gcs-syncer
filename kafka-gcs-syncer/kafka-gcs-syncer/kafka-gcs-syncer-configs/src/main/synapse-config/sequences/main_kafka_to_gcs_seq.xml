@@ -9,29 +9,68 @@
         <property expression="get-property('type')" name="Event Type"/>
         <property expression="get-property('topic')" name="Topic"/>
     </log>
-    <filter regex="expense" source="get-property('type')">
-        <then>
+    <switch source="get-property('type')">
+        <case regex="expense">
             <property expression="json-eval($.expenseDate)" name="partitionedDate" scope="default" type="STRING"/>
             <property expression="fn:substring($ctx:partitionedDate,0,11)" name="partitionedDate" scope="default" type="STRING"/>
-        </then>
-        <else>
+        </case>
+        <case regex="invoice">
             <property expression="json-eval($.checkOutDate)" name="partitionedDate" scope="default" type="STRING"/>
-        </else>
-    </filter>
+        </case>
+        <case regex="reservation">
+            <property expression="json-eval($.checkInDate)" name="partitionedDate" scope="default" type="STRING"/>
+        </case>
+        <default>
+            <log>
+                <property name="Message" value="Invalid event type"/>
+            </log>
+            <respond/>
+        </default>
+    </switch>
     <script language="js"><![CDATA[var p1 = mc.getProperty('partitionedDate')
 mc.setProperty('partitionedDate', p1.replace('-','/'))]]></script>
     <log>
         <property expression="$ctx:partitionedDate" name="Message"/>
     </log>
     <switch source="get-property('action')">
-        <case regex="EXPIRED"/>
-        <default>
+        <case regex="CREATED">
             <propertyGroup>
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partitionedDate'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
             </propertyGroup>
             <sequence key="put_object_gcs"/>
+        </case>
+        <case regex="MODIFIED">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partitionedDate'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+            </propertyGroup>
+            <sequence key="put_object_gcs"/>
+        </case>
+        <case regex="DELETE">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partitionedDate'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+            </propertyGroup>
+            <sequence key="delete_object_gcs"/>
+        </case>
+        <case regex="EXPIRED">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partitionedDate'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+            </propertyGroup>
+            <log>
+                <property name="Message" value="GCS Syncer ignores EXPIRED event"/>
+            </log>
+        </case>
+        <default>
+            <log>
+                <property name="Message" value="GCS ignores event WITHOUT action"/>
+            </log>
         </default>
     </switch>
 </sequence>

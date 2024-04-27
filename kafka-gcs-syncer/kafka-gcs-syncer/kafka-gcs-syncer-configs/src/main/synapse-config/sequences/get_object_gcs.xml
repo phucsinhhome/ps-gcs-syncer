@@ -10,7 +10,7 @@
         <projectId>splendid-sonar-174914</projectId>
         <bucket>{$ctx:bucket}</bucket>
         <objectKey>{$ctx:objectKey}</objectKey>
-        <contentType>application/binary</contentType>
+        <contentType>application/json</contentType>
     </gcs.getObject>
     <log>
         <property name="Message" value="Complete object completed"/>
