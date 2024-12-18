@@ -41,12 +41,37 @@
                         <property name="Message" value="Request to read object from GCS"/>
                     </log>
                     <sequence key="get_object_gcs"/>
-                    <payloadFactory media-type="json">
-                        <format>$1</format>
-                        <args>
-                            <arg evaluator="json" expression="$"/>
-                        </args>
-                    </payloadFactory>
+
+                    <switch source="$ctx:contentType">
+                        <case regex="application/pdf">
+                            <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                        </case>
+                        <case regex="image/png">
+                            <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                        </case>
+                        <case regex="image/jpg">
+                            <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                        </case>
+                        <case regex="image/jpeg">
+                            <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                            <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                        </case>
+                        <default>
+                            <property name="messageType" scope="axis2" type="STRING" expression="$ctx:contentType"/>
+                        </default>
+                        
+                    </switch>
                 </case>
                 <case regex="list">
                     <propertyGroup>

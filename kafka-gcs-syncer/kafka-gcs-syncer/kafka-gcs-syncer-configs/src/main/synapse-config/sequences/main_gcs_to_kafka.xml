@@ -8,6 +8,7 @@
         <sequence>
             <propertyGroup>
                 <property expression="$body/obj/key" name="objectKey" scope="default" type="STRING"/>
+                <property value="application/json" name="contentType" scope="default" type="STRING"/>
             </propertyGroup>
             <log level="full">
                 <property name="Message" value="Start importing message object from GCS to KAFKA"/>

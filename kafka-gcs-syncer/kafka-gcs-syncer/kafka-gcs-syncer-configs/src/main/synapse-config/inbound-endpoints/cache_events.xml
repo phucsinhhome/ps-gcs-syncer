@@ -9,7 +9,7 @@
         <parameter name="value.deserializer">org.apache.kafka.common.serialization.StringDeserializer</parameter>
         <parameter name="topic.pattern">[a-z]+-cache-events</parameter>
         <parameter name="poll.timeout">100</parameter>
-        <parameter name="bootstrap.servers">phucsinhhcm.hopto.org:9092</parameter>
+        <parameter name="bootstrap.servers">kafka:9092</parameter>
         <parameter name="group.id">gcs-syncer</parameter>
         <parameter name="contentType">application/json</parameter>
         <parameter name="key.deserializer">org.apache.kafka.common.serialization.StringDeserializer</parameter>

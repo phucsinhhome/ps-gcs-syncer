@@ -25,6 +25,7 @@
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
             <sequence key="put_object_gcs"/>
         </case>
@@ -33,6 +34,7 @@
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
             <sequence key="put_object_gcs"/>
         </case>
@@ -41,6 +43,7 @@
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
             <sequence key="delete_object_gcs"/>
         </case>
@@ -49,6 +52,7 @@
                 <property name="bucket" scope="default" type="STRING" value="ps_data"/>
                 <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
             <log>
                 <property name="Message" value="GCS Syncer ignores EXPIRED event"/>

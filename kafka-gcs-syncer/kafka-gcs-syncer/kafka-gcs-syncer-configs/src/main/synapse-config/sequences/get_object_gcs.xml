@@ -10,9 +10,10 @@
         <projectId>splendid-sonar-174914</projectId>
         <bucket>{$ctx:bucket}</bucket>
         <objectKey>{$ctx:objectKey}</objectKey>
-        <contentType>application/json</contentType>
     </gcs.getObject>
     <log>
         <property name="Message" value="Complete object completed"/>
+        <property name="ContentType" expression="get-property('contentType')"/>
+        <property name="TransportContentType" expression="$trp:Content-Type"/>
     </log>
 </sequence>
