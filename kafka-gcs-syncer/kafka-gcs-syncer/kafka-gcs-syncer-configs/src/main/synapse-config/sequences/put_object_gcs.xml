@@ -10,6 +10,7 @@
         <projectId>splendid-sonar-174914</projectId>
         <bucket>{$ctx:bucket}</bucket>
         <objectKey>{$ctx:objectKey}</objectKey>
-        <content>{json-eval($.)}</content>
+        <contentType>{$ctx:contentType}</contentType>
+        <content>{$ctx:content}</content>
     </gcs.putObject>
 </sequence>
