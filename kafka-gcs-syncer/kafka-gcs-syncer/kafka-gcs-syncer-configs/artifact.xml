@@ -32,4 +32,7 @@
     <artifact name="delete_object_gcs" groupId="vn.ifr.study.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/delete_object_gcs.xml</file>
     </artifact>
+    <artifact name="gcs_api" groupId="vn.ifr.study.api" version="1.0.0" type="synapse/api" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/api/gcs_api.xml</file>
+    </artifact>
 </artifacts>

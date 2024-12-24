@@ -9,20 +9,16 @@
   </parent>
   <groupId>vn.ifr.study</groupId>
   <artifactId>kafka-gcs-syncer-composite-exporter</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>carbon/application</packaging>
   <name>kafka-gcs-syncer-composite-exporter</name>
   <description>kafka-gcs-syncer-composite-exporter</description>
   <properties>
-    <vn.ifr.study.sequence_._main_kafka_to_gcs_seq>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._main_kafka_to_gcs_seq>
-    <vn.ifr.study.inbound-endpoint_._cache_events>capp/EnterpriseServiceBus</vn.ifr.study.inbound-endpoint_._cache_events>
-    <vn.ifr.study.sequence_._put_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._put_object_gcs>
-    <vn.ifr.study.lib_._gcs-connector>capp/EnterpriseServiceBus</vn.ifr.study.lib_._gcs-connector>
-    <vn.ifr.study.sequence_._main_gcs_to_kafka>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._main_gcs_to_kafka>
     <vn.ifr.study.sequence_._get_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._get_object_gcs>
-    <vn.ifr.study.sequence_._publish_message_to_kafka>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._publish_message_to_kafka>
-    <vn.ifr.study.api_._ObjectStorageAPI>capp/EnterpriseServiceBus</vn.ifr.study.api_._ObjectStorageAPI>
+    <vn.ifr.study.sequence_._put_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._put_object_gcs>
     <vn.ifr.study.sequence_._delete_object_gcs>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._delete_object_gcs>
+    <vn.ifr.study.lib_._gcs-connector>capp/EnterpriseServiceBus</vn.ifr.study.lib_._gcs-connector>
+    <vn.ifr.study.api_._gcs_api>capp/EnterpriseServiceBus</vn.ifr.study.api_._gcs_api>
     <vn.ifr.study.sequence_._failure_to_log>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._failure_to_log>
     <artifact.types>jaggery/app=zip,synapse/priority-executor=xml,synapse/inbound-endpoint=xml,service/rule=aar,synapse/message-store=xml,event/stream=json,service/meta=xml,datasource/datasource=xml,synapse/proxy-service=xml,bpel/workflow=zip,synapse/sequence=xml,synapse/endpointTemplate=xml,carbon/application=car,wso2/gadget=dar,synapse/api=xml,synapse/event-source=xml,synapse/message-processors=xml,event/receiver=xml,lib/dataservice/validator=jar,synapse/template=xml,synapse/endpoint=xml,lib/carbon/ui=jar,lib/synapse/mediator=jar,synapse/metadata=yaml,event/publisher=xml,synapse/local-entry=xml,synapse/task=xml,webapp/jaxws=war,registry/resource=zip,synapse/configuration=xml,service/axis2=aar,synapse/lib=zip,synapse/sequenceTemplate=xml,event/execution-plan=siddhiql,service/dataservice=dbs,web/application=war,lib/library/bundle=jar</artifact.types>
     <vn.ifr.study.sequence_._list_object_by_prefix>capp/EnterpriseServiceBus</vn.ifr.study.sequence_._list_object_by_prefix>
@@ -30,37 +26,13 @@
   <dependencies>
     <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
-      <artifactId>main_kafka_to_gcs_seq</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifr.study.sequence</groupId>
       <artifactId>get_object_gcs</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifr.study.inbound-endpoint</groupId>
-      <artifactId>cache_events</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
     <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
       <artifactId>put_object_gcs</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifr.study.sequence</groupId>
-      <artifactId>publish_message_to_kafka</artifactId>
-      <version>1.0.0</version>
-      <type>xml</type>
-    </dependency>
-    <dependency>
-      <groupId>vn.ifr.study.api</groupId>
-      <artifactId>ObjectStorageAPI</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
@@ -77,14 +49,14 @@
       <type>zip</type>
     </dependency>
     <dependency>
-      <groupId>vn.ifr.study.sequence</groupId>
-      <artifactId>failure_to_log</artifactId>
+      <groupId>vn.ifr.study.api</groupId>
+      <artifactId>gcs_api</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>
     <dependency>
       <groupId>vn.ifr.study.sequence</groupId>
-      <artifactId>main_gcs_to_kafka</artifactId>
+      <artifactId>failure_to_log</artifactId>
       <version>1.0.0</version>
       <type>xml</type>
     </dependency>

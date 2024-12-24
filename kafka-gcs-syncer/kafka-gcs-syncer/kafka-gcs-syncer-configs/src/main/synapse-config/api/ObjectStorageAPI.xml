@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <api context="/object" name="ObjectStorageAPI" xmlns="http://ws.apache.org/ns/synapse">
-    <resource methods="POST GET" uri-template="/gcs/{operation}">
+    <resource methods="POST" uri-template="/gcs/{operation}">
         <inSequence>
             <propertyGroup>
                 <property expression="$body/mediate/bucket" name="bucket" scope="default" type="STRING"/>
@@ -41,7 +41,6 @@
                         <property name="Message" value="Request to read object from GCS"/>
                     </log>
                     <sequence key="get_object_gcs"/>
-
                     <switch source="$ctx:contentType">
                         <case regex="application/pdf">
                             <script language="js"><![CDATA[var binaryNode =       
@@ -68,9 +67,8 @@
                             <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
                         </case>
                         <default>
-                            <property name="messageType" scope="axis2" type="STRING" expression="$ctx:contentType"/>
+                            <property expression="$ctx:contentType" name="messageType" scope="axis2" type="STRING"/>
                         </default>
-                        
                     </switch>
                 </case>
                 <case regex="list">
