@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>vn.ifr.study</groupId>
     <artifactId>ps-gcs-syncer</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6</version>
     <packaging>pom</packaging>
     <name>ps-gcs-syncer</name>
     <description>Sync kafka event to GCS</description>
@@ -432,7 +432,7 @@
 
     <distributionManagement>
         <repository>
-            <id>github</id>
+            <id>ps-gcs-syncer</id>
             <name>GitHub Packages</name>
             <url>https://maven.pkg.github.com/phucsinhhome/ps-gcs-syncer</url>
         </repository>
