@@ -2,7 +2,7 @@
 <localEntry key="LogstashHTTP" xmlns="http://ws.apache.org/ns/synapse">
   <http.init>
     <connectionType>HTTP</connectionType>
-    <baseUrl>http://localhost:4562</baseUrl>
+    <baseUrl>{${configs.logstash_http_endpoint}}</baseUrl>
     <authType>None</authType>
     <timeoutAction>Never</timeoutAction>
     <retryCount>0</retryCount>
