@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="get_object_gcs" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Read object ${payload.key} from GCS</message>
+    </log>
+    <gcs.getObject>
+        <projectId>{${configs.gcs_project_id}}</projectId>
+        <bucket>{${props.synapse.bucket}}</bucket>
+        <objectKey>{${payload.key}}</objectKey>
+        <contentType>{${configs.gcs_object_default_content_type}}</contentType>
+        <contentPropertyName></contentPropertyName>
+    </gcs.getObject>
+
+
+    <payloadFactory media-type="json" template-type="default">
+        <format>${properties.synapse.gcsObjectContent}</format>
+    </payloadFactory>
+    <log category="INFO" logMessageID="false" logFullPayload="true">
+        <message>Get object completed</message>
+    </log>
+</sequence>

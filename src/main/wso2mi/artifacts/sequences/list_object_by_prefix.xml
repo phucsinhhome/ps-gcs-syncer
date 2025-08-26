@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="list_object_by_prefix" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="List the object by prefix from GCS"/>
+        <property expression="$ctx:eventId" name="Event Id"/>
+        <property expression="$ctx:bucket" name="Bucket"/>
+        <property expression="$ctx:objectKeyPrefix" name="Key Prefix"/>
+    </log>
+    <gcs.listObjectByPrefix>
+        <projectId>{${configs.gcs_project_id}}</projectId>
+        <bucket>{${props.synapse.bucket}}</bucket>
+        <objectKeyPrefix>{${props.synapse.objectKeyPrefix}}</objectKeyPrefix>
+    </gcs.listObjectByPrefix>
+
+
+
+    <payloadFactory media-type="json" template-type="default">
+        <format>{"gcsObjects":${props.synapse.gcsObjects}}</format>
+    </payloadFactory>
+    <log category="INFO" logMessageID="false" logFullPayload="true">
+        <message>List objects completed</message>
+    </log>
+</sequence>

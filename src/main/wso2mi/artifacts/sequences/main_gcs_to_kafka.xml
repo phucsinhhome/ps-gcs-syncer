@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="main_gcs_to_kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <sequence key="list_object_by_prefix"/>
+    <foreach collection="${payload.gcsObjects}" parallel-execution="false" update-original="true" continue-without-aggregation="false" description="GCS Object">
+        <sequence>
+            <variable name="objectKey" type="STRING" expression="${payload.key}"/>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>Reading object ${payload.key} from GCS </message>
+            </log>
+            <sequence key="get_object_gcs"/>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>Prepare the kafka event for oject ${vars.objectKey}</message>
+            </log>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{"data":${payload}}</format>
+            </payloadFactory>
+            <variable name="kafkaMessageContentType" type="STRING" expression="${props.synapse.gcsObjectContentType}" description="ContentType"/>
+            <variable name="kafkaMessageKey" type="STRING" expression="${payload.data.id}" description="MessageKey"/>
+            <sequence key="publish_message_to_kafka"/>
+            <payloadFactory media-type="json" template-type="default">
+                <format>{"key":"${vars.objectKey}","status":"published"}</format>
+            </payloadFactory>
+        </sequence>
+    </foreach>
+    <respond/>
+</sequence>

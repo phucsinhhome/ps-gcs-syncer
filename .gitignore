@@ -23,3 +23,6 @@ hs_err_pid*
 **/target/
 /kafka-to-jdbc/kafka-to-jdbc-registry-resources/.classpath
 kafka-integration/kafka-integration/kafka-integration-connector-exporter/*.zip
+/TryMI
+.env
+/.vscode

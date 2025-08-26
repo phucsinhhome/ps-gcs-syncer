@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="main_kafka_to_gcs_seq" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="Receive cache event"/>
+        <property expression="get-property('partitionNo')" name="PartitionNo"/>
+        <property expression="get-property('offset')" name="Offset"/>
+        <property expression="get-property('eventId')" name="Event Id"/>
+        <property expression="get-property('action')" name="Event Action"/>
+        <property expression="get-property('type')" name="Event Type"/>
+        <property expression="get-property('topic')" name="Topic"/>
+        <property expression="get-property('partition')" name="Partition"/>
+    </log>
+    <filter regex="false" source="boolean(get-property('partition'))">
+        <then>
+            <log>
+                <property name="Message" value="Missing message header partition. So, set to partition default"/>
+            </log>
+            <property name="partition" scope="default" type="STRING" value="default"/>
+        </then>
+        <else/>
+    </filter>
+    <switch source="get-property('action')">
+        <case regex="CREATED">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
+            </propertyGroup>
+            <sequence key="put_object_gcs"/>
+        </case>
+        <case regex="MODIFIED">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
+            </propertyGroup>
+            <sequence key="put_object_gcs"/>
+        </case>
+        <case regex="DELETE">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
+            </propertyGroup>
+            <sequence key="delete_object_gcs"/>
+        </case>
+        <case regex="EXPIRED">
+            <propertyGroup>
+                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
+                <property expression="fn:concat(get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="contentType" scope="default" type="STRING" value="application/json"/>
+                <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
+            </propertyGroup>
+            <log>
+                <property name="Message" value="GCS Syncer ignores EXPIRED event"/>
+            </log>
+        </case>
+        <default>
+            <log>
+                <property name="Message" value="GCS ignores event WITHOUT action"/>
+            </log>
+        </default>
+    </switch>
+</sequence>

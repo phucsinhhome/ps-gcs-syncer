@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="publish_message_to_kafka" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Start sending message to kafka topic ${vars.topic}</message>
+    </log>
+    <http.post configKey="LogstashHTTP">
+        <relativePath>${configs.logstash_http_to_kafka_url_prefix + "/" + props.synapse.topic + "/" + vars.kafkaMessageKey}</relativePath>
+        <headers>[{"ContentType":"${vars.kafkaMessageContentType}"}]</headers>
+        <requestBodyType>JSON</requestBodyType>
+        <requestBodyJson>${payload}</requestBodyJson>
+        <forceScAccepted>false</forceScAccepted>
+        <disableChunking>false</disableChunking>
+        <forceHttp10>false</forceHttp10>
+        <noKeepAlive>false</noKeepAlive>
+        <forcePostPutNobody>false</forcePostPutNobody>
+        <responseVariable>kafkaRes</responseVariable>
+        <overwriteBody>false</overwriteBody>
+    </http.post>
+
+
+
+
+
+
+    <log category="INFO" logMessageID="false" logFullPayload="false">
+        <message>Complete sending message to kafka</message>
+    </log>
+</sequence>

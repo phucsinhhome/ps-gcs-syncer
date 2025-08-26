@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<api context="/obj" name="gcs_api" xmlns="http://ws.apache.org/ns/synapse">
+    <resource methods="GET" uri-template="/{bucket}/{partition}/{objectName}">
+        <inSequence>
+            <propertyGroup>
+                <property expression="get-property('uri.var.bucket')" name="bucket" scope="default" type="STRING"/>
+                <property expression="concat(get-property('uri.var.partition'),'/',get-property('uri.var.objectName'))" name="objectKey" scope="default" type="STRING"/>
+            </propertyGroup>
+            <log>
+                <property name="Message" value="Request to read object from GCS"/>
+                <property expression="$ctx:bucket" name="Bucket"/>
+                <property expression="$ctx:objectKey" name="ObjectKey"/>
+            </log>
+            <sequence key="get_object_gcs"/>
+            <switch source="$ctx:contentType">
+                <case regex="application/pdf">
+                    <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                    <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                </case>
+                <case regex="image/png">
+                    <script language="js"><![CDATA[var binaryNode = mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                    binaryNode.setBinary(true);]]></script>
+                    <!-- <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/> -->
+                    <!-- <property action="remove" name="NO_ENTITY_BODY" scope="axis2"/> -->
+                    
+                    <property name="DISABLE_CHUNKING" scope="axis2" type="STRING" value="true"/>
+                    <!-- <property name="messageType" scope="axis2" type="STRING" value="image/png"/>
+                    <property name="ContentType" scope="axis2" type="STRING" value="image/png"/> -->
+                    
+                    <payloadFactory media-type="text">
+                        <format>
+                            <!-- <binary xmlns="">$1</binary> -->
+                            $1
+                        </format>
+                        <args>
+                            <arg evaluator="json" expression="json-eval($.binary)"/>
+                        </args>
+                    </payloadFactory>
+                    
+                </case>
+                <case regex="image/jpg">
+                    <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                    <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                </case>
+                <case regex="image/jpeg">
+                    <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                    <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                </case>
+                <case regex="image/jpeg">
+                    <script language="js"><![CDATA[var binaryNode =       
+                    mc.getEnvelope().getBody().getFirstElement().getFirstOMChild();  
+                binaryNode.setBinary(true);]]></script>
+                    <property name="messageType" scope="axis2" type="STRING" value="application/octet-stream"/>
+                </case>
+                <default>
+                    <property expression="$ctx:contentType" name="messageType" scope="axis2" type="STRING"/>
+                    <!-- <payloadFactory media-type="binary">
+                        <format>$1</format>
+                        <args>
+                            <arg expression="$body"/>
+                        </args>
+                    </payloadFactory> -->
+                </default>
+            </switch>
+            <respond/>
+        </inSequence>
+        <outSequence/>
+        <faultSequence/>
+    </resource>
+</api>

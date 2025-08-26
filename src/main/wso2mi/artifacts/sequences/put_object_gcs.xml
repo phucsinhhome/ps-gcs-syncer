@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="put_object_gcs" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log>
+        <property name="Message" value="Put object to GCS"/>
+        <property expression="$ctx:eventId" name="Event Id"/>
+        <property expression="$ctx:bucket" name="Bucket"/>
+        <property expression="$ctx:objectKey" name="Object Key"/>
+    </log>
+    <gcs.putObject>
+        <projectId>splendid-sonar-174914</projectId>
+        <bucket>{$ctx:bucket}</bucket>
+        <objectKey>{$ctx:objectKey}</objectKey>
+        <contentType>{$ctx:contentType}</contentType>
+        <content>{$ctx:content}</content>
+    </gcs.putObject>
+</sequence>
