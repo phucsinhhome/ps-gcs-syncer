@@ -2,10 +2,10 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
     <groupId>vn.ifr.study</groupId>
-    <artifactId>kafka-gcs-syncer</artifactId>
-    <version>1.0.4</version>
+    <artifactId>ps-gcs-syncer</artifactId>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
-    <name>kafka-gcs-syncer</name>
+    <name>ps-gcs-syncer</name>
     <description>Sync kafka event to GCS</description>
     <repositories>
         <repository>
@@ -434,7 +434,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/phucsinhhome/kafka-gcs-syncer</url>
+            <url>https://maven.pkg.github.com/phucsinhhome/ps-gcs-syncer</url>
         </repository>
     </distributionManagement>
 </project>
