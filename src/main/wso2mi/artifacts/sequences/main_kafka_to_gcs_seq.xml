@@ -20,6 +20,16 @@
         </then>
         <else/>
     </filter>
+    <filter description="No Tenant" regex="false" source="${boolean(get-property('tenantId'))}">
+        <then>
+            <log category="INFO" logMessageID="false" logFullPayload="false">
+                <message>There is no tenantId header, so add default tenant [${configs.kafka_to_gcs_default_tenant_id}]</message>
+            </log>
+            <property name="tenantId" scope="default" type="STRING" expression="${configs.kafka_to_gcs_default_tenant_id}"/>
+        </then>
+        <else>
+        </else>
+    </filter>
     <switch description="Action" source="get-property('action')">
         <case regex="CREATED">
             <propertyGroup>
@@ -32,8 +42,8 @@
         </case>
         <case regex="MODIFIED">
             <propertyGroup>
-                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
-                <property expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="bucket" scope="default" type="STRING" expression="${configs.kafka_to_gcs_bucket}" action="set"/>
+                <property name="objectKey" scope="default" type="STRING" expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
                 <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
@@ -41,8 +51,8 @@
         </case>
         <case regex="DELETE">
             <propertyGroup>
-                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
-                <property expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="bucket" scope="default" type="STRING" expression="${configs.kafka_to_gcs_bucket}" action="set"/>
+                <property name="objectKey" scope="default" type="STRING" expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
                 <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
@@ -50,8 +60,8 @@
         </case>
         <case regex="EXPIRED">
             <propertyGroup>
-                <property name="bucket" scope="default" type="STRING" value="ps_data"/>
-                <property expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')" name="objectKey" scope="default" type="STRING"/>
+                <property name="bucket" scope="default" type="STRING" expression="${configs.kafka_to_gcs_bucket}" action="set"/>
+                <property name="objectKey" scope="default" type="STRING" expression="fn:concat(get-property('tenantId'),'/',get-property('topic'),'/',get-property('type'),'/',get-property('partition'),'/',get-property('eventId'),'.json')"/>
                 <property name="contentType" scope="default" type="STRING" value="application/json"/>
                 <property name="content" scope="default" type="JSON" expression="json-eval($.)"/>
             </propertyGroup>
