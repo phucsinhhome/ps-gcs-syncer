@@ -41,7 +41,7 @@ jobs:
                 run: mvn --batch-mode -e -X deploy -DskipTests --settings .github/workflows/maven-settings.xml
                 env:
                     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                    BUILD_USERNAME: ${{ secrets.BUILD_USERNAME }}
+                    BUILD_USERNAME: 'GITHUB_TOKEN'
 
             -   name: Release
                 uses: actions/create-release@v1
