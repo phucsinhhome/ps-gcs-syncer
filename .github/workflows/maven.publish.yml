@@ -40,33 +40,34 @@ jobs:
             -   name: Build with Maven
                 run: mvn -B install --file pom.xml
 
-            - name: Configure Maven for GitHub Packages
-              run: |
-                mkdir -p ~/.m2
-                cat > ~/.m2/settings.xml <<EOF
-                <settings>
-                    <servers>
-                    <server>
-                        <id>github</id>
-                        <username>${{ secrets.BUILD_USERNAME }}</username>
-                        <password>${{ secrets.BUILD_TOKEN }}</password>
-                    </server>
-                    </servers>
-                    <distributionManagement>
-                    <repository>
-                        <id>github</id>
-                        <name>GitHub Packages</name>
-                        <url>https://maven.pkg.github.com/phucsinhhome/ps-gcs-syncer</url>
-                    </repository>
-                    </distributionManagement>
-                </settings>
-                EOF
+            -   name: Configure Maven for GitHub Packages
+                run: |
+                    mkdir -p ~/.m2
+                    cat > ~/.m2/settings.xml <<EOF
+                    <settings>
+                        <servers>
+                        <server>
+                            <id>github</id>
+                            <username>${{ secrets.BUILD_USERNAME }}</username>
+                            <password>${{ secrets.BUILD_TOKEN }}</password>
+                        </server>
+                        </servers>
+                        <distributionManagement>
+                        <repository>
+                            <id>github</id>
+                            <name>GitHub Packages</name>
+                            <url>https://maven.pkg.github.com/phucsinhhome/ps-gcs-syncer</url>
+                        </repository>
+                        </distributionManagement>
+                    </settings>
+                    EOF
                 
             # Step 4: Build the Maven project and publish the artifacts to GitHub Packages.
             # The `deploy` goal will use the `distributionManagement` section from settings.xml.
-            - name: Build and Publish
-              run: mvn --batch-mode deploy
-
+            -   name: Build and Publish
+                run: mvn --batch-mode deploy
+                env:
+                    GITHUB_TOKEN: ${{ secrets.PACKAGE_REGISTRY_TOKEN }}
             -   name: Release
                 uses: actions/create-release@v1
                 id: create_release
