@@ -7,7 +7,7 @@
 		<server>
 			<id>ps-gcs-syncer</id>
 			<username>${env.BUILD_USERNAME}</username>
-			<password>${env.BUILD_TOKEN}</password>
+			<password>${env.GITHUB_TOKEN}</password>
 		</server>
 	</servers>
 </settings>
