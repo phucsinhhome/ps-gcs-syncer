@@ -20,7 +20,7 @@
         </then>
         <else/>
     </filter>
-    <filter description="No Tenant" regex="false" source="${boolean(get-property('tenantId'))}">
+    <filter description="No Tenant" regex="false" source="boolean(get-property('tenantId'))">
         <then>
             <log category="INFO" logMessageID="false" logFullPayload="false">
                 <message>There is no tenantId header, so add default tenant [${configs.kafka_to_gcs_default_tenant_id}]</message>
